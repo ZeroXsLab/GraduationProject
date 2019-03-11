@@ -1,6 +1,16 @@
-package SyncTest;
+/*
+ *
+ * SuperUnit.java
+ * GraduationProject
+ *
+ * Created by X on 2019/3/12
+ * Copyright (c) 2019 X. All right reserved.
+ *
+ */
 
-public class SuperBtn implements Runnable{
+package PCOVL;
+
+public class SuperUnit implements Runnable{
     private Data in = new Data();
     private Data out = new Data();
     private int ID;
@@ -9,7 +19,7 @@ public class SuperBtn implements Runnable{
         this.in.setBeenRead(false);
     }
 
-    public SuperBtn(int ID) {
+    public SuperUnit(int ID) {
         this.ID = ID;
     }
 
@@ -28,7 +38,6 @@ public class SuperBtn implements Runnable{
 
     @Override
     public void run() {
-//        super.run();
         in.read(this.getClass().getName() + " " + ID);
         out.write(this.getClass().getName() + " " + ID);
     }
