@@ -1,43 +1,62 @@
 package SyncTest;
 
 import java.util.ArrayList;
-import java.util.Scanner;
 
 public class SyncMain {
+
+    static ArrayList<Object> unitArray = new ArrayList<>();
+    static ArrayList<Thread> threads = new ArrayList<>();
+    static btnB first = new btnB(1);
+
     public static void main(String args[]) throws Exception {
-        Data data1 = new Data();
-        Data data2 = new Data();
-        Data data3 = new Data();
-        Data data4 = new Data();
-        ArrayList<Object> arr = new ArrayList<>();
-        ArrayList<Thread> threads = new ArrayList<>();
+
 //        Scanner scanner = new Scanner(System.in);
 //        String s = scanner.next();
 //        while (!s.equalsIgnoreCase("exit")){
 //            Class c = Class.forName("SyncTest." + s);
 //            Object o = c.getConstructor(new Class[]{Data.class}).newInstance(data);
-//            arr.add(o);
+//            unitArray.add(o);
 //            s = scanner.next();
 //        }
-//        for (Object o : arr){
+//        for (Object o : unitArray){
 //            runThread t = ((runThread)o);
 //            threads.add(new Thread(t));
 //        }
-        threads.add(new Thread(new btnB(data1, data2, 1)));
-//        threads.add(new Thread(new btnA(data1, data2, 12)));
-        threads.add(new Thread(new btnB(data3, data4, 2)));
-        threads.add(new Thread(new btnA(data2, data3, 12)));
 
-        for (int i = 0; i < threads.size(); i ++){
-            threads.get(i).start();
-        }
-        System.out.println("......................all thread start");
-        data1.setBeenRead(false);
-        for (int i = 0; i < threads.size(); i ++){
-            threads.get(i).join();
-        }
-        System.out.println("......................all thread join");
+        unitArray.add(first);
+        // Do it when you drag a unit out
+        btnB third = new btnB(2);
+        unitArray.add(third);
+        btnA second = new btnA(12);
+        unitArray.add(second);
+        // Do it when you link a unit with another
+        linkBtn(first, second);
+        linkBtn(second, third);
+        // Execute a instruction
+        executeInstruction();
+        executeInstruction();
     }
 
+    public static void linkBtn(SuperBtn in, SuperBtn out){
+        in.setOut(out.getIn());
+    }
+
+    private static void executeInstruction() throws Exception {
+        System.out.println("......................Process a instruction");
+        threads = new ArrayList<>();
+        for (int i = 0; i < unitArray.size(); i ++){
+            threads.add(new Thread( (SuperBtn) unitArray.get(i) ));
+            threads.get(i).start();
+        }
+        first.init();
+        for (int i = 0; i < threads.size(); i ++) {
+            threads.get(i).join();
+        }
+        // Reset the status of the last unit if you know which is. if not, reset all
+        for (int i = 0; i < unitArray.size(); i ++) {
+            ((SuperBtn) unitArray.get(i)).finish();
+        }
+        System.out.println("......................Finish a instruction");
+    }
 
 }

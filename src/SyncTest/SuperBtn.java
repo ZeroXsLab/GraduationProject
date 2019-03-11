@@ -1,13 +1,29 @@
 package SyncTest;
 
 public class SuperBtn extends Thread{
-    private Data in, out;
+    private Data in = new Data();
+    private Data out = new Data();
     private int ID;
 
-    public SuperBtn(Data in, Data out, int ID) {
-        this.in = in;
-        this.out = out;
+    public void init() {
+        this.in.setBeenRead(false);
+    }
+
+    public SuperBtn(int ID) {
         this.ID = ID;
+    }
+
+    public Data getIn() {
+        return in;
+    }
+
+    public void setOut(Data out) {
+        this.out = out;
+    }
+
+    public void finish() {
+        in.setBeenRead(true);
+        out.setBeenRead(true);
     }
 
     @Override
