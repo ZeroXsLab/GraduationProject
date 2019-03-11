@@ -1,6 +1,6 @@
 package SyncTest;
 
-public class SuperBtn extends Thread{
+public class SuperBtn implements Runnable{
     private Data in = new Data();
     private Data out = new Data();
     private int ID;
@@ -28,7 +28,7 @@ public class SuperBtn extends Thread{
 
     @Override
     public void run() {
-        super.run();
+//        super.run();
         in.read(this.getClass().getName() + " " + ID);
         out.write(this.getClass().getName() + " " + ID);
     }
