@@ -3,7 +3,7 @@
  * SuperUnit.java
  * GraduationProject
  *
- * Created by X on 2019/3/12
+ * Created by X on 2019/3/13
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -11,8 +11,9 @@
 package PCOVL;
 
 public class SuperUnit implements Runnable{
-    private Data in = new Data();
-    private Data out = new Data();
+    protected Data in = new Data();
+    protected Data out = new Data();
+    protected Boolean inputEnable = true;
     private int ID;
 
     public void init() {
@@ -38,7 +39,17 @@ public class SuperUnit implements Runnable{
 
     @Override
     public void run() {
-        in.read(this.getClass().getName() + " " + ID);
-        out.write(this.getClass().getName() + " " + ID);
+        if (inputEnable) {
+            in.read(this.getClass().getName() + " " + ID);
+            processData();
+            out.write(this.getClass().getName() + " " + ID);
+        } else {
+            // Do nothing
+        }
+    }
+
+    // When a Unit extends, it should override this method to custom the function
+    public void processData() {
+        out.content = in.content + 1;
     }
 }

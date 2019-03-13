@@ -3,7 +3,7 @@
  * Data.java
  * GraduationProject
  *
- * Created by X on 2019/3/12
+ * Created by X on 2019/3/13
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -13,6 +13,7 @@ package PCOVL;
 public class Data {
 
     private boolean beenRead = true;
+    int content = 0;
 
     public void setBeenRead(boolean beenRead) {
         this.beenRead = beenRead;
@@ -29,7 +30,7 @@ public class Data {
 
         }
         this.beenRead = false;
-        System.out.println("Write successfully\t\t" + name);
+        System.out.println("Write successfully\t\t" + name + ":\t" + content);
         notify();
     }
 
@@ -43,7 +44,7 @@ public class Data {
             }
         }
         this.beenRead = true;
-        System.out.println("Read successfully\t\t" + name);
+        System.out.println("Read successfully\t\t" + name + ":\t" + content);
         notify();
     }
 }

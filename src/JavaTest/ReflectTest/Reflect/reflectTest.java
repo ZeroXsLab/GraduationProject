@@ -1,7 +1,17 @@
-package ReflectTest.Reflect;
+/*
+ *
+ * reflectTest.java
+ * GraduationProject
+ *
+ * Created by X on 2019/3/13
+ * Copyright (c) 2019 X. All right reserved.
+ *
+ */
 
-import ReflectTest.Bean.USB;
-import ReflectTest.Bean.myComputer;
+package JavaTest.ReflectTest.Reflect;
+
+import JavaTest.ReflectTest.Bean.USB;
+import JavaTest.ReflectTest.Bean.myComputer;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,7 +22,7 @@ public class reflectTest {
         myComputer mc = new myComputer();
         //MARK ActionEvent.getSource().getClass().getName()
         //By Code
-//        String className = "ReflectTest.Bean.Mouse";
+//        String className = "JavaTest.ReflectTest.Bean.Mouse";
 
         //By Config File
 //        File config = new File(reflectTest.class.getResource("").toURI().getPath() + "tempFile\\usb.config");
@@ -27,7 +37,7 @@ public class reflectTest {
         String className = LoadFile();
 
         Class<?> c = Class.forName(className);
-        Object obj = c.newInstance();
+        Object obj = c.getDeclaredConstructor().newInstance();
 
         USB usb = (USB)obj;
         mc.useUSB(usb);
@@ -39,8 +49,7 @@ public class reflectTest {
         FileInputStream fis = new FileInputStream(config);
         Properties prop = new Properties();
         prop.load(fis);
-        String className = null;
-        className = prop.getProperty("usb");
+        String className = prop.getProperty("usb");
         return className;
     }
 }
