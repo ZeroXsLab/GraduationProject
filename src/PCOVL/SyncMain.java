@@ -3,7 +3,7 @@
  * SyncMain.java
  * GraduationProject
  *
- * Created by X on 2019/3/13
+ * Created by X on 2019/3/19
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -66,5 +66,7 @@ public class SyncMain {
     }
 
 }
-// TODO examine whether can we get the object easier where the mouse click and release;
-// TODO UI create
+/*  TODO examine whether can we get the object easier where the mouse click and release;
+    TODO UI create
+    TODO LinkMultiTree Create
+*/
