@@ -3,7 +3,7 @@
  * AbsoluteLayoutDemo.java
  * GraduationProject
  *
- * Created by X on 2019/3/19
+ * Created by X on 2019/3/22
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -17,17 +17,36 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 public class AbsoluteLayoutDemo extends JFrame {
-    private JPanel contentPane;//创建面板
+    private JPanel unitPanel;
+    private JPanel workingPanel;//创建面板
+    private JSplitPane contentPanel;
     public AbsoluteLayoutDemo()
     {
-        this.setTitle("绝对布局");//设置标题名字
+        this.setTitle("布局Demo");//设置标题名字
+        this.setName("JFrame Demo");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);//默认退出
-        this.setBounds(100, 100, 500, 500);//设置窗体的大小
-        this.contentPane=new JPanel();//初始化面板
-        this.contentPane.setLayout(null);//设置布局NULL
-        UnitButton unitButton = new UnitButton("Hi buddy!",2,3);
-        this.contentPane.add(unitButton);
-        this.add(this.contentPane);
+        this.setBounds(100, 100, 750, 500);//设置窗体的大小
+        this.unitPanel =new JPanel();//初始化面板
+        this.unitPanel.setSize(this.getWidth() / 5, this.getHeight());
+        this.unitPanel.setName("ContentPane");
+        this.unitPanel.setLayout(null);//设置布局NULL
+        UnitButton unitButton1 = new UnitButton("The First",2,3);
+        this.unitPanel.add(unitButton1);
+        UnitButton uBtn2 = new UnitButton("The Second",1,1);
+        uBtn2.setLocation(40,70);
+        this.unitPanel.add(uBtn2);
+//        this.add(this.unitPanel);
+        this.workingPanel = new JPanel();
+        this.workingPanel.setName("Working Panel");
+        this.workingPanel.setSize(this.getWidth() - this.unitPanel.getWidth(), this.getHeight());
+        this.workingPanel.setLayout(null);
+        this.workingPanel.setBackground(Color.CYAN);
+        this.workingPanel.addMouseListener(new MouseDelegate());
+//        this.add(this.workingPanel);
+        this.contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,false,unitPanel,workingPanel);
+        this.contentPanel.setSize(this.getSize());
+        this.contentPanel.setDividerLocation(this.unitPanel.getWidth());
+        this.add(contentPanel);
         this.setVisible(true);
     }
 
@@ -48,18 +67,18 @@ class UnitButton extends JPanel {
     private int buttonWidth = 10;
     private int buttonHeight = 10;
     private Color[] colors = {Color.CYAN,Color.green,Color.red};
-    public JLabel lastPress;
+//    public JLabel lastPress;
 
     public UnitButton(String unitText, int input, int output) {
         MouseDelegate mouseDelegate = new MouseDelegate();
         MouseMotionDelegate mouseMotionDelegate = new MouseMotionDelegate();
         this.setLayout(null);
-        this.setBounds(100,100,panelWidth,panelHeight);
+        this.setBounds(10,10,panelWidth,panelHeight);
         this.setName("Panel");
         this.in = new JLabel[input];
         for (int i = 0; i < input; i ++) {
             in[i] = new JLabel();
-            in[i].setName("In" + i);
+            in[i].setName("In " + i);
             in[i].setText("In " + i);
             in[i].setHorizontalAlignment(SwingConstants.CENTER);
             in[i].setBackground(colors[i]);
@@ -85,6 +104,7 @@ class UnitButton extends JPanel {
             this.add(out[i]);
         }
         this.label = new JLabel(unitText);
+        this.label.setName(unitText);
         this.label.setHorizontalAlignment(SwingConstants.CENTER);
         this.label.setBounds(0,buttonHeight/2,panelWidth,panelHeight - buttonHeight);
         this.label.setBackground(Color.LIGHT_GRAY);
@@ -93,17 +113,61 @@ class UnitButton extends JPanel {
         this.setBackground(Color.darkGray);
         this.addMouseMotionListener(mouseMotionDelegate);
         this.addMouseListener(mouseDelegate);
+        this.setName(unitText + " Container");
     }
 }
 
 class MouseMotionDelegate implements MouseMotionListener {
+    UnitButton uBtn;
+    int count = 0;
 
     @Override
     public void mouseMoved(MouseEvent e) { }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-//        System.out.println("Mouse Dragged:" + e.getX() + "," + e.getY());
+        switch (GlobalVariable.dragState) {
+            case init:
+                Component eventComponent = ((UnitButton)e.getSource()).getParent().getComponentAt(Until.getAbsolutePointBy(e));
+                Component subComponent = eventComponent.getComponentAt(Until.transformToRelative(Until.getAbsolutePointBy(e),eventComponent));
+                System.out.println("Mouse Dragged at " + e.getX() + "," + e.getY() + "Component is " + eventComponent.getName() + "," + subComponent.getName());
+                if (eventComponent instanceof UnitButton ){
+                    if (!(Until.isPointInComponents(e,"In")) && !(Until.isPointInComponents(e,"Out"))){
+                        // You are attempt to relocate the Unit.
+                        Point newLoca = Until.getAbsolutePointBy(e);
+                        ((Component)e.getSource()).setLocation(newLoca);
+//                        System.out.println("Update Location");
+                        GlobalVariable.dragState = GlobalVariable.DragState.forRelocate;
+                    } else {
+                        // you drag a In or Out, so it is to Link Unit
+                        GlobalVariable.dragState = GlobalVariable.DragState.forLink;
+                    }
+                }
+                break;
+            case forLink:
+                break;
+            case forRelocate:
+                // if this event occur during dragging label around
+                Point newLoca = Until.getAbsolutePointBy(e);
+                ((Component)e.getSource()).setLocation(newLoca);
+//                System.out.println("Update Location to " + newLoca.getX() + "," + newLoca.getY());
+                break;
+        }
+
+//        Point newLoca = Until.getAbsolutePointBy(e);
+//        count++;
+//        if (uBtn == null && count == 50){
+//            // new a one
+//            System.out.println("We are add a label");
+//            uBtn = new UnitButton("The Second",3,3);
+//            uBtn.setLocation(newLoca);
+//            Container su = ((UnitButton)e.getSource()).getParent();
+//            su.add(uBtn);
+//            su.revalidate();
+//        } else {
+//            ((Component)e.getSource()).setLocation(newLoca);
+//        }
+
     }
 }
 
@@ -113,50 +177,86 @@ class MouseDelegate implements MouseListener {
 
     @Override
     public void mousePressed(MouseEvent e) {
-//        if (((UnitButton)e.getSource()).getComponentAt(e.getPoint()) instanceof JLabel){
-//            try{
-//                ((UnitButton)e.getSource()).getClass().getDeclaredField("lastPress").set(e.getSource(),((UnitButton)e.getSource()).getComponentAt(e.getPoint()));
-//            }catch (Exception error){
-//                System.out.println("Error occurred when handle the MousePressed Function");
-//                error.printStackTrace();
-//            }
-//        }
+
         System.out.print("Mouse Pressed at " + e.getX() + "," + e.getY());
+        Until.printLabel(e);
         if (((UnitButton)e.getSource()).getComponentAt(e.getPoint()) instanceof JLabel){
-            System.out.println("\t" + ((UnitButton)e.getSource()).getComponentAt(e.getPoint()).getName());
-        } else {
-            System.out.println();
+            if (Until.isPointInComponents(e,"Out")){
+                GlobalVariable.lastPress = ((JLabel) ((UnitButton)e.getSource()).getComponentAt(e.getPoint()));
+            }
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
-//        if (((UnitButton)e.getSource()).getComponentAt(e.getPoint()) instanceof JLabel){
-//            try{
-//                ((UnitButton)e.getSource()).getComponentAt(e.getPoint()).setBackground(
-//                        ((JLabel)((UnitButton)e.getSource()).getClass().getDeclaredField("lastPress").get(e.getSource())).getBackground()
-//                );
-//            }catch (Exception error){
-//                System.out.println("Error occurred when handle the MousePressed Function");
-//                error.printStackTrace();
-//            }
-//        }
+        GlobalVariable.dragState = GlobalVariable.DragState.init;
         System.out.print("Mouse Released at " + e.getX() + "," + e.getY());
-        if (((UnitButton)e.getSource()).getComponentAt(e.getPoint()) instanceof JLabel){
-            System.out.println("\t" + ((UnitButton)e.getSource()).getComponentAt(e.getPoint()).getName());
-        } else {
-            System.out.println();
+        Until.printLabel(e);
+        Component eventComponent = ((UnitButton)e.getSource()).getParent().getComponentAt(Until.getAbsolutePointBy(e));
+        Component subComponent = eventComponent.getComponentAt(Until.transformToRelative(Until.getAbsolutePointBy(e),eventComponent));
+        if (subComponent instanceof JLabel){
+            if (Until.isPointInComponents(e,"In")){
+                JLabel lastPress = GlobalVariable.lastPress;
+                if (lastPress != null) {
+                    subComponent.setBackground(lastPress.getBackground());
+                }
+            } else {
+                GlobalVariable.lastPress = null;
+            }
         }
     }
 
     @Override
     public void mouseEntered(MouseEvent e) {
-//        System.out.println("Mouse Enter:" + e.getX() + "," + e.getY());
+        System.out.println("Mouse Enter:" + e.getX() + "," + e.getY() + ":" + e.getSource().getClass().getName());
     }
 
     @Override
     public void mouseExited(MouseEvent e) {}
+
 }
-// TODO we can set multi In and Out
-// TODO we can move it around
-// TODO we can do the link action
+
+class Until {
+    public static Point getAbsolutePointBy(MouseEvent event){
+        Point point = new Point();
+        point.x = ((Component)event.getSource()).getX() + event.getX();
+        point.y = ((Component)event.getSource()).getY() + event.getY();
+        return point;
+    }
+
+    public static Point transformToRelative(Point point, Component in){
+        point.x -= in.getX();
+        point.y -= in.getY();
+        return point;
+    }
+
+    public static boolean isPointInComponents(MouseEvent e, String comName){
+        Component eventComponent = ((UnitButton)e.getSource()).getParent().getComponentAt(Until.getAbsolutePointBy(e));
+        Component subComponent = eventComponent.getComponentAt(Until.transformToRelative(Until.getAbsolutePointBy(e),eventComponent));
+        if (subComponent instanceof JLabel){
+            String name = subComponent.getName();
+            if (name != null && name.contains(comName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static void printLabel(MouseEvent e){
+        Component eventComponent = ((UnitButton)e.getSource()).getParent().getComponentAt(Until.getAbsolutePointBy(e));
+        Component subComponent = eventComponent.getComponentAt(Until.transformToRelative(Until.getAbsolutePointBy(e),eventComponent));
+        if (subComponent instanceof JLabel){
+            System.out.println("\t" + subComponent.getName());
+        } else {
+            System.out.println();
+        }
+    }
+}
+
+class GlobalVariable {
+    enum DragState {
+        init, forLink, forRelocate, forCreate
+    }
+    static DragState dragState = DragState.init;
+    public static JLabel lastPress;
+}
