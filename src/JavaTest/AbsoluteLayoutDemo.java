@@ -3,7 +3,7 @@
  * AbsoluteLayoutDemo.java
  * GraduationProject
  *
- * Created by X on 2019/3/22
+ * Created by X on 2019/3/23
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -34,14 +34,15 @@ public class AbsoluteLayoutDemo extends JFrame {
         this.unitPanel.add(unitButton1);
         UnitButton uBtn2 = new UnitButton("The Second",1,1);
         uBtn2.setLocation(40,70);
-        this.unitPanel.add(uBtn2);
+        this.unitPanel.add(uBtn2,0);
 //        this.add(this.unitPanel);
         this.workingPanel = new JPanel();
         this.workingPanel.setName("Working Panel");
         this.workingPanel.setSize(this.getWidth() - this.unitPanel.getWidth(), this.getHeight());
         this.workingPanel.setLayout(null);
-        this.workingPanel.setBackground(Color.CYAN);
+//        this.workingPanel.setBackground(Color.CYAN);
         this.workingPanel.addMouseListener(new MouseDelegate());
+        GlobalVariable.workingPanel = this.workingPanel;
 //        this.add(this.workingPanel);
         this.contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,false,unitPanel,workingPanel);
         this.contentPanel.setSize(this.getSize());
@@ -136,7 +137,6 @@ class MouseMotionDelegate implements MouseMotionListener {
                         // You are attempt to relocate the Unit.
                         Point newLoca = Until.getAbsolutePointBy(e);
                         ((Component)e.getSource()).setLocation(newLoca);
-//                        System.out.println("Update Location");
                         GlobalVariable.dragState = GlobalVariable.DragState.forRelocate;
                     } else {
                         // you drag a In or Out, so it is to Link Unit
@@ -150,7 +150,6 @@ class MouseMotionDelegate implements MouseMotionListener {
                 // if this event occur during dragging label around
                 Point newLoca = Until.getAbsolutePointBy(e);
                 ((Component)e.getSource()).setLocation(newLoca);
-//                System.out.println("Update Location to " + newLoca.getX() + "," + newLoca.getY());
                 break;
         }
 
@@ -163,6 +162,7 @@ class MouseMotionDelegate implements MouseMotionListener {
 //            uBtn.setLocation(newLoca);
 //            Container su = ((UnitButton)e.getSource()).getParent();
 //            su.add(uBtn);
+        // Revalidate the panel which you add to show the newest component.
 //            su.revalidate();
 //        } else {
 //            ((Component)e.getSource()).setLocation(newLoca);
@@ -173,7 +173,14 @@ class MouseMotionDelegate implements MouseMotionListener {
 
 class MouseDelegate implements MouseListener {
     @Override
-    public void mouseClicked(MouseEvent e) { }
+    public void mouseClicked(MouseEvent e) {
+        UnitButton ubtnD = new UnitButton("a new one",2,2);
+        ubtnD.setLocation(Until.getAbsolutePointBy(e));
+        GlobalVariable.workingPanel.add(ubtnD,0);
+        GlobalVariable.workingPanel.revalidate();
+        GlobalVariable.workingPanel.updateUI();
+        System.out.println("Mouse Click");
+    }
 
     @Override
     public void mousePressed(MouseEvent e) {
@@ -208,7 +215,7 @@ class MouseDelegate implements MouseListener {
 
     @Override
     public void mouseEntered(MouseEvent e) {
-        System.out.println("Mouse Enter:" + e.getX() + "," + e.getY() + ":" + e.getSource().getClass().getName());
+        System.out.println("Mouse Enter:" + e.getX() + "," + e.getY() + ":" + ((Component)e.getSource()).getName());
     }
 
     @Override
@@ -259,4 +266,5 @@ class GlobalVariable {
     }
     static DragState dragState = DragState.init;
     public static JLabel lastPress;
+    public static JPanel workingPanel;
 }

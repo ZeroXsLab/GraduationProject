@@ -3,7 +3,7 @@
  * SuperUnit.java
  * GraduationProject
  *
- * Created by X on 2019/3/13
+ * Created by X on 2019/3/23
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -53,3 +53,5 @@ public class SuperUnit implements Runnable{
         out.content = in.content + 1;
     }
 }
+
+// TODO: it contain a UI variable, so we can call function to link it with the exist UI.

@@ -3,12 +3,14 @@
  * SyncMain.java
  * GraduationProject
  *
- * Created by X on 2019/3/19
+ * Created by X on 2019/3/23
  * Copyright (c) 2019 X. All right reserved.
  *
  */
 
 package PCOVL;
+
+import PCOVL.UI.HomePage;
 
 import java.util.ArrayList;
 
@@ -20,23 +22,25 @@ public class SyncMain {
 
     public static void main(String[] args) throws Exception {
 
-//        linkOrder[0].add(first);
-        unitArray.add(first);
-        // Do it when you drag a unit out
-        unitB third = new unitB(3);
-        unitArray.add(third);
-        unitA second = new unitA(2);
-        unitArray.add(second);
-        // Do it when you link a unit with another
-        linkUnit(first, second);
-        linkUnit(second, third);
-        linkUnit(third,first);
-        // Execute a instruction
-        executeInstruction();   // First(1)->Third(3)->Second(2)
-        unitArray.remove(second);
-        unitArray.add(1,second);
-        second.inputEnable = false;
-        executeInstruction();   // First(1)->Second(2)->Third(3)
+////        linkOrder[0].add(first);
+//        unitArray.add(first);
+//        // Do it when you drag a unit out
+//        unitB third = new unitB(3);
+//        unitArray.add(third);
+//        unitA second = new unitA(2);
+//        unitArray.add(second);
+//        // Do it when you link a unit with another
+//        linkUnit(first, second);
+//        linkUnit(second, third);
+//        linkUnit(third,first);
+//        // Execute a instruction
+//        executeInstruction();   // First(1)->Third(3)->Second(2)
+//        unitArray.remove(second);
+//        unitArray.add(1,second);
+//        second.inputEnable = false;
+//        executeInstruction();   // First(1)->Second(2)->Third(3)
+
+        new HomePage();
     }
 
     public static void linkUnit(SuperUnit in, SuperUnit out){
@@ -66,7 +70,6 @@ public class SyncMain {
     }
 
 }
-/*  TODO examine whether can we get the object easier where the mouse click and release;
-    TODO UI create
-    TODO LinkMultiTree Create
+/*TODO LinkMultiTree Create
+    let the SuperUnit support mutil in out(func linkUnit need to update, so we can link with specific in and out
 */
