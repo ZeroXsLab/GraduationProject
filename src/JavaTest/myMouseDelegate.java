@@ -3,7 +3,7 @@
  * myMouseDelegate.java
  * GraduationProject
  *
- * Created by X on 2019/3/19
+ * Created by X on 2019/3/28
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -53,8 +53,10 @@ public class myMouseDelegate implements MouseMotionListener, MouseListener {
         System.out.print("鼠标点击----" + "\t");
         if (e.getClickCount() == 1) {
             System.out.println("单击！");
+            e.getComponent().getGraphics().drawLine(0,0,e.getX(),e.getY());
         } else if (e.getClickCount() == 2) {
             System.out.println("双击！");
+            e.getComponent().repaint(); // this will clear all the line as it's not belong to the component.
         } else if (e.getClickCount() == 3) {
             System.out.println("三连击！！");
         }

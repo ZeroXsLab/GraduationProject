@@ -3,7 +3,7 @@
  * HomePage.java
  * GraduationProject
  *
- * Created by X on 2019/3/23
+ * Created by X on 2019/3/28
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -11,6 +11,9 @@
 package PCOVL.UI;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import static PCOVL.UI.GlobalVariable.*;
 
 public class HomePage extends JFrame {
@@ -23,6 +26,15 @@ public class HomePage extends JFrame {
         this.setBounds(100,100,1200,800);
         initSubView();
         initUnitInUnitPanel();
+        JButton btn = new JButton("Run");
+        btn.setBounds(workingPanel.getWidth() - 80, 10,60,20);
+        workingPanel.add(btn);
+        btn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                EventUtil.executeInstruction();
+            }
+        });
         this.setVisible(true);
     }
 
@@ -32,7 +44,7 @@ public class HomePage extends JFrame {
         unitPanel.setSize(unitWidth + 20, this.getHeight());
         unitPanel.setLayout(null);
 
-        workingPanel = new JPanel();
+        workingPanel = new GraphicJPanel();
         workingPanel.setName("WorkingPanel");
         workingPanel.setSize(this.getWidth() - unitPanel.getWidth(), this.getHeight());
         workingPanel.setLayout(null);
@@ -47,10 +59,12 @@ public class HomePage extends JFrame {
     }
 
     void initUnitInUnitPanel() {
-        BaseUnitUI unit1 = new BaseUnitUI("First", 1, 1);
+        BaseUnitUI unit1 = new BaseUnitUI("Switch", 0, 1);
+        unit1.setName("Switch");
         unit1.setLocation(10,10);
         unitPanel.add(unit1);
-        BaseUnitUI unit2 = new BaseUnitUI("Second", 2, 2);
+        BaseUnitUI unit2 = new BaseUnitUI("MUX2", 3, 1);
+        unit2.setName("MUX2");
         unit2.setLocation(10, 20 + unitHeight);
         unitPanel.add(unit2);
     }

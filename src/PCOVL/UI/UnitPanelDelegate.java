@@ -3,7 +3,7 @@
  * UnitPanelDelegate.java
  * GraduationProject
  *
- * Created by X on 2019/3/23
+ * Created by X on 2019/3/28
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -44,7 +44,7 @@ public class UnitPanelDelegate implements MouseListener, MouseMotionListener {
         newCom.setLocation(point);
         GlobalVariable.unitPanel.add(newCom);
         GlobalVariable.unitPanel.updateUI();
-        GlobalVariable.draggingUnit = newCom;
+        GlobalVariable.draggingUnit = (BaseUnitUI) newCom;
     }
 
     @Override
@@ -61,7 +61,11 @@ public class UnitPanelDelegate implements MouseListener, MouseMotionListener {
                 GlobalVariable.workingPanel.updateUI();
             }
         } else {
+            WorkingPanelDelegate workingPanelDelegate = new WorkingPanelDelegate();
+            GlobalVariable.newUnitForWork.addMouseListener(workingPanelDelegate);
+            GlobalVariable.newUnitForWork.addMouseMotionListener(workingPanelDelegate);
             // release in the workingPanel, create Logi Class.
+            EventUtil.initLogi(GlobalVariable.newUnitForWork);
         }
         GlobalVariable.newUnitForWork = null;
     }

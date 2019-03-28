@@ -3,7 +3,7 @@
  * BaseUnitUI.java
  * GraduationProject
  *
- * Created by X on 2019/3/23
+ * Created by X on 2019/3/28
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -11,7 +11,6 @@
 package PCOVL.UI;
 
 import javax.swing.*;
-import java.awt.*;
 
 import static PCOVL.UI.GlobalVariable.*;
 
@@ -32,7 +31,7 @@ public class BaseUnitUI extends JPanel{
 
     // Clone Function
     public BaseUnitUI(BaseUnitUI original, Boolean withDelegate) {
-        this.setName(original.getName() + "(Clone)");
+        this.setName(original.getName());
         this.setLayout(original.getLayout());
         this.setSize(original.getWidth(), original.getHeight());
         initSubView(original.textLabel.getText(), original.in.length, original.out.length);
@@ -67,7 +66,7 @@ public class BaseUnitUI extends JPanel{
         for (int iAc = 0; iAc < totalCount; iAc ++) {
             actionLabels[iAc] = new JLabel();
             actionLabels[iAc].setName(withText + " " + iAc);
-            actionLabels[iAc].setToolTipText(withText + " " + iAc);
+//            actionLabels[iAc].setToolTipText(withText + " " + iAc);   //when we add this, the whole label unable to get the mouseEvent. Fix later.
             actionLabels[iAc].setBackground(actionColor[iAc]);
             actionLabels[iAc].setOpaque(true);        // Otherwise we can't see the background color
             actionLabels[iAc].setBounds((iAc + 1) * (unitWidth - totalCount*actionWidth) / (totalCount + 1) + iAc*actionWidth,
@@ -77,5 +76,9 @@ public class BaseUnitUI extends JPanel{
             this.add(actionLabels[iAc]);
         }
 
+    }
+
+    public void setText(String text) {
+        this.textLabel.setText(text);
     }
 }

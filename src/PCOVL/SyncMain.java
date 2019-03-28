@@ -3,31 +3,32 @@
  * SyncMain.java
  * GraduationProject
  *
- * Created by X on 2019/3/23
+ * Created by X on 2019/3/28
  * Copyright (c) 2019 X. All right reserved.
  *
  */
 
 package PCOVL;
 
+import PCOVL.UI.GlobalVariable;
 import PCOVL.UI.HomePage;
 
 import java.util.ArrayList;
 
 public class SyncMain {
 
-    static ArrayList<SuperUnit> unitArray = new ArrayList<>();
+//    static ArrayList<SuperUnit> unitArray = new ArrayList<>();
     static ArrayList<Thread> threads = new ArrayList<>();
-    static unitB first = new unitB(1);
+//    static MUX2 first = new MUX2(1);
 
     public static void main(String[] args) throws Exception {
 
 ////        linkOrder[0].add(first);
 //        unitArray.add(first);
 //        // Do it when you drag a unit out
-//        unitB third = new unitB(3);
+//        MUX2 third = new MUX2(3);
 //        unitArray.add(third);
-//        unitA second = new unitA(2);
+//        Switch second = new Switch(2);
 //        unitArray.add(second);
 //        // Do it when you link a unit with another
 //        linkUnit(first, second);
@@ -40,34 +41,31 @@ public class SyncMain {
 //        second.inputEnable = false;
 //        executeInstruction();   // First(1)->Second(2)->Third(3)
 
+//        Switch one = new Switch(1);
+//        Switch two = new Switch(2);
+//        MUX2 three = new MUX2(3);
+//        unitArray.add(one);
+//        unitArray.add(two);
+//        unitArray.add(three);
+//        one.init();
+//        two.init();
+//        linkUnit(one,0,three);
+////        linkUnit(one,1,two);
+//        linkUnit(two,1,three);
+//        executeInstruction();
+//        executeInstruction();
+
+
+        // The UI
         new HomePage();
+
     }
 
-    public static void linkUnit(SuperUnit in, SuperUnit out){
-        in.setOut(out.getIn());
+    public static void linkUnit(SuperUnit in, int index, SuperUnit out){
+        in.setOut(out.getInAt(index));
     }
 
-    private static void executeInstruction() throws Exception {
-        System.out.println("......................Process a instruction");
-        threads = new ArrayList<>();
-        for (int i = 0; i < unitArray.size(); i ++){
-            if (unitArray.get(i).inputEnable){
-                threads.add(new Thread(unitArray.get(i)));
-                threads.get(threads.size() - 1).start();
-            } else {
-                break;
-            }
-        }
-        first.init();
-        for (int i = 0; i < threads.size(); i ++) {
-            threads.get(i).join();
-        }
-        // Reset the status of the last unit if you know which is. if not, reset all
-        for (int i = 0; i < unitArray.size(); i ++) {
-            (unitArray.get(i)).finish();
-        }
-        System.out.println("......................Finish a instruction");
-    }
+
 
 }
 /*TODO LinkMultiTree Create

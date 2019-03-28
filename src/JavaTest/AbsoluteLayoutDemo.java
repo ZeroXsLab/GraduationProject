@@ -3,7 +3,7 @@
  * AbsoluteLayoutDemo.java
  * GraduationProject
  *
- * Created by X on 2019/3/23
+ * Created by X on 2019/3/28
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -68,7 +68,7 @@ class UnitButton extends JPanel {
     private int buttonWidth = 10;
     private int buttonHeight = 10;
     private Color[] colors = {Color.CYAN,Color.green,Color.red};
-//    public JLabel lastPress;
+//    public JLabel lastOutLabel;
 
     public UnitButton(String unitText, int input, int output) {
         MouseDelegate mouseDelegate = new MouseDelegate();
