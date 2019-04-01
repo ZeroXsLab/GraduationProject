@@ -3,17 +3,15 @@
  * myMouseDelegate.java
  * GraduationProject
  *
- * Created by X on 2019/3/28
+ * Created by X on 2019/4/1
  * Copyright (c) 2019 X. All right reserved.
  *
  */
 
 package JavaTest;
 
-import java.awt.Color;
-import java.awt.Frame;
-import java.awt.Label;
-import java.awt.TextField;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -40,6 +38,12 @@ public class myMouseDelegate implements MouseMotionListener, MouseListener {
         });
         frame.setSize(500, 500);
         frame.setLocation(400, 250);
+
+        Point start = new Point(10,50);
+        Point end = new Point(50,10);
+        linkLine line = new linkLine(start, end);
+        frame.add(line);
+
         frame.setVisible(true);
     }
 
@@ -100,3 +104,23 @@ public class myMouseDelegate implements MouseMotionListener, MouseListener {
     }
 
 }
+
+//class linkLine extends JLabel {
+//
+//    public linkLine(Point start, Point end) {
+//        super();
+//        this.setText("Wakaka");
+//        Dimension size = getPreferredSize();
+//        size.height = (int) (start.getY() - end.getY());
+//        size.width = (int) (start.getX() - end.getX());
+//        setPreferredSize(size);
+//        this.setOpaque(true);
+//    }
+//
+//    @Override
+//    protected void paintComponent(Graphics g) {
+//        g.drawLine(getX(),0,0,getY());
+//        g.setColor(Color.RED);
+//        super.paintComponent(g);
+//    }
+//}

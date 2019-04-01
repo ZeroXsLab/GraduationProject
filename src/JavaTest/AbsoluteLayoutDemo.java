@@ -3,7 +3,7 @@
  * AbsoluteLayoutDemo.java
  * GraduationProject
  *
- * Created by X on 2019/3/28
+ * Created by X on 2019/4/1
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -43,6 +43,11 @@ public class AbsoluteLayoutDemo extends JFrame {
 //        this.workingPanel.setBackground(Color.CYAN);
         this.workingPanel.addMouseListener(new MouseDelegate());
         GlobalVariable.workingPanel = this.workingPanel;
+        Point start = new Point(10,50);
+        Point end = new Point(50,10);
+        linkLine line = new linkLine(start, end);
+        this.workingPanel.add(line);
+        line.setBounds(10,10,100,40);
 //        this.add(this.workingPanel);
         this.contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,false,unitPanel,workingPanel);
         this.contentPanel.setSize(this.getSize());
@@ -267,4 +272,26 @@ class GlobalVariable {
     static DragState dragState = DragState.init;
     public static JLabel lastPress;
     public static JPanel workingPanel;
+}
+
+class linkLine extends JLabel {
+
+    public linkLine(Point start, Point end) {
+        super();
+        this.setText("Wakaka");
+        Dimension size = getPreferredSize();
+        size.height = (int) (start.getY() - end.getY());
+        size.width = (int) (start.getX() - end.getX());
+        setPreferredSize(size);
+        this.setOpaque(true);
+        this.setBackground(Color.CYAN);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g);
+        g.drawLine(getWidth(),0,0,getHeight());
+        g.setColor(Color.RED);
+
+    }
 }
