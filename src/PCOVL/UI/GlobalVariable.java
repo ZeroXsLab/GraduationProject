@@ -3,7 +3,7 @@
  * GlobalVariable.java
  * GraduationProject
  *
- * Created by X on 2019/3/28
+ * Created by X on 2019/4/2
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -34,8 +34,7 @@ public class GlobalVariable {
     static DragState dragState = DragState.init;
     public static BaseUnitUI draggingUnit, newUnitForWork;
 
-    public static Graphics2D linkLine;
-
     public static ArrayList<SuperUnit> unitArray = new ArrayList<>();
     public static ArrayList<BaseUnitUI> componentArray = new ArrayList<>();
+    public static Line lastLine;
 }

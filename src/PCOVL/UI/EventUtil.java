@@ -3,7 +3,7 @@
  * EventUtil.java
  * GraduationProject
  *
- * Created by X on 2019/3/28
+ * Created by X on 2019/4/2
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -11,7 +11,6 @@
 package PCOVL.UI;
 
 import PCOVL.MUX2;
-import PCOVL.SuperUnit;
 import PCOVL.Switch;
 
 import javax.swing.*;
@@ -33,6 +32,12 @@ public class EventUtil {
     public static Point transformToRelative(Point point, Component component) {
         point.x -= component.getX();
         point.y -= component.getY();
+        return point;
+    }
+
+    public static Point transformToSuperLoca(Point point, Component component) {
+        point.x += component.getX();
+        point.y += component.getY();
         return point;
     }
 

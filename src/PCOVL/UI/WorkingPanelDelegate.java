@@ -3,7 +3,7 @@
  * WorkingPanelDelegate.java
  * GraduationProject
  *
- * Created by X on 2019/3/28
+ * Created by X on 2019/4/2
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -55,19 +55,17 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
             case init:
                 Point abPoint = EventUtil.getAbsolutePointBy(e);
                 Component componentOfMouse = e.getComponent().getParent().getComponentAt(abPoint);
-//                Component eventComponent = e.getComponent();
-//                Component subComponent = componentOfMouse.getComponentAt(EventUtil.transformToRelative(abPoint,componentOfMouse));
                 if (componentOfMouse instanceof BaseUnitUI) {
                     if (!(EventUtil.isPointInComponents(e, "In")) && !(EventUtil.isPointInComponents(e, "Out"))) {
                         // You are attempt to relocate the Unit
-                        Point newLoc = abPoint;
-                        e.getComponent().setLocation(newLoc);
+                        e.getComponent().setLocation(abPoint);
                         GlobalVariable.dragState = GlobalVariable.DragState.forRelocate;
                     } else {
                         // You drag a In or Out, so it is to Link Unit
                         GlobalVariable.dragState = GlobalVariable.DragState.forLink;
-                        Point startPoint = GlobalVariable.lastOutLabel.getLocation();
-                        Point endPoint = abPoint;
+                        Line line = GlobalVariable.lastLine;
+                        line.updateEndPoint(abPoint);
+                        GlobalVariable.workingPanel.updateUI();
                     }
                 }
                 break;
@@ -75,8 +73,29 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                 // if it is called during dragging label around
                 Point newLoc = EventUtil.getAbsolutePointBy(e);
                 e.getComponent().setLocation(newLoc);
+                int unitIndex = GlobalVariable.componentArray.indexOf(e.getComponent());
+                SuperUnit unit = GlobalVariable.unitArray.get(unitIndex);
+                // update the line linked with the unit you want to relocate.
+                if (unit.getOutLine() != null) {
+                    Point origin = unit.unitUI.getComponent(unit.getInLines().length).getLocation();
+                    origin = EventUtil.transformToSuperLoca(origin, unit.unitUI);
+                    origin.x += GlobalVariable.actionWidth / 2;
+                    unit.getOutLine().updateStartPoint(origin);
+                }
+                for (int iIn = 0; iIn < unit.getInLines().length; iIn ++) {
+                    if (unit.getInLines()[iIn] != null) {
+                        Point origin = unit.unitUI.getComponent(iIn).getLocation();
+                        origin = EventUtil.transformToSuperLoca(origin, unit.unitUI);
+                        origin.x += GlobalVariable.actionWidth / 2;
+                        unit.getInLines()[iIn].updateEndPoint(origin);
+                    }
+                }
                 break;
             case forLink:
+                Point endPoint = EventUtil.getAbsolutePointBy(e);
+                Line line = GlobalVariable.lastLine;
+                line.updateEndPoint(endPoint);
+                GlobalVariable.workingPanel.updateUI();
                 break;
         }
     }
@@ -86,13 +105,20 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
         if (EventUtil.isPointInComponents(e, "Out")) {
             // Record the OutLabel you click.
             GlobalVariable.lastOutLabel = (JLabel) e.getComponent().getComponentAt(e.getPoint());
+            Point labelOrigin = GlobalVariable.lastOutLabel.getLocation();
+            labelOrigin = EventUtil.transformToSuperLoca(labelOrigin, GlobalVariable.lastOutLabel.getParent());
+            labelOrigin.x += GlobalVariable.actionWidth / 2;
+            labelOrigin.y += GlobalVariable.actionHeight / 4;
+            Line line = new Line(labelOrigin,labelOrigin);
+            GlobalVariable.workingPanel.add(line);
+            GlobalVariable.workingPanel.updateUI();
+            GlobalVariable.lastLine = line;
         }
     }
 
     @Override
     public void mouseReleased(MouseEvent e) {
         Point abPoint = EventUtil.getAbsolutePointBy(e);
-//        Component eventComponent = e.getComponent();
         Component componentOfMouse = e.getComponent().getParent().getComponentAt(abPoint);
         Component subComponent = componentOfMouse.getComponentAt(EventUtil.transformToRelative(abPoint, componentOfMouse));
         if (EventUtil.isPointInComponents(e, "In")) {
@@ -108,7 +134,20 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                 String indexString = subComponent.getName().substring(3);
                 int index = Integer.parseInt(indexString);
                 below.setOut(above.getInAt(index));
+                // Save the line in the Unit
+                below.setOutLine(GlobalVariable.lastLine);
+                above.setInLines(GlobalVariable.lastLine,index);
+                // Refine the line location
+                Point origin = above.unitUI.getComponent(index).getLocation();
+                origin = EventUtil.transformToSuperLoca(origin, above.unitUI);
+                origin.x += GlobalVariable.actionWidth / 2;
+                above.getInLines()[index].updateEndPoint(origin);
             }
+        } else if (GlobalVariable.lastLine != null && GlobalVariable.dragState == GlobalVariable.DragState.forLink) {
+            Line line = GlobalVariable.lastLine;
+            GlobalVariable.workingPanel.remove(line);
+            GlobalVariable.workingPanel.updateUI();
+            GlobalVariable.lastLine = null;
         }
         // Clear the Out Record.
         GlobalVariable.lastOutLabel = null;
@@ -116,4 +155,3 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
     }
 
 }
-// TODO Unit Linking(Mouse Drag and Release)

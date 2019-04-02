@@ -3,7 +3,7 @@
  * HomePage.java
  * GraduationProject
  *
- * Created by X on 2019/3/28
+ * Created by X on 2019/4/2
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -29,12 +29,9 @@ public class HomePage extends JFrame {
         JButton btn = new JButton("Run");
         btn.setBounds(workingPanel.getWidth() - 80, 10,60,20);
         workingPanel.add(btn);
-        btn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                EventUtil.executeInstruction();
-            }
-        });
+        btn.addActionListener((ActionEvent e) ->
+                { EventUtil.executeInstruction(); }
+            );
         this.setVisible(true);
     }
 

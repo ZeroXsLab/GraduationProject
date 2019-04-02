@@ -3,7 +3,7 @@
  * DrawPanel.java
  * GraduationProject
  *
- * Created by X on 2019/4/1
+ * Created by X on 2019/4/2
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -13,6 +13,7 @@ package JavaTest;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Line2D;
+import java.awt.geom.Rectangle2D;
 
 public class DrawPanel extends JPanel {
 
@@ -35,11 +36,11 @@ public class DrawPanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
-        Stroke stroke = new BasicStroke(20, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
-        graphics2D.setStroke(stroke);
-        Line2D line2D = new Line2D.Double(30,50,100,20);
-        graphics2D.draw(line2D);
-//        g.setColor(Color.red);
-//        g.fillOval(0,0,getSize().width - 1, getSize().height - 1);
+//        Stroke stroke = new BasicStroke(20, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
+//        graphics2D.setStroke(stroke);
+//        Line2D line2D = new Line2D.Double(30,50,100,20);
+//        graphics2D.draw(line2D);
+        Rectangle2D rect2D = new Rectangle2D.Double(60,160,60,90);
+        graphics2D.draw(rect2D);
     }
 }
