@@ -3,7 +3,7 @@
  * stringFormat.java
  * GraduationProject
  *
- * Created by X on 2019/3/19
+ * Created by X on 2019/4/2
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -19,6 +19,12 @@ public class stringFormat {
         System.out.println("@(i + 1) * (@panelWidth - @output*@buttonWidth) / @(output + 1) + @i*@buttonWidth");
         easyOutput("@(i + 1) * (@panelWidth - @output*@buttonWidth) / @(output + 1) + @i*@buttonWidth");
         System.out.println((i + 1) + " * ("+ panelWidth +" - "+ output +"*"+buttonWidth+") / "+(output + 1) +" + "+ i+"*"+buttonWidth);
+        String a = null;
+        if (a.contains("a")) {
+            System.out.println("AAA");
+        } else {
+            System.out.println("BBB");
+        }
     }
 
     public static void easyOutput(String string){

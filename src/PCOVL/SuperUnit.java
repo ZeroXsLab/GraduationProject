@@ -3,7 +3,7 @@
  * SuperUnit.java
  * GraduationProject
  *
- * Created by X on 2019/3/28
+ * Created by X on 2019/4/2
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -11,14 +11,15 @@
 package PCOVL;
 
 import PCOVL.UI.BaseUnitUI;
-
-import java.awt.*;
+import PCOVL.UI.Line;
 
 public class SuperUnit implements Runnable{
     protected Data[] in;
+    protected Line[] inLines;
     protected Data out = new Data();
+    protected Line outLine;
     public Boolean inputEnable = true;
-    protected BaseUnitUI unitUI;
+    public BaseUnitUI unitUI;
     private int ID;
 
     public void init() {
@@ -31,6 +32,7 @@ public class SuperUnit implements Runnable{
     public SuperUnit(int ID, int inCount, BaseUnitUI unitUI) {
         this.ID = ID;
         this.in = new Data[inCount];
+        this.inLines = new Line[inCount];
         this.unitUI = unitUI;
         for (int iIn = 0; iIn < in.length; iIn ++) {
             this.in[iIn] = new Data();
@@ -43,6 +45,22 @@ public class SuperUnit implements Runnable{
 
     public void setOut(Data out) {
         this.out = out;
+    }
+
+    public Line[] getInLines() {
+        return inLines;
+    }
+
+    public Line getOutLine() {
+        return outLine;
+    }
+
+    public void setOutLine(Line line) {
+        this.outLine = line;
+    }
+
+    public void setInLines(Line line, int index) {
+        this.inLines[index] = line;
     }
 
     public void finish() {

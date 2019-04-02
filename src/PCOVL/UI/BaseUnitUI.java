@@ -3,7 +3,7 @@
  * BaseUnitUI.java
  * GraduationProject
  *
- * Created by X on 2019/3/28
+ * Created by X on 2019/4/2
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -14,6 +14,7 @@ import javax.swing.*;
 
 import static PCOVL.UI.GlobalVariable.*;
 
+// this.getComponents return order: In->Out->TextLabel
 public class BaseUnitUI extends JPanel{
     private JLabel textLabel;
     private JLabel[] in, out;
