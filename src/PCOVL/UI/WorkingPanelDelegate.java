@@ -3,14 +3,14 @@
  * WorkingPanelDelegate.java
  * GraduationProject
  *
- * Created by X on 2019/4/2
+ * Created by X on 2019/4/4
  * Copyright (c) 2019 X. All right reserved.
  *
  */
 
 package PCOVL.UI;
 
-import PCOVL.SuperUnit;
+import PCOVL.UnitRepository.SuperUnit;
 
 import javax.swing.*;
 import java.awt.*;
@@ -38,34 +38,40 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
     public void mouseEntered(MouseEvent e) {
         // Detect mouse to create Unit when you drag it from UnitPanel
         if (GlobalVariable.draggingUnit != null) {
+            // if you are dragging a unit into WorkPanel from the unitPanel
             Point point =  e.getPoint();
-            Component newCom = EventUtil.copyUnitByEvent(GlobalVariable.draggingUnit, false);
+            Component newCom = EventUtil.copyUnitFrom(GlobalVariable.draggingUnit, false);
             newCom.setLocation(point);
-            GlobalVariable.workingPanel.add(newCom);
-            GlobalVariable.workingPanel.updateUI();
+            GlobalVariable.workPanel.add(newCom);
+            GlobalVariable.workPanel.updateUI();
+            // Store the unitOfWorkPanel for future handle(Add listener if release at workPanel, or remove if not)
             GlobalVariable.newUnitForWork= (BaseUnitUI) newCom;
+            // Clear the draggingUnit.
             GlobalVariable.draggingUnit = null;
         }
     }
 
     @Override
     public void mouseDragged(MouseEvent e) {
-        // e.getComponent is a BaseUnit.
+        // e.getComponent is a BaseUnitUI.
         switch (GlobalVariable.dragState) {
             case init:
                 Point abPoint = EventUtil.getAbsolutePointBy(e);
+                // the component that the mouse at (as it's not e.getComponent if you move far away.
                 Component componentOfMouse = e.getComponent().getParent().getComponentAt(abPoint);
                 if (componentOfMouse instanceof BaseUnitUI) {
-                    if (!(EventUtil.isPointInComponents(e, "In")) && !(EventUtil.isPointInComponents(e, "Out"))) {
+                    if (!(EventUtil.isPointInComponents(e, "In"))
+                            && !(EventUtil.isPointInComponents(e, "Out"))) {
                         // You are attempt to relocate the Unit
                         e.getComponent().setLocation(abPoint);
                         GlobalVariable.dragState = GlobalVariable.DragState.forRelocate;
                     } else {
                         // You drag a In or Out, so it is to Link Unit
                         GlobalVariable.dragState = GlobalVariable.DragState.forLink;
+                        // get the line you create during mousePress and update its endPoint
                         Line line = GlobalVariable.lastLine;
                         line.updateEndPoint(abPoint);
-                        GlobalVariable.workingPanel.updateUI();
+                        GlobalVariable.workPanel.updateUI();
                     }
                 }
                 break;
@@ -73,10 +79,12 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                 // if it is called during dragging label around
                 Point newLoc = EventUtil.getAbsolutePointBy(e);
                 e.getComponent().setLocation(newLoc);
+                // get the unit which this UI belong to.
                 int unitIndex = GlobalVariable.componentArray.indexOf(e.getComponent());
                 SuperUnit unit = GlobalVariable.unitArray.get(unitIndex);
                 // update the line linked with the unit you want to relocate.
                 if (unit.getOutLine() != null) {
+                    // get the label center location
                     Point origin = unit.unitUI.getComponent(unit.getInLines().length).getLocation();
                     origin = EventUtil.transformToSuperLoca(origin, unit.unitUI);
                     origin.x += GlobalVariable.actionWidth / 2;
@@ -84,6 +92,7 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                 }
                 for (int iIn = 0; iIn < unit.getInLines().length; iIn ++) {
                     if (unit.getInLines()[iIn] != null) {
+                        // get the label center location
                         Point origin = unit.unitUI.getComponent(iIn).getLocation();
                         origin = EventUtil.transformToSuperLoca(origin, unit.unitUI);
                         origin.x += GlobalVariable.actionWidth / 2;
@@ -95,7 +104,7 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                 Point endPoint = EventUtil.getAbsolutePointBy(e);
                 Line line = GlobalVariable.lastLine;
                 line.updateEndPoint(endPoint);
-                GlobalVariable.workingPanel.updateUI();
+                GlobalVariable.workPanel.updateUI();
                 break;
         }
     }
@@ -105,13 +114,14 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
         if (EventUtil.isPointInComponents(e, "Out")) {
             // Record the OutLabel you click.
             GlobalVariable.lastOutLabel = (JLabel) e.getComponent().getComponentAt(e.getPoint());
+            // Create a new line for further use.
             Point labelOrigin = GlobalVariable.lastOutLabel.getLocation();
             labelOrigin = EventUtil.transformToSuperLoca(labelOrigin, GlobalVariable.lastOutLabel.getParent());
             labelOrigin.x += GlobalVariable.actionWidth / 2;
             labelOrigin.y += GlobalVariable.actionHeight / 4;
             Line line = new Line(labelOrigin,labelOrigin);
-            GlobalVariable.workingPanel.add(line);
-            GlobalVariable.workingPanel.updateUI();
+            GlobalVariable.workPanel.add(line);
+            GlobalVariable.workPanel.updateUI();
             GlobalVariable.lastLine = line;
         }
     }
@@ -119,6 +129,7 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
     @Override
     public void mouseReleased(MouseEvent e) {
         Point abPoint = EventUtil.getAbsolutePointBy(e);
+        // componentOfMouse is a BaseUnitUI which the mouse in(as it's not e.getComponent if you move far away.
         Component componentOfMouse = e.getComponent().getParent().getComponentAt(abPoint);
         Component subComponent = componentOfMouse.getComponentAt(EventUtil.transformToRelative(abPoint, componentOfMouse));
         if (EventUtil.isPointInComponents(e, "In")) {
@@ -144,9 +155,10 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                 above.getInLines()[index].updateEndPoint(origin);
             }
         } else if (GlobalVariable.lastLine != null && GlobalVariable.dragState == GlobalVariable.DragState.forLink) {
+            // you are going to cancel the link action, clear the line that just created
             Line line = GlobalVariable.lastLine;
-            GlobalVariable.workingPanel.remove(line);
-            GlobalVariable.workingPanel.updateUI();
+            GlobalVariable.workPanel.remove(line);
+            GlobalVariable.workPanel.updateUI();
             GlobalVariable.lastLine = null;
         }
         // Clear the Out Record.
@@ -155,3 +167,4 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
     }
 
 }
+// FIXME MouseDrag: maybe we can make it not relocate the origin to the mouse but where we click

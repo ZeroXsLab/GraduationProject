@@ -3,16 +3,17 @@
  * MUX2.java
  * GraduationProject
  *
- * Created by X on 2019/3/28
+ * Created by X on 2019/4/4
  * Copyright (c) 2019 X. All right reserved.
  *
  */
 
-package PCOVL;
+package PCOVL.UnitRepository;
 
 import PCOVL.UI.BaseUnitUI;
 
 public class MUX2 extends SuperUnit {
+    // store which input the MUX2 select, 0 For inputOne, 1 For inputTwo
     private int S0;
     private int inputOne;
     private int inputTwo;
@@ -23,16 +24,16 @@ public class MUX2 extends SuperUnit {
 
     @Override
     public void processData() {
-//        out.content = in[0].content + in[1].content;
+        // Store the data from the In
         S0 = in[0].content;
         inputOne = in[1].content;
         inputTwo = in[2].content;
-        if (S0 > 0) {
-            // Select A
+        // Set Out
+        if (S0 < 1) {
+            // it's 0, Select A(InputOne)
             out.content = inputOne;
         } else {
             out.content = inputTwo;
         }
-        setLabel();
     }
 }

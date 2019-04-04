@@ -3,15 +3,15 @@
  * EventUtil.java
  * GraduationProject
  *
- * Created by X on 2019/4/2
+ * Created by X on 2019/4/4
  * Copyright (c) 2019 X. All right reserved.
  *
  */
 
 package PCOVL.UI;
 
-import PCOVL.MUX2;
-import PCOVL.Switch;
+import PCOVL.UnitRepository.MUX2;
+import PCOVL.UnitRepository.Switch;
 
 import javax.swing.*;
 import java.awt.*;
@@ -41,7 +41,7 @@ public class EventUtil {
         return point;
     }
 
-    public static Component copyUnitByEvent(Component component, Boolean withDelegate){
+    public static Component copyUnitFrom(Component component, Boolean withDelegate){
         Class unitClass = component.getClass();
         try {
             Constructor unitConstructor = unitClass.getDeclaredConstructor(unitClass, Boolean.class);

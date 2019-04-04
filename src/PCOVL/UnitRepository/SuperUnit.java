@@ -3,40 +3,45 @@
  * SuperUnit.java
  * GraduationProject
  *
- * Created by X on 2019/4/2
+ * Created by X on 2019/4/4
  * Copyright (c) 2019 X. All right reserved.
  *
  */
 
-package PCOVL;
+package PCOVL.UnitRepository;
 
 import PCOVL.UI.BaseUnitUI;
 import PCOVL.UI.Line;
 
 public class SuperUnit implements Runnable{
-    protected Data[] in;
-    protected Line[] inLines;
-    protected Data out = new Data();
-    protected Line outLine;
-    public Boolean inputEnable = true;
-    public BaseUnitUI unitUI;
     private int ID;
+    // Store the data
+    protected Data[] in;
+    protected Data out = new Data();
+    // the UI of unit, contains the inLabel, outLabel, mainLabel
+    public BaseUnitUI unitUI;
+    // Store the line linked with self.
+    protected Line[] inLines;
+    protected Line outLine;
+    // Is the unit enable(can work, can be write)
+    public Boolean inputEnable = true;
 
-    public void init() {
-//        this.in.setBeenRead(false);
+    // make the unit ready, so it can be read by others
+    public void readyForRead() {
         for (int iIn = 0; iIn < in.length; iIn ++) {
             this.in[iIn].setBeenRead(false);
         }
     }
 
+    // it's fine if just initial the inThings.
     public SuperUnit(int ID, int inCount, BaseUnitUI unitUI) {
         this.ID = ID;
         this.in = new Data[inCount];
-        this.inLines = new Line[inCount];
-        this.unitUI = unitUI;
         for (int iIn = 0; iIn < in.length; iIn ++) {
             this.in[iIn] = new Data();
         }
+        this.unitUI = unitUI;
+        this.inLines = new Line[inCount];
     }
 
     public Data getInAt(int index) {
@@ -51,6 +56,10 @@ public class SuperUnit implements Runnable{
         return inLines;
     }
 
+    public void setInLines(Line line, int index) {
+        this.inLines[index] = line;
+    }
+
     public Line getOutLine() {
         return outLine;
     }
@@ -59,12 +68,7 @@ public class SuperUnit implements Runnable{
         this.outLine = line;
     }
 
-    public void setInLines(Line line, int index) {
-        this.inLines[index] = line;
-    }
-
     public void finish() {
-//        in.setBeenRead(true);
         for (int iIn = 0; iIn < in.length; iIn ++) {
             this.in[iIn].setBeenRead(true);
         }
@@ -74,11 +78,12 @@ public class SuperUnit implements Runnable{
     @Override
     public void run() {
         if (inputEnable) {
-//            in.read(this.getClass().getName() + " " + ID);
             for (int iIn = 0; iIn < in.length; iIn ++) {
                 in[iIn].read(this.getClass().getName() + " " + ID);
             }
             processData();
+            // show the result.
+            setLabel();
             out.write(this.getClass().getName() + " " + ID);
         } else {
             // Do nothing
@@ -94,5 +99,3 @@ public class SuperUnit implements Runnable{
         unitUI.setText("" + out.content);
     }
 }
-
-// TODO: it contain a UI variable, so we can call function to link it with the exist UI.

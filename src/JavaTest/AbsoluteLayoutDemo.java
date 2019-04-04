@@ -3,7 +3,7 @@
  * AbsoluteLayoutDemo.java
  * GraduationProject
  *
- * Created by X on 2019/4/1
+ * Created by X on 2019/4/4
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -40,7 +40,7 @@ public class AbsoluteLayoutDemo extends JFrame {
         this.workingPanel.setName("Working Panel");
         this.workingPanel.setSize(this.getWidth() - this.unitPanel.getWidth(), this.getHeight());
         this.workingPanel.setLayout(null);
-//        this.workingPanel.setBackground(Color.CYAN);
+//        this.workPanel.setBackground(Color.CYAN);
         this.workingPanel.addMouseListener(new MouseDelegate());
         GlobalVariable.workingPanel = this.workingPanel;
         Point start = new Point(10,50);
@@ -48,7 +48,7 @@ public class AbsoluteLayoutDemo extends JFrame {
         linkLine line = new linkLine(start, end);
         this.workingPanel.add(line);
         line.setBounds(10,10,100,40);
-//        this.add(this.workingPanel);
+//        this.add(this.workPanel);
         this.contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,false,unitPanel,workingPanel);
         this.contentPanel.setSize(this.getSize());
         this.contentPanel.setDividerLocation(this.unitPanel.getWidth());

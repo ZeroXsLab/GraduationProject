@@ -3,7 +3,7 @@
  * HomePage.java
  * GraduationProject
  *
- * Created by X on 2019/4/2
+ * Created by X on 2019/4/4
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -12,7 +12,6 @@ package PCOVL.UI;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import static PCOVL.UI.GlobalVariable.*;
 
@@ -20,15 +19,19 @@ public class HomePage extends JFrame {
     private JSplitPane contentPanel;
 
     public HomePage() {
+        // JFrame initial.
         this.setTitle("Principles of Computer Organization Virtual Lab");
         this.setName("HomePageJFrame");
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        this.setBounds(100,100,1200,800);
+        this.setSize(1200,800);
+        this.setLocationRelativeTo(null);
+        // init the content panel ( unitPanel, workPanel)
         initSubView();
         initUnitInUnitPanel();
+        // Button to execute the instruction.
         JButton btn = new JButton("Run");
-        btn.setBounds(workingPanel.getWidth() - 80, 10,60,20);
-        workingPanel.add(btn);
+        btn.setBounds(workPanel.getWidth() - 80, 10,60,20);
+        workPanel.add(btn);
         btn.addActionListener((ActionEvent e) ->
                 { EventUtil.executeInstruction(); }
             );
@@ -41,16 +44,17 @@ public class HomePage extends JFrame {
         unitPanel.setSize(unitWidth + 20, this.getHeight());
         unitPanel.setLayout(null);
 
-        workingPanel = new GraphicJPanel();
-        workingPanel.setName("WorkingPanel");
-        workingPanel.setSize(this.getWidth() - unitPanel.getWidth(), this.getHeight());
-        workingPanel.setLayout(null);
-        workingPanel.addMouseListener(new WorkingPanelDelegate());
+        workPanel = new JPanel();
+        workPanel.setName("WorkingPanel");
+        workPanel.setSize(this.getWidth() - unitPanel.getWidth(), this.getHeight());
+        workPanel.setLayout(null);
+        workPanel.addMouseListener(new WorkingPanelDelegate());
 
-        this.contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,unitPanel,workingPanel);
+        this.contentPanel = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,unitPanel, workPanel);
         this.contentPanel.setName("ContentPanel");
         this.setSize(this.getSize());
         this.contentPanel.setDividerLocation(unitPanel.getWidth());
+        // disable the action to change the divider location
         this.contentPanel.setEnabled(false);
         this.setContentPane(contentPanel);
     }

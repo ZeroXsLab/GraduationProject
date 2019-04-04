@@ -3,16 +3,18 @@
  * Data.java
  * GraduationProject
  *
- * Created by X on 2019/3/13
+ * Created by X on 2019/4/4
  * Copyright (c) 2019 X. All right reserved.
  *
  */
 
-package PCOVL;
+package PCOVL.UnitRepository;
 
 public class Data {
 
+    // whether the unit has got and process the inData, otherwise others should wait before write it.
     private boolean beenRead = true;
+    // the content 
     int content = 0;
 
     public void setBeenRead(boolean beenRead) {
