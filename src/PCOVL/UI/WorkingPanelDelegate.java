@@ -21,7 +21,27 @@ import java.awt.event.MouseMotionListener;
 public class WorkingPanelDelegate implements MouseListener, MouseMotionListener {
     @Override
     public void mouseClicked(MouseEvent e) {
-
+        if (e.getClickCount() == 2) {
+            // Double Click, do remove action
+            JPanel workPanel = GlobalVariable.workPanel;
+            BaseUnitUI baseUnitUI = (BaseUnitUI)e.getComponent();
+            int index = GlobalVariable.componentArray.indexOf(baseUnitUI);
+            SuperUnit unit = GlobalVariable.unitArray.get(index);
+            // remove UI
+            if (unit.getOutLine() != null) {
+                workPanel.remove(unit.getOutLine());
+            }
+            for (int iIn = 0; iIn < unit.getInLines().length; iIn ++) {
+                if (unit.getInLines()[iIn] != null) {
+                    workPanel.remove(unit.getInLines()[iIn]);
+                }
+            }
+            workPanel.remove(baseUnitUI);
+            workPanel.updateUI();
+            // remove Logi
+            GlobalVariable.unitArray.remove(index);
+            GlobalVariable.componentArray.remove(index);
+        }
     }
 
     @Override

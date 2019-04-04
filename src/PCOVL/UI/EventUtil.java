@@ -79,9 +79,11 @@ public class EventUtil {
                 logiCom.addMouseListener(new MouseListener() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
-                        int index = GlobalVariable.componentArray.indexOf(e.getComponent());
-                        Switch switchClick = (Switch) GlobalVariable.unitArray.get(index);
-                        switchClick.switchIt();
+                        if (e.getClickCount() == 1) {
+                            int index = GlobalVariable.componentArray.indexOf(e.getComponent());
+                            Switch switchClick = (Switch) GlobalVariable.unitArray.get(index);
+                            switchClick.switchIt();
+                        }
                     }
 
                     @Override
