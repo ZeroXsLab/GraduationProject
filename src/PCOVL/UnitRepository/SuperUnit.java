@@ -48,6 +48,10 @@ public class SuperUnit implements Runnable{
         return in[index];
     }
 
+    public void disconnectInAt(int index) {
+        in[index] = new Data();
+    }
+
     public void setOut(Data out) {
         this.out = out;
     }

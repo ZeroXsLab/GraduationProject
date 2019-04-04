@@ -3,7 +3,7 @@
  * CustomButton.java
  * GraduationProject
  *
- * Created by X on 2019/4/2
+ * Created by X on 2019/4/4
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -12,14 +12,14 @@ package JavaTest;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import java.awt.geom.*;
 
 public class CustomButton extends JButton {
 
     private Shape shape; //用于保存按钮的形状，有助于侦听单击按钮事件
     private Double lineWidth = 10.0;
+    double horizonLoc = 0.3;
 
     public CustomButton(int width, int height) {
         super();
@@ -39,7 +39,7 @@ public class CustomButton extends JButton {
             //如果鼠标按下按钮，则ButtonModel的Armed属性为真
             g.setColor(Color.RED);
         }else {
-            g.setColor(Color.GRAY);
+            g.setColor(getBackground());
         }
         //fileOval方法画一个矩形的内切椭圆，并且填充这个椭圆
         //当矩形为正方形时，画出的椭圆便是圆
@@ -49,15 +49,8 @@ public class CustomButton extends JButton {
         super.paintComponent(g);
         Graphics2D graphics2D = (Graphics2D) g;
 
-        Rectangle2D horizontal = new Rectangle2D.Double(1,(getHeight() - lineWidth )/2,getWidth() - 2,lineWidth);
-        Rectangle2D leftBottom = new Rectangle2D.Double(horizontal.getX(),horizontal.getCenterY(),lineWidth,getHeight() - horizontal.getCenterY() - 2);
-        Rectangle2D rightTop = new Rectangle2D.Double(getWidth() - 1 - lineWidth,1,lineWidth,horizontal.getCenterY());
-        Area hori = new Area(horizontal);
-        Area lb = new Area(leftBottom);
-        Area rt = new Area(rightTop);
-        hori.add(lb);
-        hori.add(rt);
-        shape = hori;
+
+        shape = getShape();
 
         graphics2D.fill(shape);
 //        Stroke stroke = new BasicStroke(20, BasicStroke.CAP_ROUND, BasicStroke.JOIN_MITER);
@@ -80,17 +73,7 @@ public class CustomButton extends JButton {
         //如果按钮边框,位置发生改变,则产生一个新的形状对象
         if((shape==null)||(!shape.getBounds().equals(getBounds()))){
             //构造椭圆型对象
-            shape=new Ellipse2D.Float(0,0,getWidth(),getHeight());
-            shape = new Line2D.Double(10,10,getWidth(), getHeight());
-            Rectangle2D horizontal = new Rectangle2D.Double(1,(getHeight() - lineWidth )/2,getWidth() - 2,lineWidth);
-            Rectangle2D leftBottom = new Rectangle2D.Double(horizontal.getX(),horizontal.getCenterY(),lineWidth,getHeight() - horizontal.getCenterY() - 2);
-            Rectangle2D rightTop = new Rectangle2D.Double(getWidth() - 1 - lineWidth,1,lineWidth,horizontal.getCenterY());
-            Area hori = new Area(horizontal);
-            Area lb = new Area(leftBottom);
-            Area rt = new Area(rightTop);
-            hori.add(lb);
-            hori.add(rt);
-            shape = hori;
+            shape = getShape();
         }
         //判断鼠标的x,y坐标是否落在按钮形状内
         return shape.contains(x,y);
@@ -99,9 +82,14 @@ public class CustomButton extends JButton {
     public static void main(String[] args) {
         JButton button = new CustomButton(100,100);
         button.setBackground(Color.lightGray);//设置背景色为绿色
-        button.addActionListener( (ActionEvent e) ->
-                { button.setSize(300,300); }
-        );
+//        button.addActionListener( (ActionEvent e) ->
+//                {
+//                    System.out.println("ActionEvent Detected");
+//                    button.setSize(300,300); }
+//        );
+        LineDelegate lineDelegate = new LineDelegate();
+        button.addMouseListener(lineDelegate);
+        button.addMouseMotionListener(lineDelegate);
         //产生一个框架显示这个按钮
         JFrame frame=new JFrame("图形按钮");
 //        frame.getContentPane().setBackground(Color.blue);
@@ -113,4 +101,60 @@ public class CustomButton extends JButton {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
+    public Shape getShape() {
+        Rectangle2D horizontal = new Rectangle2D.Double(1,(getHeight() - lineWidth ) * horizonLoc,getWidth() - 2,lineWidth);
+        Rectangle2D leftBottom = new Rectangle2D.Double(horizontal.getX(),horizontal.getCenterY(),lineWidth,getHeight() - horizontal.getCenterY() - 2);
+        Rectangle2D rightTop = new Rectangle2D.Double(getWidth() - 1 - lineWidth,1,lineWidth,horizontal.getCenterY());
+        Area hori = new Area(horizontal);
+        Area lb = new Area(leftBottom);
+        Area rt = new Area(rightTop);
+        hori.add(lb);
+        hori.add(rt);
+        return hori;
+    }
+}
+
+class LineDelegate implements MouseListener, MouseMotionListener {
+    @Override
+    public void mouseClicked(MouseEvent e) {
+        e.getComponent().setSize(
+                (e.getComponent().getWidth() == 100 && e.getComponent().getHeight() == 100)
+                        ? new Dimension(200,200)
+                        : new Dimension(100,100)
+        );
+    }
+
+    @Override
+    public void mousePressed(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseReleased(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseEntered(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseExited(MouseEvent e) {
+
+    }
+
+    @Override
+    public void mouseDragged(MouseEvent e) {
+        Point newPoint = e.getPoint();
+        double newDiv = newPoint.getY() / e.getComponent().getHeight();
+        CustomButton button = (CustomButton) e.getComponent();
+        button.horizonLoc = newDiv;
+        button.repaint();
+    }
+
+    @Override
+    public void mouseMoved(MouseEvent e) {
+
+    }
 }

@@ -10,6 +10,8 @@
 
 package PCOVL.UI;
 
+import PCOVL.UnitRepository.SuperUnit;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.geom.Area;
@@ -17,6 +19,8 @@ import java.awt.geom.Rectangle2D;
 
 public class Line extends JButton {
 
+    // Line delegate
+    LineDelegate lineDelegate = new LineDelegate();
     // Save the JButton shape for action of Click.(which will call contains()
     private Shape shape;
     private double lineWidth = 4.0;
@@ -24,6 +28,11 @@ public class Line extends JButton {
     private Point startPoint, endPoint;
     // the origin point in the parent, for setLocation.
     Point origin;
+    // the ratio of the upperLine to lowerLine
+    double ratio = 0.5;
+    // the destination that line data send to
+    SuperUnit destination;
+    int destIndex;
 
     public Line(Point fromBelow, Point toUpper) {
         super();
@@ -37,11 +46,13 @@ public class Line extends JButton {
         // Not going to drawBorder, it's useless if it can not the same color to the background panel.
         setBorderPainted(false);
         setLocation(origin);
+        addMouseListener(lineDelegate);
+        addMouseMotionListener(lineDelegate);
     }
 
     // create the shape we want.
     public Shape calcArea(){
-        Rectangle2D horizontal = new Rectangle2D.Double(1,(getHeight() - lineWidth )/2,getWidth() - 2,lineWidth);
+        Rectangle2D horizontal = new Rectangle2D.Double(1,(getHeight() - lineWidth ) * ratio,getWidth() - 2,lineWidth);
         Rectangle2D bottom;
         Rectangle2D top;
         if (origin.x < startPoint.x) {

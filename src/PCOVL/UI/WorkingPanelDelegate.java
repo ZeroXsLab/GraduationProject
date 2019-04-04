@@ -24,23 +24,26 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
         if (e.getClickCount() == 2) {
             // Double Click, do remove action
             JPanel workPanel = GlobalVariable.workPanel;
-            BaseUnitUI baseUnitUI = (BaseUnitUI)e.getComponent();
-            int index = GlobalVariable.componentArray.indexOf(baseUnitUI);
-            SuperUnit unit = GlobalVariable.unitArray.get(index);
-            // remove UI
-            if (unit.getOutLine() != null) {
-                workPanel.remove(unit.getOutLine());
-            }
-            for (int iIn = 0; iIn < unit.getInLines().length; iIn ++) {
-                if (unit.getInLines()[iIn] != null) {
-                    workPanel.remove(unit.getInLines()[iIn]);
+            if (e.getComponent() instanceof BaseUnitUI) {
+                // you double click at a BaseUnit
+                BaseUnitUI baseUnitUI = (BaseUnitUI)e.getComponent();
+                int index = GlobalVariable.componentArray.indexOf(baseUnitUI);
+                SuperUnit unit = GlobalVariable.unitArray.get(index);
+                // remove UI
+                if (unit.getOutLine() != null) {
+                    workPanel.remove(unit.getOutLine());
                 }
+                for (int iIn = 0; iIn < unit.getInLines().length; iIn ++) {
+                    if (unit.getInLines()[iIn] != null) {
+                        workPanel.remove(unit.getInLines()[iIn]);
+                    }
+                }
+                workPanel.remove(baseUnitUI);
+                workPanel.updateUI();
+                // remove Logi
+                GlobalVariable.unitArray.remove(index);
+                GlobalVariable.componentArray.remove(index);
             }
-            workPanel.remove(baseUnitUI);
-            workPanel.updateUI();
-            // remove Logi
-            GlobalVariable.unitArray.remove(index);
-            GlobalVariable.componentArray.remove(index);
         }
     }
 
@@ -169,10 +172,14 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                 below.setOutLine(GlobalVariable.lastLine);
                 above.setInLines(GlobalVariable.lastLine,index);
                 // Refine the line location
+                Line line = above.getInLines()[index];
                 Point origin = above.unitUI.getComponent(index).getLocation();
                 origin = EventUtil.transformToSuperLoca(origin, above.unitUI);
                 origin.x += GlobalVariable.actionWidth / 2;
-                above.getInLines()[index].updateEndPoint(origin);
+                line.updateEndPoint(origin);
+                // save the destination of the line
+                line.destination = above;
+                line.destIndex = index;
             }
         } else if (GlobalVariable.lastLine != null && GlobalVariable.dragState == GlobalVariable.DragState.forLink) {
             // you are going to cancel the link action, clear the line that just created
