@@ -34,10 +34,10 @@ public class Line extends JButton {
     SuperUnit destination;
     int destIndex;
 
-    public Line(Point fromBelow, Point toUpper) {
+    public Line(Point from, Point to) {
         super();
-        startPoint = fromBelow;
-        endPoint = toUpper;
+        startPoint = from;
+        endPoint = to;
         Dimension size = setOriginAndGetSize();
         setPreferredSize(size);
         setSize(size);

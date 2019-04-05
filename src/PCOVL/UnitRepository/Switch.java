@@ -3,7 +3,7 @@
  * Switch.java
  * GraduationProject
  *
- * Created by X on 2019/4/4
+ * Created by X on 2019/4/5
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -16,8 +16,8 @@ import PCOVL.UI.BaseUnitUI;
 public class Switch extends SuperUnit {
     private Boolean isOn = false;
 
-    public Switch(int ID, BaseUnitUI unitUI) {
-        super(ID,0, unitUI);
+    public Switch(BaseUnitUI unitUI) {
+        super(0, unitUI);
         this.readyForRead();    // Always readable.
         this.switchIt();
     }

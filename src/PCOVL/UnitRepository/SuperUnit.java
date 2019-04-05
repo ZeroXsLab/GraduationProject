@@ -3,7 +3,7 @@
  * SuperUnit.java
  * GraduationProject
  *
- * Created by X on 2019/4/4
+ * Created by X on 2019/4/5
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -14,7 +14,6 @@ import PCOVL.UI.BaseUnitUI;
 import PCOVL.UI.Line;
 
 public class SuperUnit implements Runnable{
-    private int ID;
     // Store the data
     protected Data[] in;
     protected Data out = new Data();
@@ -34,8 +33,7 @@ public class SuperUnit implements Runnable{
     }
 
     // it's fine if just initial the inThings.
-    public SuperUnit(int ID, int inCount, BaseUnitUI unitUI) {
-        this.ID = ID;
+    public SuperUnit(int inCount, BaseUnitUI unitUI) {
         this.in = new Data[inCount];
         for (int iIn = 0; iIn < in.length; iIn ++) {
             this.in[iIn] = new Data();
@@ -83,12 +81,12 @@ public class SuperUnit implements Runnable{
     public void run() {
         if (inputEnable) {
             for (int iIn = 0; iIn < in.length; iIn ++) {
-                in[iIn].read(this.getClass().getName() + " " + ID);
+                in[iIn].read(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
             }
             processData();
             // show the result.
             setLabel();
-            out.write(this.getClass().getName() + " " + ID);
+            out.write(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
         } else {
             // Do nothing
         }

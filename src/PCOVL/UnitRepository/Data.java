@@ -3,7 +3,7 @@
  * Data.java
  * GraduationProject
  *
- * Created by X on 2019/4/4
+ * Created by X on 2019/4/5
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -23,7 +23,7 @@ public class Data {
 
     public synchronized void write(String name){
         if (!this.beenRead) {
-            System.out.println("Wait to write: " + name);
+            System.out.println(name + "\twait to write...");
             try {
                 wait();
             }catch (Exception e){
@@ -32,13 +32,13 @@ public class Data {
 
         }
         this.beenRead = false;
-        System.out.println("Write successfully\t\t" + name + ":\t" + content);
+        System.out.println(name + "\tWrite:\t" + content);
         notify();
     }
 
     public synchronized void read(String name){
         if (this.beenRead) {
-            System.out.println("wait to read: " + name);
+            System.out.println(name + "\twait to read...");
             try{
                 wait();
             }catch (Exception e){
@@ -46,7 +46,7 @@ public class Data {
             }
         }
         this.beenRead = true;
-        System.out.println("Read successfully\t\t" + name + ":\t" + content);
+        System.out.println(name + "\tRead:\t" + content);
         notify();
     }
 }

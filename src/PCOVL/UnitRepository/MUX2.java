@@ -3,7 +3,7 @@
  * MUX2.java
  * GraduationProject
  *
- * Created by X on 2019/4/4
+ * Created by X on 2019/4/5
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -18,8 +18,8 @@ public class MUX2 extends SuperUnit {
     private int inputOne;
     private int inputTwo;
 
-    public MUX2(int ID, BaseUnitUI unitUI) {
-        super(ID,3, unitUI);
+    public MUX2(BaseUnitUI unitUI) {
+        super(3, unitUI);
     }
 
     @Override

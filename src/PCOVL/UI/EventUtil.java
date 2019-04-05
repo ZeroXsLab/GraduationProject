@@ -3,7 +3,7 @@
  * EventUtil.java
  * GraduationProject
  *
- * Created by X on 2019/4/4
+ * Created by X on 2019/4/5
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -47,7 +47,7 @@ public class EventUtil {
             Constructor unitConstructor = unitClass.getDeclaredConstructor(unitClass, Boolean.class);
             component = (Component) unitConstructor.newInstance(component, withDelegate);
         }catch (Exception ex) {
-            System.out.println("Exception occur when copying a unit by mouse event");
+            System.out.println("Exception occur when copying " + component.getName() + " by mouse event");
             ex.printStackTrace();
         }
         return component;
@@ -73,7 +73,7 @@ public class EventUtil {
     public static void initLogi(BaseUnitUI logiCom) {
         switch (logiCom.getName()) {
             case "Switch" :
-                Switch aSwitch = new Switch(1, logiCom);
+                Switch aSwitch = new Switch(logiCom);
                 GlobalVariable.unitArray.add(aSwitch);
                 GlobalVariable.componentArray.add(logiCom);
                 logiCom.addMouseListener(new MouseListener() {
@@ -108,7 +108,7 @@ public class EventUtil {
                 });
                 break;
             case "MUX2" :
-                MUX2 mux2 = new MUX2(2,logiCom);
+                MUX2 mux2 = new MUX2(logiCom);
                 GlobalVariable.unitArray.add(mux2);
                 GlobalVariable.componentArray.add(logiCom);
                 break;
