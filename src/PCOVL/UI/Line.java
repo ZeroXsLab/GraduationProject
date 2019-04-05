@@ -3,7 +3,7 @@
  * Line.java
  * GraduationProject
  *
- * Created by X on 2019/4/4
+ * Created by X on 2019/4/5
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -38,7 +38,7 @@ public class Line extends JButton {
         super();
         startPoint = fromBelow;
         endPoint = toUpper;
-        Dimension size = format(fromBelow, toUpper);
+        Dimension size = setOriginAndGetSize();
         setPreferredSize(size);
         setSize(size);
         // Not going to draw square background, so it can look like other shape we want.
@@ -55,12 +55,15 @@ public class Line extends JButton {
         Rectangle2D horizontal = new Rectangle2D.Double(1,(getHeight() - lineWidth ) * ratio,getWidth() - 2,lineWidth);
         Rectangle2D bottom;
         Rectangle2D top;
-        if (origin.x < startPoint.x) {
-            // topLeft, bottomRight     ↓→↓
+        if ((startPoint.x > endPoint.x && startPoint.y > endPoint.y)
+                || (startPoint.x < endPoint.x && startPoint.y < endPoint.y)) {
+            // from bottomRight to topLeft      ↑←↑
+            // from topLeft to bottomRight      ↓→↓
             bottom = new Rectangle2D.Double(getWidth() - 1 - lineWidth,horizontal.getCenterY(),lineWidth,getHeight() - horizontal.getCenterY() - 2);
             top = new Rectangle2D.Double(horizontal.getX(),1,lineWidth,horizontal.getCenterY());
         } else {
-            // topRight, bottomLeft     ↓←↓
+            // from bottomLeft to topRight      ↑→↑
+            // from topRight to bottomLeft      ↓←↓
             bottom = new Rectangle2D.Double(horizontal.getX(),horizontal.getCenterY(),lineWidth,getHeight() - horizontal.getCenterY() - 2);
             top = new Rectangle2D.Double(getWidth() - 1 - lineWidth,1,lineWidth,horizontal.getCenterY());
         }
@@ -99,7 +102,7 @@ public class Line extends JButton {
 
     public void updateEndPoint(Point end) {
         // update size and origin
-        Dimension size = format(startPoint, end);
+        Dimension size = setOriginAndGetSize();
         this.setSize(size);
         setLocation(origin);
         // save the new endPoint.
@@ -108,7 +111,7 @@ public class Line extends JButton {
 
     public void updateStartPoint(Point start) {
         // update size and origin
-        Dimension size = format(start, endPoint);
+        Dimension size = setOriginAndGetSize();
         this.setSize(size);
         setLocation(origin);
         // save the new startPoint.
@@ -116,22 +119,35 @@ public class Line extends JButton {
     }
 
     // calculate the size base on the two point.
-    public Dimension format(Point fromBelow, Point toUpper) {
-        int width;
-        if (fromBelow.x > toUpper.x) {
-            // topLeft, bottomRight     ↑←↑
-            width = fromBelow.x - toUpper.x;
-            origin = toUpper;
+    public Dimension setOriginAndGetSize() {
+        int width, height;
+        if (startPoint.x > endPoint.x) {
+            width = startPoint.x - endPoint.x;
+            if (startPoint.y > endPoint.y) {
+                // from bottomRight to topLeft      ↑←↑
+                height = startPoint.y - endPoint.y;
+                origin = new Point(endPoint.x, endPoint.y);
+            } else {
+                // from topRight to bottomLeft      ↓←↓
+                height = endPoint.y - startPoint.y;
+                origin = new Point(endPoint.x, startPoint.y);
+            }
         } else {
-            // topRight, bottomLeft     ↑→↑
-            width = toUpper.x - fromBelow.x;
-            origin = new Point(fromBelow.x, toUpper.y);
+            width = endPoint.x - startPoint.x;
+            if (startPoint.y > endPoint.y) {
+                // from bottomLeft to topRight      ↑→↑
+                height = startPoint.y - endPoint.y;
+                origin = new Point(startPoint.x, endPoint.y);
+            } else {
+                // from topLeft to bottomRight      ↓→↓
+                height = endPoint.y - startPoint.y;
+                origin = new Point(startPoint.x, startPoint.y);
+            }
         }
         // set the width higher than lineWidth.
         if (width < lineWidth) {
             width = (int) lineWidth;
         }
-        int height = fromBelow.y - toUpper.y;
         // set the height higher than lineWidth.
         if (height < lineWidth) {
             height = (int)lineWidth;
@@ -142,4 +158,3 @@ public class Line extends JButton {
         return size;
     }
 }
-// FIXME make the line can link from top to low(should change the mouseDrag func in workPanel)
