@@ -3,17 +3,14 @@
  * EventUtil.java
  * GraduationProject
  *
- * Created by X on 2019/4/8
+ * Created by X on 2019/4/9
  * Copyright (c) 2019 X. All right reserved.
  *
  */
 
 package PCOVL.UI;
 
-import PCOVL.UnitRepository.Register;
-import PCOVL.UnitRepository.MUX2;
-import PCOVL.UnitRepository.PC;
-import PCOVL.UnitRepository.Switch;
+import PCOVL.UnitRepository.*;
 
 import javax.swing.*;
 import java.awt.*;
@@ -123,6 +120,11 @@ public class EventUtil {
             case "IR":
                 Register register = new Register(logicComponent);
                 GlobalVariable.unitArray.add(register);
+                GlobalVariable.componentArray.add(logicComponent);
+                break;
+            case "ALU" :
+                ALU alu = new ALU(logicComponent);
+                GlobalVariable.unitArray.add(alu);
                 GlobalVariable.componentArray.add(logicComponent);
                 break;
                 default:

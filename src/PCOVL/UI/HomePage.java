@@ -3,7 +3,7 @@
  * HomePage.java
  * GraduationProject
  *
- * Created by X on 2019/4/8
+ * Created by X on 2019/4/9
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -63,13 +63,18 @@ public class HomePage extends JFrame {
     }
 
     void initUnitInUnitPanel() {
+        // {String UnitName,
+        // int inputNumber,
+        // int outputNumber,
+        // boolean isUpsideDown}
         String[][] unitString = new String[][]{
                 {"Switch", "0", "1","false"},
                 {"MUX2", "3", "1","false"},
                 {"MUX2", "3", "1","true"},
                 {"PC","1","1","false"},
                 {"Acc", "1","1","false"},
-                {"IR", "1", "1", "true"}};
+                {"IR", "1", "1", "true"},
+                {"ALU","3","1","false"}};
         BaseUnitUI unit;
         for (int iStr = 0; iStr < unitString.length; iStr ++) {
             String[] str = unitString[iStr];
