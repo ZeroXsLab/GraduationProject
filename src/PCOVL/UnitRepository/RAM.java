@@ -33,31 +33,30 @@ public class RAM extends SuperUnit {
         if (inLines[0] == null){// Not this equal, fix later
             // when this instruction is going to Read data instead of Write data
             isWrite = false;
-            if (inputEnable) {
-                in[1].read(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
-                processData();
-                setLabel();
-            }
+            inToRun = new int[1];
+            // Only read the In[1]
+            inToRun[0] = 1;
+            // is going to Read data, need set out.
+            needSetOut = true;
         } else {
             isWrite = true;
-            super.run();
+            inToRun = null;
+            // is going to Write data, do NOT set out.
+            needSetOut = false;
         }
+        super.run();
     }
 
     @Override
     public void processData() {
         data2Write = in[0].content;
         address = in[1].content;
-//        int index;
         if (isWrite) {
-//            index = data2Write + address;
             memory[address] = data2Write;
             out.content = memory[address];
         } else {
-//            index = 3;
             out.content = memory[address];
         }
-//        out.content = memory[index];
     }
 
     @Override

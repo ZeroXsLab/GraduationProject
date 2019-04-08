@@ -25,6 +25,9 @@ public class SuperUnit implements Runnable{
     // Is the unit enable(can work, can be write)
     public Boolean inputEnable = true;
 
+    int[] inToRun = null;
+    boolean needSetOut = true;
+
     // make the unit ready, so it can be read by others
     public void readyForRead() {
         for (int iIn = 0; iIn < in.length; iIn ++) {
@@ -81,13 +84,24 @@ public class SuperUnit implements Runnable{
     @Override
     public void run() {
         if (inputEnable) {
-            for (int iIn = 0; iIn < in.length; iIn ++) {
-                in[iIn].read(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
+            if (inToRun == null) {
+                for (int iIn = 0; iIn < in.length; iIn ++) {
+                    in[iIn].read(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
+                }
+            } else {
+                // only read specific In
+                int index;
+                for (int iInTo = 0; iInTo < inToRun.length; iInTo ++) {
+                    index = inToRun[iInTo];
+                    in[index].read(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
+                }
             }
             processData();
             // show the result.
             setLabel();
-            out.write(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
+            if (needSetOut) {
+                out.write(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
+            }
         } else {
             // Do nothing
         }
@@ -95,7 +109,8 @@ public class SuperUnit implements Runnable{
 
     // When a Unit extends, it should override this method to custom the function
     public void processData() {
-        out.content = in[0].content + 1;
+        // Abstract Unit do nothing to the data.
+        ;
     }
 
     public void setLabel() {
