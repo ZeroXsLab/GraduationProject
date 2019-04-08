@@ -114,7 +114,7 @@ public class SuperUnit implements Runnable{
     }
 
     public void setLabel() {
-        unitUI.setText("" + out.content);
+        unitUI.setText(unitUI.getName() + ":" + out.content);
     }
 
     public boolean shouldGetSpecificIn() {

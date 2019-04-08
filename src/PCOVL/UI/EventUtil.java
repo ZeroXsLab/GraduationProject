@@ -10,7 +10,7 @@
 
 package PCOVL.UI;
 
-import PCOVL.UnitRepository.Acc;
+import PCOVL.UnitRepository.Register;
 import PCOVL.UnitRepository.MUX2;
 import PCOVL.UnitRepository.PC;
 import PCOVL.UnitRepository.Switch;
@@ -120,8 +120,9 @@ public class EventUtil {
                 GlobalVariable.componentArray.add(logicComponent);
                 break;
             case "Acc" :
-                Acc acc = new Acc(logicComponent);
-                GlobalVariable.unitArray.add(acc);
+            case "IR":
+                Register register = new Register(logicComponent);
+                GlobalVariable.unitArray.add(register);
                 GlobalVariable.componentArray.add(logicComponent);
                 break;
                 default:

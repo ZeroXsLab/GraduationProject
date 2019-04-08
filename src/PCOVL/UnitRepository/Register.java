@@ -1,6 +1,6 @@
 /*
  *
- * Acc.java
+ * Register.java
  * GraduationProject
  *
  * Created by X on 2019/4/8
@@ -12,12 +12,12 @@ package PCOVL.UnitRepository;
 
 import PCOVL.UI.BaseUnitUI;
 
-public class Acc extends SuperUnit {
+public class Register extends SuperUnit {
 
     private int currentData;
     private boolean shouldUpdate = false;
 
-    public Acc(BaseUnitUI unitUI) {
+    public Register(BaseUnitUI unitUI) {
         super(1, unitUI);
     }
 

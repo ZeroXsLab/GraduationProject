@@ -65,8 +65,9 @@ public class RAM extends SuperUnit {
             // Write data, show all the data of memory
             String string = ""; // set string = "<html><body>"+strMsg1+"<br>"+strMsg2+"<body></html>" to break the line.
             for (int iMem = 0; iMem < memory.length; iMem ++) {
-                string += memory[iMem] + ":";
+                string += memory[iMem] + "-";
             }
+            string = string.substring(0, string.length() - 1);
             unitUI.setText(string);
         } else {
             // Read data, show the data we read.

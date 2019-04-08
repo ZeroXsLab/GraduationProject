@@ -63,22 +63,21 @@ public class HomePage extends JFrame {
     }
 
     void initUnitInUnitPanel() {
-        BaseUnitUI unit1 = new BaseUnitUI("Switch", 0, 1);
-        unit1.setName("Switch");
-        unit1.setLocation(10,10);
-        unitPanel.add(unit1);
-        BaseUnitUI unit2 = new BaseUnitUI("MUX2", 3, 1);
-        unit2.setName("MUX2");
-        unit2.setLocation(10, 20 + unitHeight);
-        unitPanel.add(unit2);
-        BaseUnitUI unit3 = new BaseUnitUI("PC",1,1);
-        unit3.setName("PC");
-        unit3.setLocation(10,30 + 2*unitHeight);
-        unitPanel.add(unit3);
-        BaseUnitUI unit4 = new BaseUnitUI("Acc", 1,1);
-        unit4.setName("Acc");
-        unit4.setLocation(10,40 + 3*unitHeight);
-        unitPanel.add(unit4);
+        String[][] unitString = new String[][]{
+                {"Switch", "0", "1","false"},
+                {"MUX2", "3", "1","false"},
+                {"MUX2", "3", "1","true"},
+                {"PC","1","1","false"},
+                {"Acc", "1","1","false"},
+                {"IR", "1", "1", "true"}};
+        BaseUnitUI unit;
+        for (int iStr = 0; iStr < unitString.length; iStr ++) {
+            String[] str = unitString[iStr];
+            unit = new BaseUnitUI(str[0],Integer.parseInt(str[1]), Integer.parseInt(str[2]), Boolean.parseBoolean(str[3]));
+            unit.setName(str[0]);
+            unit.setLocation(10, 10 * (iStr + 1) + iStr * unitHeight);
+            unitPanel.add(unit);
+        }
 
         // One RAM only
         BaseUnitUI ramUI = getRAMUI();
@@ -86,10 +85,10 @@ public class HomePage extends JFrame {
     }
 
     BaseUnitUI getRAMUI() {
-        BaseUnitUI unitUI = new BaseUnitUI("RAM", 3,0);
+        BaseUnitUI unitUI = new BaseUnitUI("RAM", 3,0,false);
         unitUI = new BaseUnitUI(unitUI, false);
         unitUI.getComponent(2).setName("Out 0");
-        unitUI.getComponent(2).setBackground(Color.BLACK);
+        unitUI.getComponent(2).setBackground(outColor[0]);
         WorkingPanelDelegate workingPanelDelegate = new WorkingPanelDelegate();
         unitUI.addMouseListener(workingPanelDelegate);
         unitUI.addMouseMotionListener(workingPanelDelegate);
