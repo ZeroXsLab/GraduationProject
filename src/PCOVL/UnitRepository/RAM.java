@@ -30,7 +30,7 @@ public class RAM extends SuperUnit {
     @Override
     public void run() {
         // override the run() to make it can work without the data2Write ready.
-        if (inLines[0] == null){// Not this equal, fix later
+        if (shouldGetSpecificIn()){// Not this equal, fix later
             // when this instruction is going to Read data instead of Write data
             isWrite = false;
             inToRun = new int[1];

@@ -3,14 +3,16 @@
  * EventUtil.java
  * GraduationProject
  *
- * Created by X on 2019/4/5
+ * Created by X on 2019/4/8
  * Copyright (c) 2019 X. All right reserved.
  *
  */
 
 package PCOVL.UI;
 
+import PCOVL.UnitRepository.Acc;
 import PCOVL.UnitRepository.MUX2;
+import PCOVL.UnitRepository.PC;
 import PCOVL.UnitRepository.Switch;
 
 import javax.swing.*;
@@ -70,13 +72,13 @@ public class EventUtil {
         return false;
     }
 
-    public static void initLogi(BaseUnitUI logiCom) {
-        switch (logiCom.getName()) {
+    public static void initLogi(BaseUnitUI logicComponent) {
+        switch (logicComponent.getName()) {
             case "Switch" :
-                Switch aSwitch = new Switch(logiCom);
+                Switch aSwitch = new Switch(logicComponent);
                 GlobalVariable.unitArray.add(aSwitch);
-                GlobalVariable.componentArray.add(logiCom);
-                logiCom.addMouseListener(new MouseListener() {
+                GlobalVariable.componentArray.add(logicComponent);
+                logicComponent.addMouseListener(new MouseListener() {
                     @Override
                     public void mouseClicked(MouseEvent e) {
                         if (e.getClickCount() == 1) {
@@ -108,9 +110,19 @@ public class EventUtil {
                 });
                 break;
             case "MUX2" :
-                MUX2 mux2 = new MUX2(logiCom);
+                MUX2 mux2 = new MUX2(logicComponent);
                 GlobalVariable.unitArray.add(mux2);
-                GlobalVariable.componentArray.add(logiCom);
+                GlobalVariable.componentArray.add(logicComponent);
+                break;
+            case "PC" :
+                PC pc = new PC(logicComponent);
+                GlobalVariable.unitArray.add(pc);
+                GlobalVariable.componentArray.add(logicComponent);
+                break;
+            case "Acc" :
+                Acc acc = new Acc(logicComponent);
+                GlobalVariable.unitArray.add(acc);
+                GlobalVariable.componentArray.add(logicComponent);
                 break;
                 default:
                     break;

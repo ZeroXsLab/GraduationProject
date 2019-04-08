@@ -71,9 +71,18 @@ public class HomePage extends JFrame {
         unit2.setName("MUX2");
         unit2.setLocation(10, 20 + unitHeight);
         unitPanel.add(unit2);
+        BaseUnitUI unit3 = new BaseUnitUI("PC",1,1);
+        unit3.setName("PC");
+        unit3.setLocation(10,30 + 2*unitHeight);
+        unitPanel.add(unit3);
+        BaseUnitUI unit4 = new BaseUnitUI("Acc", 1,1);
+        unit4.setName("Acc");
+        unit4.setLocation(10,40 + 3*unitHeight);
+        unitPanel.add(unit4);
+
         // One RAM only
-        BaseUnitUI unit3 = getRAMUI();
-        workPanel.add(unit3);
+        BaseUnitUI ramUI = getRAMUI();
+        workPanel.add(ramUI);
     }
 
     BaseUnitUI getRAMUI() {
