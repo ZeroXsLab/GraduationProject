@@ -3,7 +3,7 @@
  * WorkingPanelDelegate.java
  * GraduationProject
  *
- * Created by X on 2019/4/4
+ * Created by X on 2019/4/8
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -93,8 +93,10 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                         GlobalVariable.dragState = GlobalVariable.DragState.forLink;
                         // get the line you create during mousePress and update its endPoint
                         Line line = GlobalVariable.lastLine;
-                        line.updateEndPoint(abPoint);
-                        GlobalVariable.workPanel.updateUI();
+                        if (line != null) {
+                            line.updateEndPoint(abPoint);
+                            GlobalVariable.workPanel.updateUI();
+                        }
                     }
                 }
                 break;
@@ -126,8 +128,10 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
             case forLink:
                 Point endPoint = EventUtil.getAbsolutePointBy(e);
                 Line line = GlobalVariable.lastLine;
-                line.updateEndPoint(endPoint);
-                GlobalVariable.workPanel.updateUI();
+                if (line != null) {
+                    line.updateEndPoint(endPoint);
+                    GlobalVariable.workPanel.updateUI();
+                }
                 break;
         }
     }

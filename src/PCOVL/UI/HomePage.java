@@ -3,14 +3,17 @@
  * HomePage.java
  * GraduationProject
  *
- * Created by X on 2019/4/4
+ * Created by X on 2019/4/8
  * Copyright (c) 2019 X. All right reserved.
  *
  */
 
 package PCOVL.UI;
 
+import PCOVL.UnitRepository.RAM;
+
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import static PCOVL.UI.GlobalVariable.*;
@@ -68,5 +71,24 @@ public class HomePage extends JFrame {
         unit2.setName("MUX2");
         unit2.setLocation(10, 20 + unitHeight);
         unitPanel.add(unit2);
+        // One RAM only
+        BaseUnitUI unit3 = getRAMUI();
+        workPanel.add(unit3);
+    }
+
+    BaseUnitUI getRAMUI() {
+        BaseUnitUI unitUI = new BaseUnitUI("RAM", 3,0);
+        unitUI = new BaseUnitUI(unitUI, false);
+        unitUI.getComponent(2).setName("Out 0");
+        unitUI.getComponent(2).setBackground(Color.BLACK);
+        WorkingPanelDelegate workingPanelDelegate = new WorkingPanelDelegate();
+        unitUI.addMouseListener(workingPanelDelegate);
+        unitUI.addMouseMotionListener(workingPanelDelegate);
+        RAM ram = new RAM(unitUI);
+        GlobalVariable.unitArray.add(ram);
+        GlobalVariable.componentArray.add(unitUI);
+        unitUI.setName("RAM");
+        unitUI.setLocation(500,100);
+        return unitUI;
     }
 }

@@ -3,7 +3,7 @@
  * SuperUnit.java
  * GraduationProject
  *
- * Created by X on 2019/4/5
+ * Created by X on 2019/4/8
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -48,6 +48,7 @@ public class SuperUnit implements Runnable{
 
     public void disconnectInAt(int index) {
         in[index] = new Data();
+        inLines[index] = null;
     }
 
     public void setOut(Data out) {
