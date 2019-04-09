@@ -3,7 +3,7 @@
  * SuperUnit.java
  * GraduationProject
  *
- * Created by X on 2019/4/9
+ * Created by X on 2019/4/10
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -16,7 +16,7 @@ import PCOVL.UI.Line;
 public class SuperUnit implements Runnable{
     // Store the data
     protected Data[] in;
-    protected Data out = new Data();
+    protected Data[] out = new Data[2];
     // the UI of unit, contains the inLabel, outLabel, mainLabel
     public BaseUnitUI unitUI;
     // Store the line linked with self.
@@ -42,6 +42,8 @@ public class SuperUnit implements Runnable{
         for (int iIn = 0; iIn < in.length; iIn ++) {
             this.in[iIn] = new Data();
         }
+        // make that always at least one out available
+        this.out[1] = new Data();
         this.unitUI = unitUI;
         this.inLines = new Line[inCount];
     }
@@ -55,8 +57,25 @@ public class SuperUnit implements Runnable{
         inLines[index] = null;
     }
 
+    public void clearOut(Data out) {
+        // when disconnect, always set the firstOut to be null
+        if (this.out[0] == out) {
+            // when we disconnect the line that link first, clear it directly
+            this.out[0] = null;
+        } else {
+            // when we disconnect the line that link after, save the first one in the secondOut and clear the firstOut
+            this.out[1] = this.out[0];
+            this.out[0] = null;
+        }
+    }
+
     public void setOut(Data out) {
-        this.out = out;
+        if (this.out[0] == null) {
+            this.out[0] = out;
+        } else {
+            // if it is the second connect line
+            this.out[1] = out;
+        }
     }
 
     public Line[] getInLines() {
@@ -79,7 +98,11 @@ public class SuperUnit implements Runnable{
         for (int iIn = 0; iIn < in.length; iIn ++) {
             this.in[iIn].setBeenRead(true);
         }
-        out.setBeenRead(true);
+        for (int iOut = 0; iOut < 2; iOut ++) {
+            if (this.out[iOut] != null) {
+                this.out[iOut].setBeenRead(true);
+            }
+        }
     }
 
     @Override
@@ -101,7 +124,11 @@ public class SuperUnit implements Runnable{
             // show the result.
             setLabel();
             if (needSetOut) {
-                out.write(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
+                for (int iOut = 0; iOut < 2; iOut ++) {
+                    if (this.out[iOut] != null) {
+                        this.out[iOut].write(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
+                    }
+                }
             }
         } else {
             // Do nothing
@@ -115,11 +142,20 @@ public class SuperUnit implements Runnable{
     }
 
     public void setLabel() {
-        unitUI.setText(unitUI.getName() + ":" + DataUtil.getBinaryString(out.content, bits));
+        unitUI.setText(unitUI.getName() + ":" + DataUtil.getBinaryString(out[0] != null ? out[0].content : out[1].content, bits));
     }
 
     public boolean shouldGetSpecificIn() {
         boolean forInLine0 = inLines[0] == null;
         return forInLine0;
+    }
+
+    // make the out always be the same content.
+    public void setOutContent(int content) {
+        for (int iOut = 0; iOut < 2; iOut ++) {
+            if (this.out[iOut] != null) {
+                this.out[iOut].content = content;
+            }
+        }
     }
 }

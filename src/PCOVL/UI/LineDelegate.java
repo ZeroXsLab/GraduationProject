@@ -3,7 +3,7 @@
  * LineDelegate.java
  * GraduationProject
  *
- * Created by X on 2019/4/4
+ * Created by X on 2019/4/10
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -20,6 +20,7 @@ public class LineDelegate implements MouseListener, MouseMotionListener {
         if (e.getClickCount() == 2) {
             Line line = (Line) e.getComponent();
             // Disconnect the unit
+            line.originUnit.clearOut(line.destination.getInAt(line.destIndex));
             line.destination.disconnectInAt(line.destIndex);
             // remove the line from the workPanel
             GlobalVariable.workPanel.remove(line);

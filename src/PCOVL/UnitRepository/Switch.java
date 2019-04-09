@@ -3,7 +3,7 @@
  * Switch.java
  * GraduationProject
  *
- * Created by X on 2019/4/9
+ * Created by X on 2019/4/10
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -32,7 +32,7 @@ public class Switch extends SuperUnit {
     // Just put the onState to output
     @Override
     public void processData() {
-        out.content = isOn ? 1 : 0;
+        setOutContent(isOn ? 1 : 0);
     }
 
     // when you click it, change the onState.

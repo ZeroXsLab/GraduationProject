@@ -3,7 +3,7 @@
  * ALU.java
  * GraduationProject
  *
- * Created by X on 2019/4/9
+ * Created by X on 2019/4/10
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -29,16 +29,16 @@ public class ALU extends SuperUnit {
         inputTwo = in[2].content;
         switch (control) {
             case 0:
-                out.content = inputOne + inputTwo;
+                setOutContent(inputOne + inputTwo);
                 break;
             case 1:
-                out.content = inputOne - inputTwo;
+                setOutContent(inputOne - inputTwo);
                 break;
             case 2:
-                out.content = inputOne;
+                setOutContent(inputOne);
                 break;
             case 3:
-                out.content = inputTwo;
+                setOutContent(inputTwo);
                 break;
         }
     }

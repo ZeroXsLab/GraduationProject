@@ -3,7 +3,7 @@
  * RAM.java
  * GraduationProject
  *
- * Created by X on 2019/4/9
+ * Created by X on 2019/4/10
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -19,7 +19,7 @@ public class RAM extends SuperUnit {
     // the right actionLabel is the outData.
 
     // the memory data
-    private int[] memory = {0,1,2,3};
+    private int[] memory = {0,10,20,30};
     // whether is to write
     private boolean isWrite = false;
 
@@ -53,9 +53,9 @@ public class RAM extends SuperUnit {
         address = in[1].content;
         if (isWrite) {
             memory[address] = data2Write;
-            out.content = memory[address];
+            setOutContent(memory[address]);
         } else {
-            out.content = memory[address];
+            setOutContent(memory[address]);
         }
     }
 

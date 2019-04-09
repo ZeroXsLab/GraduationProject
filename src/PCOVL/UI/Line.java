@@ -3,7 +3,7 @@
  * Line.java
  * GraduationProject
  *
- * Created by X on 2019/4/9
+ * Created by X on 2019/4/10
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -32,6 +32,7 @@ public class Line extends JButton {
     double ratio = 0.5;
     // the destination that line data send to
     SuperUnit destination;
+    SuperUnit originUnit;
     int destIndex;
 
     public Line(Point from, Point to) {

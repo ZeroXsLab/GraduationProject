@@ -3,7 +3,7 @@
  * WorkingPanelDelegate.java
  * GraduationProject
  *
- * Created by X on 2019/4/8
+ * Created by X on 2019/4/10
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -183,6 +183,7 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                 line.updateEndPoint(origin);
                 // save the destination of the line
                 line.destination = above;
+                line.originUnit = below;
                 line.destIndex = index;
             }
         } else if (GlobalVariable.lastLine != null && GlobalVariable.dragState == GlobalVariable.DragState.forLink) {

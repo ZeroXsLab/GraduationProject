@@ -3,7 +3,7 @@
  * MUX2.java
  * GraduationProject
  *
- * Created by X on 2019/4/5
+ * Created by X on 2019/4/10
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -31,9 +31,9 @@ public class MUX2 extends SuperUnit {
         // Set Out
         if (S0 < 1) {
             // it's 0, Select A(InputOne)
-            out.content = inputOne;
+            setOutContent(inputOne);
         } else {
-            out.content = inputTwo;
+            setOutContent(inputTwo);
         }
     }
 }

@@ -3,7 +3,7 @@
  * PC.java
  * GraduationProject
  *
- * Created by X on 2019/4/8
+ * Created by X on 2019/4/10
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -39,7 +39,7 @@ public class PC extends SuperUnit {
         if (isJMP) {
             pointer = in[0].content;
         }
-        out.content = pointer;
+        setOutContent(pointer);
         pointer ++;
     }
 }

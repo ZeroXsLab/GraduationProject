@@ -3,7 +3,7 @@
  * Register.java
  * GraduationProject
  *
- * Created by X on 2019/4/8
+ * Created by X on 2019/4/10
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -38,6 +38,6 @@ public class Register extends SuperUnit {
         if (shouldUpdate) {
             currentData = in[0].content;
         }
-        out.content = currentData;
+        setOutContent(currentData);
     }
 }
