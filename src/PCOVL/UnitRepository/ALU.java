@@ -14,12 +14,28 @@ import PCOVL.UI.BaseUnitUI;
 
 public class ALU extends SuperUnit {
 
-    private int control;
+    private int control = 0;
     private int inputOne;
     private int inputTwo;
 
+    private boolean isTheControlInLink = false;
+
     public ALU(BaseUnitUI unitUI) {
         super(3, unitUI);
+    }
+
+    @Override
+    public void run() {
+        if (shouldGetSpecificIn()) {
+            isTheControlInLink = false;
+            inToRun = new int[2];
+            inToRun[0] = 2;
+            inToRun[1] = 1;
+        } else {
+            isTheControlInLink = true;
+            inToRun = null;
+        }
+        super.run();
     }
 
     @Override

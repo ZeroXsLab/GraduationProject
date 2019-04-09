@@ -3,7 +3,7 @@
  * HomePage.java
  * GraduationProject
  *
- * Created by X on 2019/4/9
+ * Created by X on 2019/4/10
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -68,17 +68,20 @@ public class HomePage extends JFrame {
         // int outputNumber,
         // boolean isUpsideDown}
         String[][] unitString = new String[][]{
-                {"Switch", "0", "1","false"},
-                {"MUX2", "3", "1","false"},
-                {"MUX2", "3", "1","true"},
-                {"PC","1","1","false"},
-                {"Acc", "1","1","false"},
-                {"IR", "1", "1", "true"},
-                {"ALU","3","1","false"}};
+                {"Switch", "0", "1","false","false"},
+                {"MUX2", "3", "1","false","true"},
+                {"MUX2", "3", "1","true","true"},
+                {"PC","1","1","false","false"},
+                {"Acc", "1","1","false","false"},
+                {"IR", "1", "1", "true","false"},
+                {"ALU","3","1","false","true"}};
         BaseUnitUI unit;
         for (int iStr = 0; iStr < unitString.length; iStr ++) {
             String[] str = unitString[iStr];
-            unit = new BaseUnitUI(str[0],Integer.parseInt(str[1]), Integer.parseInt(str[2]), Boolean.parseBoolean(str[3]));
+            unit = new BaseUnitUI(str[0],Integer.parseInt(str[1]),
+                    Integer.parseInt(str[2]),
+                    Boolean.parseBoolean(str[3]),
+                    Boolean.parseBoolean(str[4]));
             unit.setName(str[0]);
             unit.setLocation(10, 10 * (iStr + 1) + iStr * unitHeight);
             unitPanel.add(unit);
@@ -90,7 +93,7 @@ public class HomePage extends JFrame {
     }
 
     BaseUnitUI getRAMUI() {
-        BaseUnitUI unitUI = new BaseUnitUI("RAM", 3,0,false);
+        BaseUnitUI unitUI = new BaseUnitUI("RAM", 3,0,false, false);
         unitUI = new BaseUnitUI(unitUI, false);
         unitUI.getComponent(2).setName("Out 0");
         unitUI.getComponent(2).setBackground(outColor[0]);
