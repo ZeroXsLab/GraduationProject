@@ -3,7 +3,7 @@
  * SuperUnit.java
  * GraduationProject
  *
- * Created by X on 2019/4/8
+ * Created by X on 2019/4/9
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -24,6 +24,7 @@ public class SuperUnit implements Runnable{
     protected Line outLine;
     // Is the unit enable(can work, can be write)
     public Boolean inputEnable = true;
+    protected int bits = 16;
 
     int[] inToRun = null;
     boolean needSetOut = true;
@@ -114,7 +115,7 @@ public class SuperUnit implements Runnable{
     }
 
     public void setLabel() {
-        unitUI.setText(unitUI.getName() + ":" + out.content);
+        unitUI.setText(unitUI.getName() + ":" + DataUtil.getBinaryString(out.content, bits));
     }
 
     public boolean shouldGetSpecificIn() {

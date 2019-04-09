@@ -3,7 +3,7 @@
  * Switch.java
  * GraduationProject
  *
- * Created by X on 2019/4/5
+ * Created by X on 2019/4/9
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -18,6 +18,7 @@ public class Switch extends SuperUnit {
 
     public Switch(BaseUnitUI unitUI) {
         super(0, unitUI);
+        this.bits = 1;
         this.readyForRead();    // Always readable.
         this.switchIt();
     }

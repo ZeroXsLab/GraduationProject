@@ -3,7 +3,7 @@
  * Line.java
  * GraduationProject
  *
- * Created by X on 2019/4/5
+ * Created by X on 2019/4/9
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -23,7 +23,7 @@ public class Line extends JButton {
     LineDelegate lineDelegate = new LineDelegate();
     // Save the JButton shape for action of Click.(which will call contains()
     private Shape shape;
-    private double lineWidth = 4.0;
+    private double lineWidth = GlobalVariable.lineWidth;
     // Save the original Point for use of update one side.
     private Point startPoint, endPoint;
     // the origin point in the parent, for setLocation.

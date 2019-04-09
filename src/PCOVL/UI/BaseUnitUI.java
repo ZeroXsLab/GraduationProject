@@ -3,7 +3,7 @@
  * BaseUnitUI.java
  * GraduationProject
  *
- * Created by X on 2019/4/8
+ * Created by X on 2019/4/9
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -76,8 +76,9 @@ public class BaseUnitUI extends JPanel{
         for (int iAc = 0; iAc < totalCount; iAc ++) {
             actionLabels[iAc] = new JLabel();
             actionLabels[iAc].setName(withText + " " + iAc);
+            actionLabels[iAc].setHorizontalAlignment(SwingConstants.CENTER);
 //            actionLabels[iAc].setToolTipText(withText + " " + iAc);   //when we add this, the whole label unable to get the mouseEvent. Fix later.
-            actionLabels[iAc].setBackground(colors[iAc]);
+            actionLabels[iAc].setBackground(isUpsideDown ? colors[totalCount - iAc] : colors[iAc]);
             actionLabels[iAc].setOpaque(true);        // Otherwise we can't see the background color
             actionLabels[iAc].setBounds((iAc + 1) * (unitWidth - totalCount*actionWidth) / (totalCount + 1) + iAc*actionWidth,
                     actionY,

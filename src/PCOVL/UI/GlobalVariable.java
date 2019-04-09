@@ -3,7 +3,7 @@
  * GlobalVariable.java
  * GraduationProject
  *
- * Created by X on 2019/4/8
+ * Created by X on 2019/4/9
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -35,10 +35,11 @@ public class GlobalVariable {
     static DragState dragState = DragState.init;
 
     // Constant.
-    public static int unitWidth = 100;
+    public static int unitWidth = 160;
     public static int unitHeight = 50;
-    public static int actionWidth = 10;
+    public static int actionWidth = 20;
     public static int actionHeight = 10;
+    public static double lineWidth = 7.0;
     public static Color[] inColor = {new Color(239,154,154), new Color(229,115,115), new Color(239,83,80), new Color(244,67,54), new Color(229,57,53)};
     public static Color[] outColor = {new Color(84,226,229),new Color(0,212,218),new Color(0,201,210), new Color(0,191,205), new Color(0,175,187)};
     public static Color labelColor = Color.lightGray;
