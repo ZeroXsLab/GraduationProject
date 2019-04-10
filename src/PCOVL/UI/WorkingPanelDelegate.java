@@ -30,8 +30,11 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                 int index = GlobalVariable.componentArray.indexOf(baseUnitUI);
                 SuperUnit unit = GlobalVariable.unitArray.get(index);
                 // remove UI
-                if (unit.getOutLine() != null) {
-                    workPanel.remove(unit.getOutLine());
+                Line[] lines = unit.getOutLine();
+                for (int iLine = 0; iLine < lines.length; iLine ++) {
+                    if (lines[iLine] != null) {
+                        workPanel.remove(lines[iLine]);
+                    }
                 }
                 for (int iIn = 0; iIn < unit.getInLines().length; iIn ++) {
                     if (unit.getInLines()[iIn] != null) {
@@ -108,13 +111,23 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                 int unitIndex = GlobalVariable.componentArray.indexOf(e.getComponent());
                 SuperUnit unit = GlobalVariable.unitArray.get(unitIndex);
                 // update the line linked with the unit you want to relocate.
-                if (unit.getOutLine() != null) {
+                Line[] lines = unit.getOutLine();
+                for (int iLine = 0; iLine < lines.length; iLine ++) {
+                    if (lines[iLine] != null) {
                     // get the label center location
                     Point origin = unit.unitUI.getComponent(unit.getInLines().length).getLocation();
                     origin = EventUtil.transformToSuperLoca(origin, unit.unitUI);
                     origin.x += GlobalVariable.actionWidth / 2;
-                    unit.getOutLine().updateStartPoint(origin);
+                    lines[iLine].updateStartPoint(origin);
+                    }
                 }
+//                if (unit.getOutLine() != null) {
+//                    // get the label center location
+//                    Point origin = unit.unitUI.getComponent(unit.getInLines().length).getLocation();
+//                    origin = EventUtil.transformToSuperLoca(origin, unit.unitUI);
+//                    origin.x += GlobalVariable.actionWidth / 2;
+//                    unit.getOutLine().updateStartPoint(origin);
+//                }
                 for (int iIn = 0; iIn < unit.getInLines().length; iIn ++) {
                     if (unit.getInLines()[iIn] != null) {
                         // get the label center location
@@ -173,7 +186,7 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                 int index = Integer.parseInt(indexString);
                 below.setOut(above.getInAt(index));
                 // Save the line in the Unit
-                below.setOutLine(GlobalVariable.lastLine);
+                below.setOutLine(GlobalVariable.lastLine,above.getInAt(index));
                 above.setInLines(GlobalVariable.lastLine,index);
                 // Refine the line location
                 Line line = above.getInLines()[index];

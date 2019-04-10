@@ -19,7 +19,7 @@ public class RAM extends SuperUnit {
     // the right actionLabel is the outData.
 
     // the memory data
-    private int[] memory = {0,10,20,30};
+    private int[] memory = {3,8196,4101,12,-19,0};   // LDA 011, ADD 100, STA 101, Mem0, Mem1, Mem2 -> 12 - 19 store at the last memory
     // whether is to write
     private boolean isWrite = false;
 

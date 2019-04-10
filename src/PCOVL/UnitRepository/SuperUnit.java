@@ -14,14 +14,15 @@ import PCOVL.UI.BaseUnitUI;
 import PCOVL.UI.Line;
 
 public class SuperUnit implements Runnable{
+    private int outDataCount = 3;
     // Store the data
     protected Data[] in;
-    protected Data[] out = new Data[2];
+    protected Data[] out = new Data[outDataCount];
     // the UI of unit, contains the inLabel, outLabel, mainLabel
     public BaseUnitUI unitUI;
     // Store the line linked with self.
     protected Line[] inLines;
-    protected Line outLine;
+    protected Line[] outLine = new Line[outDataCount];
     // Is the unit enable(can work, can be write)
     public Boolean inputEnable = true;
     protected int bits = 16;
@@ -43,7 +44,7 @@ public class SuperUnit implements Runnable{
             this.in[iIn] = new Data();
         }
         // make that always at least one out available
-        this.out[1] = new Data();
+        this.out[this.out.length - 1] = new Data();
         this.unitUI = unitUI;
         this.inLines = new Line[inCount];
     }
@@ -58,23 +59,22 @@ public class SuperUnit implements Runnable{
     }
 
     public void clearOut(Data out) {
-        // when disconnect, always set the firstOut to be null
-        if (this.out[0] == out) {
-            // when we disconnect the line that link first, clear it directly
-            this.out[0] = null;
-        } else {
-            // when we disconnect the line that link after, save the first one in the secondOut and clear the firstOut
-            this.out[1] = this.out[0];
-            this.out[0] = null;
+        // when disconnect, always set to null begin from the first one
+        for (int iOut = 0; iOut < this.out.length - 1; iOut ++) {
+            if (this.out[iOut] == out) {
+                this.out[iOut] = this.out[0];
+                this.out[0] = null;
+            }
         }
     }
 
     public void setOut(Data out) {
-        if (this.out[0] == null) {
-            this.out[0] = out;
-        } else {
-            // if it is the second connect line
-            this.out[1] = out;
+        for (int iOut = 0; iOut < this.out.length; iOut ++) {
+            if ((this.out[iOut] == null) || (iOut == this.out.length - 1)) {
+                // search for the first null Out, if all exist, replace the last Out.
+                this.out[iOut] = out;
+                break;
+            }
         }
     }
 
@@ -86,19 +86,26 @@ public class SuperUnit implements Runnable{
         this.inLines[index] = line;
     }
 
-    public Line getOutLine() {
+    public Line[] getOutLine() {
         return outLine;
     }
 
-    public void setOutLine(Line line) {
-        this.outLine = line;
+    public void setOutLine(Line line, Data belongTo) {
+        int index = 0;
+        for (; index < this.out.length - 1; index ++) {
+            if (belongTo == this.out[index]) {
+                // search the index this line belong to
+                break;
+            }
+        }
+        this.outLine[index] = line;
     }
 
     public void finish() {
         for (int iIn = 0; iIn < in.length; iIn ++) {
             this.in[iIn].setBeenRead(true);
         }
-        for (int iOut = 0; iOut < 2; iOut ++) {
+        for (int iOut = 0; iOut < this.out.length; iOut ++) {
             if (this.out[iOut] != null) {
                 this.out[iOut].setBeenRead(true);
             }
@@ -124,7 +131,7 @@ public class SuperUnit implements Runnable{
             // show the result.
             setLabel();
             if (needSetOut) {
-                for (int iOut = 0; iOut < 2; iOut ++) {
+                for (int iOut = 0; iOut < this.out.length; iOut ++) {
                     if (this.out[iOut] != null) {
                         this.out[iOut].write(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
                     }
@@ -142,7 +149,15 @@ public class SuperUnit implements Runnable{
     }
 
     public void setLabel() {
-        unitUI.setText(unitUI.getName() + ":" + DataUtil.getBinaryString(out[0] != null ? out[0].content : out[1].content, bits));
+        int content = 0;
+        for (int iOut = 0; iOut < this.out.length; iOut ++) {
+            if (this.out[iOut] != null) {
+                // get the first notNULL content, always get one as the last one has been init.
+                content = this.out[iOut].content;
+                break;
+            }
+        }
+        unitUI.setText(unitUI.getName() + ":" + DataUtil.getBinaryString(content, bits));
     }
 
     public boolean shouldGetSpecificIn() {
@@ -152,7 +167,7 @@ public class SuperUnit implements Runnable{
 
     // make the out always be the same content.
     public void setOutContent(int content) {
-        for (int iOut = 0; iOut < 2; iOut ++) {
+        for (int iOut = 0; iOut < this.out.length; iOut ++) {
             if (this.out[iOut] != null) {
                 this.out[iOut].content = content;
             }
