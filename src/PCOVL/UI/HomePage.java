@@ -66,7 +66,8 @@ public class HomePage extends JFrame {
         // {String UnitName,
         // int inputNumber,
         // int outputNumber,
-        // boolean isUpsideDown}
+        // boolean isUpsideDown,
+        // boolean isTheFirstInControl}
         String[][] unitString = new String[][]{
                 {"Switch", "0", "1","false","false"},
                 {"MUX2", "3", "1","false","true"},
@@ -74,7 +75,8 @@ public class HomePage extends JFrame {
                 {"PC","1","1","false","false"},
                 {"Acc", "1","1","false","false"},
                 {"IR", "1", "1", "true","false"},
-                {"ALU","3","1","false","true"}};
+                {"ALU","3","1","false","true"},
+                {"Controller","1","0","false","true"}};
         BaseUnitUI unit;
         for (int iStr = 0; iStr < unitString.length; iStr ++) {
             String[] str = unitString[iStr];
@@ -103,6 +105,7 @@ public class HomePage extends JFrame {
         RAM ram = new RAM(unitUI);
         GlobalVariable.unitArray.add(ram);
         GlobalVariable.componentArray.add(unitUI);
+        RAM = ram;
         unitUI.setName("RAM");
         unitUI.setLocation(500,100);
         return unitUI;

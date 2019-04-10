@@ -11,6 +11,7 @@
 package PCOVL.UnitRepository;
 
 import PCOVL.UI.BaseUnitUI;
+import PCOVL.UI.GlobalVariable;
 
 public class MUX2 extends SuperUnit {
     // store which input the MUX2 select, 0 For inputOne, 1 For inputTwo
@@ -26,11 +27,23 @@ public class MUX2 extends SuperUnit {
 
     @Override
     public void run() {
+        int selOrder;
+        if (checkOut(GlobalVariable.RAM.in[0])) {
+            // Xsel
+            selOrder = 5;
+        } else if (checkOut(GlobalVariable.RAM.in[1])) {
+            // Asel
+            selOrder = 7;
+        } else {
+            // Ysel
+            selOrder = 6;
+        }
         if (shouldGetSpecificIn()) {
             isTheControlInLink = false;
-            inToRun = new int[2];
-            inToRun[0] = 1;
-            inToRun[1] = 2;
+            inToRun = new int[1];
+            inToRun[0] = Controller.signal[selOrder] + 1;
+            S0 = Controller.signal[selOrder];
+            System.out.println(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()) + "\tGoing to get in at" + inToRun[0]);
         } else {
             isTheControlInLink = true;
             inToRun = null;
@@ -53,5 +66,14 @@ public class MUX2 extends SuperUnit {
         } else {
             setOutContent(inputTwo);
         }
+    }
+
+    boolean checkOut(Data compareTo) {
+        for (int iOut = 0; iOut < this.out.length; iOut ++) {
+            if (compareTo == this.out[iOut]) {
+                return true;
+            }
+        }
+        return false;
     }
 }

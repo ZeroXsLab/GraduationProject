@@ -3,7 +3,7 @@
  * EventUtil.java
  * GraduationProject
  *
- * Created by X on 2019/4/9
+ * Created by X on 2019/4/10
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -115,6 +115,7 @@ public class EventUtil {
                 PC pc = new PC(logicComponent);
                 GlobalVariable.unitArray.add(pc);
                 GlobalVariable.componentArray.add(logicComponent);
+                GlobalVariable.programCounter = pc;
                 break;
             case "Acc" :
             case "IR":
@@ -125,6 +126,11 @@ public class EventUtil {
             case "ALU" :
                 ALU alu = new ALU(logicComponent);
                 GlobalVariable.unitArray.add(alu);
+                GlobalVariable.componentArray.add(logicComponent);
+                break;
+            case "Controller" :
+                Controller controller = new Controller(logicComponent);
+                GlobalVariable.unitArray.add(controller);
                 GlobalVariable.componentArray.add(logicComponent);
                 break;
                 default:
@@ -142,6 +148,9 @@ public class EventUtil {
             } else {
                 break;
             }
+        }
+        if (GlobalVariable.programCounter != null) {
+            GlobalVariable.programCounter.readyForRead();
         }
         for (int i = 0; i < threads.size(); i ++) {
             try {

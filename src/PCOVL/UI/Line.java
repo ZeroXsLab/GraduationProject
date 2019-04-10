@@ -31,7 +31,7 @@ public class Line extends JButton {
     // the ratio of the upperLine to lowerLine
     double ratio = 0.5;
     // the destination that line data send to
-    SuperUnit destination;
+    public SuperUnit destination;
     SuperUnit originUnit;
     int destIndex;
 

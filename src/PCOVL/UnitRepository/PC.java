@@ -23,6 +23,7 @@ public class PC extends SuperUnit {
 
     @Override
     public void run() {
+        inputEnable = (Controller.signal[2] != 0);
         if (shouldGetSpecificIn()) {
             // normal state, we don't need the InData
             inToRun = new int[0];

@@ -40,20 +40,28 @@ public class ALU extends SuperUnit {
 
     @Override
     public void processData() {
-        control = in[0].content;
+        if (isTheControlInLink) {
+            control = in[0].content;
+        }else {
+            control = Controller.signal[4];
+        }
         inputOne = in[1].content;
         inputTwo = in[2].content;
         switch (control) {
             case 0:
+                // ADD
                 setOutContent(inputOne + inputTwo);
                 break;
             case 1:
+                // SUB
                 setOutContent(inputOne - inputTwo);
                 break;
             case 2:
-                setOutContent(inputOne);
+                // INC
+                setOutContent(inputOne + 1);
                 break;
             case 3:
+                // =Y
                 setOutContent(inputTwo);
                 break;
         }

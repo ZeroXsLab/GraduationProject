@@ -3,7 +3,7 @@
  * GlobalVariable.java
  * GraduationProject
  *
- * Created by X on 2019/4/9
+ * Created by X on 2019/4/10
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -44,4 +44,6 @@ public class GlobalVariable {
     public static Color[] outColor = {new Color(84,226,229),new Color(0,212,218),new Color(0,201,210), new Color(0,191,205), new Color(0,175,187)};
     public static Color labelColor = Color.lightGray;
 
+    public static SuperUnit programCounter;
+    public static SuperUnit RAM;
 }

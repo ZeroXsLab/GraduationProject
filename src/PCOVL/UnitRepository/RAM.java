@@ -11,6 +11,7 @@
 package PCOVL.UnitRepository;
 
 import PCOVL.UI.BaseUnitUI;
+import PCOVL.UI.GlobalVariable;
 
 // when process data, we can ignore outData(In 0) status for some situation
 public class RAM extends SuperUnit {
@@ -29,17 +30,16 @@ public class RAM extends SuperUnit {
 
     @Override
     public void run() {
+        isWrite = Controller.signal[8] == 0;
         // override the run() to make it can work without the data2Write ready.
         if (shouldGetSpecificIn()){// Not this equal, fix later
             // when this instruction is going to Read data instead of Write data
-            isWrite = false;
             inToRun = new int[1];
             // Only read the In[1]
             inToRun[0] = 1;
             // is going to Read data, need set out.
             needSetOut = true;
         } else {
-            isWrite = true;
             inToRun = null;
             // is going to Write data, do NOT set out.
             needSetOut = false;

@@ -23,6 +23,11 @@ public class Register extends SuperUnit {
 
     @Override
     public void run() {
+        if (this.unitUI.getName().contains("IR")) {
+            inputEnable = (Controller.signal[1] != 0);
+        } else {
+            inputEnable = (Controller.signal[3] != 0);
+        }
         if (shouldGetSpecificIn()) {
             inToRun = new int[0];
             shouldUpdate = false;
