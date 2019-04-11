@@ -3,7 +3,7 @@
  * SuperUnit.java
  * GraduationProject
  *
- * Created by X on 2019/4/10
+ * Created by X on 2019/4/11
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -127,18 +127,16 @@ public class SuperUnit implements Runnable{
                     in[index].read(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
                 }
             }
-            processData();
-            // show the result.
-            setLabel();
-            if (needSetOut) {
-                for (int iOut = 0; iOut < this.out.length; iOut ++) {
-                    if (this.out[iOut] != null) {
-                        this.out[iOut].write(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
-                    }
+        }
+        processData();
+        // show the result.
+        setLabel();
+        if (needSetOut) {
+            for (int iOut = 0; iOut < this.out.length; iOut ++) {
+                if (this.out[iOut] != null) {
+                    this.out[iOut].write(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
                 }
             }
-        } else {
-            // Do nothing
         }
     }
 
@@ -160,7 +158,14 @@ public class SuperUnit implements Runnable{
         unitUI.setText(unitUI.getName() + ":" + DataUtil.getBinaryString(content, bits));
     }
 
-    public boolean shouldGetSpecificIn() {
+    // Whether the Controller is in charge. wait to Fix
+    public boolean isControllerInChanrge() {
+        boolean isCharged = Controller.signal != Controller.signalTable[9];
+        return isCharged;
+    }
+
+    // In User Control, whether we should get specific IN.
+    public boolean isTheControlInNotLink() {
         boolean forInLine0 = inLines[0] == null;
         return forInLine0;
     }

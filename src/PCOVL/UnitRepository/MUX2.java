@@ -3,7 +3,7 @@
  * MUX2.java
  * GraduationProject
  *
- * Created by X on 2019/4/10
+ * Created by X on 2019/4/11
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -19,7 +19,7 @@ public class MUX2 extends SuperUnit {
     private int inputOne;
     private int inputTwo;
 
-    private boolean isTheControlInLink = false;
+    private int selIndex = 0;   // 5 For Xsel(Data Out); 6 For Ysel(Data In); 7 For Asel(Address)
 
     public MUX2(BaseUnitUI unitUI) {
         super(3, unitUI);
@@ -27,25 +27,23 @@ public class MUX2 extends SuperUnit {
 
     @Override
     public void run() {
-        int selOrder;
-        if (checkOut(GlobalVariable.RAM.in[0])) {
-            // Xsel
-            selOrder = 5;
-        } else if (checkOut(GlobalVariable.RAM.in[1])) {
-            // Asel
-            selOrder = 7;
-        } else {
-            // Ysel
-            selOrder = 6;
-        }
-        if (shouldGetSpecificIn()) {
-            isTheControlInLink = false;
+        if (isControllerInChanrge()) {
+            // In Controller State, only read the specific one In we need
+            if (isOutsContain(GlobalVariable.RAM.in[0])) {
+                // Xsel
+                selIndex = 5;
+            } else if (isOutsContain(GlobalVariable.RAM.in[1])) {
+                // Asel
+                selIndex = 7;
+                this.bits = 12;     //It is the address MUX2, only get and show the last 12 bits
+            } else {
+                // Ysel
+                selIndex = 6;
+            }
             inToRun = new int[1];
-            inToRun[0] = Controller.signal[selOrder] + 1;
-            S0 = Controller.signal[selOrder];
-            System.out.println(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()) + "\tGoing to get in at" + inToRun[0]);
+            inToRun[0] = Controller.signal[selIndex] + 1;   // As In0 is the controlIn, so it has to plus one.
         } else {
-            isTheControlInLink = true;
+            // In User Control State, we should read all the In data.
             inToRun = null;
         }
         super.run();
@@ -54,7 +52,11 @@ public class MUX2 extends SuperUnit {
     @Override
     public void processData() {
         // Store the data from the In
-        if (isTheControlInLink) {
+        if (isControllerInChanrge()){
+            // In Controller State, set S0 by the Control Signal
+            S0 = Controller.signal[selIndex];
+        } else {
+            // In User Control State, set S0 by the control IN
             S0 = in[0].content;
         }
         inputOne = in[1].content;
@@ -68,7 +70,8 @@ public class MUX2 extends SuperUnit {
         }
     }
 
-    boolean checkOut(Data compareTo) {
+    // the check whether the Data has been link to this out.
+    boolean isOutsContain(Data compareTo) {
         for (int iOut = 0; iOut < this.out.length; iOut ++) {
             if (compareTo == this.out[iOut]) {
                 return true;

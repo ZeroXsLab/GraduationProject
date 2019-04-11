@@ -3,7 +3,7 @@
  * EventUtil.java
  * GraduationProject
  *
- * Created by X on 2019/4/10
+ * Created by X on 2019/4/11
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -142,12 +142,12 @@ public class EventUtil {
         System.out.println("......................Process a instruction");
         ArrayList<Thread> threads = new ArrayList<>();
         for (int i = 0; i < GlobalVariable.unitArray.size(); i ++){
-            if (GlobalVariable.unitArray.get(i).inputEnable){
+//            if (GlobalVariable.unitArray.get(i).inputEnable){
                 threads.add(new Thread(GlobalVariable.unitArray.get(i)));
                 threads.get(threads.size() - 1).start();
-            } else {
-                break;
-            }
+//            } else {
+//                break;
+//            }
         }
         if (GlobalVariable.programCounter != null) {
             GlobalVariable.programCounter.readyForRead();

@@ -3,7 +3,7 @@
  * PC.java
  * GraduationProject
  *
- * Created by X on 2019/4/10
+ * Created by X on 2019/4/11
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -15,7 +15,6 @@ import PCOVL.UI.BaseUnitUI;
 public class PC extends SuperUnit {
 
     private int pointer = 0;
-    private boolean isJMP = false;
 
     public PC(BaseUnitUI unitUI) {
         super(1, unitUI);
@@ -23,24 +22,29 @@ public class PC extends SuperUnit {
 
     @Override
     public void run() {
-        inputEnable = (Controller.signal[2] != 0);
-        if (shouldGetSpecificIn()) {
-            // normal state, we don't need the InData
-            inToRun = new int[0];
-            isJMP = false;
+        if (isControllerInChanrge()) {
+            // In Controller State, set enable by the control signal
+            inputEnable = (Controller.signal[2] != 0);
+            // FIXME how to define the inToRun and isJMP.
         } else {
-            inToRun = null;
-            isJMP = true;
+            // In User Control State, always be enable.
+            if (isTheControlInNotLink()) {
+                // the control IN is Linked, read the in Data.
+                inputEnable = false;
+            } else {
+                // the control IN is NOT Linked, we don't need the InData(as a PC can work without In, just to increase.)
+                inputEnable = true;
+            }
         }
         super.run();
     }
 
     @Override
     public void processData() {
-        if (isJMP) {
+        if (inputEnable) {
             pointer = in[0].content;
         }
         setOutContent(pointer);
-        pointer ++;
+//        pointer ++;
     }
 }

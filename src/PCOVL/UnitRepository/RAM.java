@@ -3,7 +3,7 @@
  * RAM.java
  * GraduationProject
  *
- * Created by X on 2019/4/10
+ * Created by X on 2019/4/11
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -11,7 +11,6 @@
 package PCOVL.UnitRepository;
 
 import PCOVL.UI.BaseUnitUI;
-import PCOVL.UI.GlobalVariable;
 
 // when process data, we can ignore outData(In 0) status for some situation
 public class RAM extends SuperUnit {
@@ -30,9 +29,14 @@ public class RAM extends SuperUnit {
 
     @Override
     public void run() {
-        isWrite = Controller.signal[8] == 0;
+        if (isControllerInChanrge()) {
+            isWrite = Controller.signal[8] == 0;    // This is OK when it can not be read and write in one instruction.
+        } else {
+            // In User Control State
+            isWrite = !isTheControlInNotLink();     // when the Control In is Linked, it is to write.
+        }
         // override the run() to make it can work without the data2Write ready.
-        if (shouldGetSpecificIn()){// Not this equal, fix later
+        if (!isWrite){
             // when this instruction is going to Read data instead of Write data
             inToRun = new int[1];
             // Only read the In[1]

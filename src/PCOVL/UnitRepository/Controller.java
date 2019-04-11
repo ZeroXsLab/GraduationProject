@@ -3,7 +3,7 @@
  * Controller.java
  * GraduationProject
  *
- * Created by X on 2019/4/10
+ * Created by X on 2019/4/11
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -17,8 +17,9 @@ public class Controller extends SuperUnit {
     private int address;
 
     //State-00,IREnable-01,PCEnable-02,AccEnable-03,M[1:0]-04,Xsel-05,Ysel-06,Asel-07,Ren-08,Wen-09
-    private static final int[][] signalTable = new int[][]{
+    public static final int[][] signalTable = new int[][]{
             {0,1,1,0,2,1,0,0,1,0},
+            {1,0,0,1,0,0,0,1,1,0},
             {1,0,0,0,0,0,0,0,0,0},
             {1,0,0,0,0,0,0,0,0,0},
             {1,0,0,0,0,0,0,0,0,0},
@@ -26,8 +27,8 @@ public class Controller extends SuperUnit {
             {1,0,0,0,0,0,0,0,0,0},
             {1,0,0,0,0,0,0,0,0,0},
             {1,0,0,0,0,0,0,0,0,0},
-            {1,0,0,0,0,0,0,0,0,0}};
-    public static int[] signal = signalTable[0];
+            {1,1,1,1,1,1,1,1,1,1}};
+    public static int[] signal = signalTable[0];    // default 0, set 9 to make all enable
 
     public Controller(BaseUnitUI unitUI) {
         super(1, unitUI);
@@ -42,13 +43,6 @@ public class Controller extends SuperUnit {
     }
 
     public void generateSignal() {
-        switch (instruction) {
-            case 0:
-                // LDA S    Acc := [S]
-                signal = signalTable[1];
-                break;
-                default:
-                    break;
-        }
+        signal = signalTable[instruction + 1];
     }
 }
