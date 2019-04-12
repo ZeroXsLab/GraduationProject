@@ -146,6 +146,7 @@ public class EventUtil {
     }
 
     public static void executeInstruction(){
+        DataUtil.storeRelationship();
         System.out.println("......................Process a instruction");
         ArrayList<Thread> threads = new ArrayList<>();
         for (int i = 0; i < GlobalVariable.unitToRun.size(); i ++){

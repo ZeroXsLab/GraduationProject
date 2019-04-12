@@ -16,6 +16,7 @@ import PCOVL.UnitRepository.SuperUnit;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class GlobalVariable {
     // HomePage
@@ -51,4 +52,5 @@ public class GlobalVariable {
     public static Controller controller;
 
     public static int[] Flag = new int[2];  // NegativeFlag, ZeroFlag
+    public static HashMap hashMap = new HashMap();
 }

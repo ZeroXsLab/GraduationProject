@@ -53,21 +53,18 @@ public class DataUtil {
         return formatted;
     }
 
-    public static void showLinkRelationship() {
+    public static void storeRelationship() {
         for (SuperUnit unit: GlobalVariable.unitToRun) {
-            System.out.println(unit.unitUI.getName() + ":");
+            String name = unit.unitUI.getName();
             for (int i = 0; i < unit.in.length; i++) {
                 if (unit.in[i] != null) {
-                    System.out.print("In" + i + " :" + Integer.toHexString(unit.in[i].hashCode()) + "\t");
+                    GlobalVariable.hashMap.put(Integer.toHexString(unit.in[i].hashCode()), name + "-In" + i);
                 }
             }
-            System.out.println();
-            for (int i = 0; i < unit.out.length; i++) {
-                if (unit.out[i] != null) {
-                    System.out.print("Out" + i + " :" + Integer.toHexString(unit.out[i].hashCode()) + "\t");
-                }
-            }
-            System.out.println();
         }
+    }
+
+    public static String getDesc(String key) {
+        return (String) GlobalVariable.hashMap.get(key);
     }
 }

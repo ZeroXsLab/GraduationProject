@@ -28,7 +28,7 @@ public class Controller extends SuperUnit {
             {1,0,0,0,0,0,1,0,0,0},
             {1,0,0,0,0,0,0,0,0,0},
             {1,1,1,1,1,1,1,1,1,1}};
-    public static int[] signal = signalTable[9];    // default 0, set 9 to make all enable
+    public static int[] signal = signalTable[0];    // default 0, set 9 to make all enable
 
     public Controller(BaseUnitUI unitUI) {
         super(1, unitUI);

@@ -22,8 +22,9 @@ public class Data {
     }
 
     public synchronized void write(String name){
+        String desc = DataUtil.getDesc(Integer.toHexString(this.hashCode()));
         if (!this.beenRead) {
-            System.out.println(name + "\twait to write..." + Integer.toHexString(this.hashCode()));
+            System.out.println(name + "\twait to write..." + desc );
             try {
                 wait();
             }catch (Exception e){
@@ -32,13 +33,17 @@ public class Data {
 
         }
         this.beenRead = false;
-        System.out.println(name + "\tWrite at " + Integer.toHexString(this.hashCode()) + ":\t" + content);
+        System.out.println(name + "\tWrite at " + desc + ":\t" + content);
         notify();
     }
 
     public synchronized void read(String name){
+        String desc = DataUtil.getDesc(Integer.toHexString(this.hashCode()));
+        if (desc != null) {
+            desc = desc.substring(desc.length() - 4);
+        }
         if (this.beenRead) {
-            System.out.println(name + "\twait to read..." + Integer.toHexString(this.hashCode()));
+            System.out.println(name + "\twait to read..." + desc );
             try{
                 wait();
             }catch (Exception e){
@@ -46,7 +51,7 @@ public class Data {
             }
         }
         this.beenRead = true;
-        System.out.println(name + "\tRead at " + Integer.toHexString(this.hashCode()) + ":\t" + content);
+        System.out.println(name + "\tRead at " + desc + ":\t" + content);
         notify();
     }
 }
