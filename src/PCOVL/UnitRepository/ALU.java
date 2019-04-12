@@ -3,7 +3,7 @@
  * ALU.java
  * GraduationProject
  *
- * Created by X on 2019/4/11
+ * Created by X on 2019/4/12
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -27,9 +27,14 @@ public class ALU extends SuperUnit {
     public void run() {
         if (isControllerInChanrge()) {
             // In Controller State, we don't need to read the controlIn
-            inToRun = new int[2];
-            inToRun[0] = 2;
-            inToRun[1] = 1;
+            if (Controller.signal[4] == 1 || Controller.signal[4] == 3) {
+                inToRun = new int[2];
+                inToRun[0] = 2;
+                inToRun[1] = 1;
+            } else{
+                inToRun = new int[1];
+                inToRun[0] = Controller.signal[4] == 2 ? 1 : 2;
+            }
         } else {
             // In User Control State we should read all the IN data.
             inToRun = null;
@@ -50,24 +55,23 @@ public class ALU extends SuperUnit {
         inputTwo = in[2].content;
         switch (control) {
             case 0:
-                // ADD
-                setOutContent(inputOne + inputTwo);
+                // =Y
+                setOutContent(inputTwo);
                 break;
             case 1:
-                // SUB
-                setOutContent(inputOne - inputTwo);
+                // ADD
+                setOutContent(inputOne + inputTwo);
                 break;
             case 2:
                 // INC
                 setOutContent(inputOne + 1);
                 break;
             case 3:
-                // =Y
-                setOutContent(inputTwo);
+                // SUB
+                setOutContent(inputOne - inputTwo);
                 break;
         }
-        if (GlobalVariable.programCounter.inputEnable) {
-            System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!" + GlobalVariable.programCounter.in[0].content);
+        if (GlobalVariable.programCounter != null && GlobalVariable.programCounter.inputEnable) {
             GlobalVariable.programCounter.setOutContent(GlobalVariable.programCounter.in[0].content);
             GlobalVariable.programCounter.setLabel();
         }

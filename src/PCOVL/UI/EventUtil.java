@@ -3,7 +3,7 @@
  * EventUtil.java
  * GraduationProject
  *
- * Created by X on 2019/4/11
+ * Created by X on 2019/4/12
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -74,6 +74,7 @@ public class EventUtil {
             case "Switch" :
                 Switch aSwitch = new Switch(logicComponent);
                 GlobalVariable.unitArray.add(aSwitch);
+                GlobalVariable.unitToRun.add(aSwitch);
                 GlobalVariable.componentArray.add(logicComponent);
                 logicComponent.addMouseListener(new MouseListener() {
                     @Override
@@ -107,8 +108,10 @@ public class EventUtil {
                 });
                 break;
             case "MUX2" :
+            case "MUX2r":
                 MUX2 mux2 = new MUX2(logicComponent);
                 GlobalVariable.unitArray.add(mux2);
+                GlobalVariable.unitToRun.add(mux2);
                 GlobalVariable.componentArray.add(logicComponent);
                 break;
             case "PC" :
@@ -121,17 +124,21 @@ public class EventUtil {
             case "IR":
                 Register register = new Register(logicComponent);
                 GlobalVariable.unitArray.add(register);
+                GlobalVariable.unitToRun.add(register);
                 GlobalVariable.componentArray.add(logicComponent);
                 break;
             case "ALU" :
                 ALU alu = new ALU(logicComponent);
                 GlobalVariable.unitArray.add(alu);
+                GlobalVariable.unitToRun.add(alu);
                 GlobalVariable.componentArray.add(logicComponent);
                 break;
-            case "Controller" :
+            case "Ctrl" :
                 Controller controller = new Controller(logicComponent);
                 GlobalVariable.unitArray.add(controller);
+                GlobalVariable.unitToRun.add(controller);
                 GlobalVariable.componentArray.add(logicComponent);
+                GlobalVariable.controller = controller;
                 break;
                 default:
                     break;
@@ -141,29 +148,45 @@ public class EventUtil {
     public static void executeInstruction(){
         System.out.println("......................Process a instruction");
         ArrayList<Thread> threads = new ArrayList<>();
-        for (int i = 0; i < GlobalVariable.unitArray.size(); i ++){
-//            if (GlobalVariable.unitArray.get(i).inputEnable){
-                threads.add(new Thread(GlobalVariable.unitArray.get(i)));
-                threads.get(threads.size() - 1).start();
-//            } else {
-//                break;
-//            }
+        for (int i = 0; i < GlobalVariable.unitToRun.size(); i ++){
+            threads.add(new Thread(GlobalVariable.unitToRun.get(i)));
+            threads.get(threads.size() - 1).start();
         }
-        if (GlobalVariable.programCounter != null) {
-            GlobalVariable.programCounter.readyForRead();
-        }
-        for (int i = 0; i < threads.size(); i ++) {
-            try {
-                threads.get(i).join();
-            }catch (Exception ex){
-                System.out.println("Exception occur at joining " + i);
-                ex.printStackTrace();
+        if (Controller.signal[0] == 0) {
+            // In Fetch State, begin from PC
+            System.out.println("Fetching Instruction............");
+            if (GlobalVariable.programCounter != null) {
+                threads.add(0,new Thread(GlobalVariable.programCounter));
+                threads.get(0).start();
+                GlobalVariable.programCounter.readyForRead();
             }
-
+        } else {
+            // In Execute State, begin from IR
+            System.out.println("Executing Instruction.............");
+            for (int i = 0; i < GlobalVariable.unitToRun.size() ; i++) {
+                if (GlobalVariable.unitToRun.get(i).unitUI.getName().contains("IR")) {
+                    GlobalVariable.unitToRun.get(i).readyForRead();
+                    break;
+                }
+            }
+        }
+        try {
+            threads.get(0).join();
+        }catch (Exception ex){
+            System.out.println("Exception occur at joining");
+            ex.printStackTrace();
         }
         // Reset the status of the last unit if you know which is. if not, reset all
-        for (int i = 0; i < GlobalVariable.unitArray.size(); i ++) {
-            (GlobalVariable.unitArray.get(i)).finish();
+        for (int i = 0; i < GlobalVariable.unitToRun.size(); i ++) {
+            (GlobalVariable.unitToRun.get(i)).finish();
+        }
+        // Change Controller Signal after all unit run.
+        if (GlobalVariable.controller != null) {
+            if (Controller.signal[0] == 0) {
+                GlobalVariable.controller.generateSignal();
+            } else {
+                Controller.signal = Controller.signalTable[0];
+            }
         }
         System.out.println("......................Finish a instruction");
     }

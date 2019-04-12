@@ -3,7 +3,7 @@
  * SuperUnit.java
  * GraduationProject
  *
- * Created by X on 2019/4/11
+ * Created by X on 2019/4/12
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -114,17 +114,18 @@ public class SuperUnit implements Runnable{
 
     @Override
     public void run() {
+        String name = DataUtil.formatString(this.unitUI.getName());
         if (inputEnable) {
             if (inToRun == null) {
                 for (int iIn = 0; iIn < in.length; iIn ++) {
-                    in[iIn].read(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
+                    in[iIn].read(name + Integer.toHexString(this.hashCode()));
                 }
             } else {
                 // only read specific In
                 int index;
                 for (int iInTo = 0; iInTo < inToRun.length; iInTo ++) {
                     index = inToRun[iInTo];
-                    in[index].read(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
+                    in[index].read(name + Integer.toHexString(this.hashCode()));
                 }
             }
         }
@@ -134,7 +135,7 @@ public class SuperUnit implements Runnable{
         if (needSetOut) {
             for (int iOut = 0; iOut < this.out.length; iOut ++) {
                 if (this.out[iOut] != null) {
-                    this.out[iOut].write(this.getClass().getName() + "\t@" + Integer.toHexString(this.hashCode()));
+                    this.out[iOut].write(name + Integer.toHexString(this.hashCode()));
                 }
             }
         }

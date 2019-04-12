@@ -3,7 +3,7 @@
  * Register.java
  * GraduationProject
  *
- * Created by X on 2019/4/11
+ * Created by X on 2019/4/12
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -11,10 +11,12 @@
 package PCOVL.UnitRepository;
 
 import PCOVL.UI.BaseUnitUI;
+import PCOVL.UI.GlobalVariable;
 
 public class Register extends SuperUnit {
 
     private int currentData;
+    private boolean isAcc = false;
 
     public Register(BaseUnitUI unitUI) {
         super(1, unitUI);
@@ -25,8 +27,10 @@ public class Register extends SuperUnit {
         if (isControllerInChanrge()) {
             // In Controller State.
             if (this.unitUI.getName().contains("IR")) {
+                isAcc = false;
                 inputEnable = (Controller.signal[1] != 0);
             } else {
+                isAcc = true;
                 inputEnable = (Controller.signal[3] != 0);
             }
         } else {
@@ -44,6 +48,10 @@ public class Register extends SuperUnit {
     public void processData() {
         if (inputEnable) {
             currentData = in[0].content;
+        }
+        if (isAcc) {
+            GlobalVariable.Flag[0] = currentData < 0 ? 1 : 0;
+            GlobalVariable.Flag[1] = currentData == 0 ? 1 : 0;
         }
         setOutContent(currentData);
     }

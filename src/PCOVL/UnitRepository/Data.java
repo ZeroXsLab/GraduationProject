@@ -3,7 +3,7 @@
  * Data.java
  * GraduationProject
  *
- * Created by X on 2019/4/5
+ * Created by X on 2019/4/12
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -23,7 +23,7 @@ public class Data {
 
     public synchronized void write(String name){
         if (!this.beenRead) {
-            System.out.println(name + "\twait to write...");
+            System.out.println(name + "\twait to write..." + Integer.toHexString(this.hashCode()));
             try {
                 wait();
             }catch (Exception e){
@@ -32,13 +32,13 @@ public class Data {
 
         }
         this.beenRead = false;
-        System.out.println(name + "\tWrite:\t" + content);
+        System.out.println(name + "\tWrite at " + Integer.toHexString(this.hashCode()) + ":\t" + content);
         notify();
     }
 
     public synchronized void read(String name){
         if (this.beenRead) {
-            System.out.println(name + "\twait to read...");
+            System.out.println(name + "\twait to read..." + Integer.toHexString(this.hashCode()));
             try{
                 wait();
             }catch (Exception e){
@@ -46,7 +46,7 @@ public class Data {
             }
         }
         this.beenRead = true;
-        System.out.println(name + "\tRead:\t" + content);
+        System.out.println(name + "\tRead at " + Integer.toHexString(this.hashCode()) + ":\t" + content);
         notify();
     }
 }

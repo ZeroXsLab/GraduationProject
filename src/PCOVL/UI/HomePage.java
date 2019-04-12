@@ -3,7 +3,7 @@
  * HomePage.java
  * GraduationProject
  *
- * Created by X on 2019/4/10
+ * Created by X on 2019/4/12
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -71,12 +71,12 @@ public class HomePage extends JFrame {
         String[][] unitString = new String[][]{
                 {"Switch", "0", "1","false","false"},
                 {"MUX2", "3", "1","false","true"},
-                {"MUX2", "3", "1","true","true"},
+                {"MUX2r", "3", "1","true","true"},
                 {"PC","1","1","false","false"},
                 {"Acc", "1","1","false","false"},
                 {"IR", "1", "1", "true","false"},
                 {"ALU","3","1","false","true"},
-                {"Controller","1","0","false","true"}};
+                {"Ctrl","1","0","false","true"}};
         BaseUnitUI unit;
         for (int iStr = 0; iStr < unitString.length; iStr ++) {
             String[] str = unitString[iStr];
@@ -104,6 +104,7 @@ public class HomePage extends JFrame {
         unitUI.addMouseMotionListener(workingPanelDelegate);
         RAM ram = new RAM(unitUI);
         GlobalVariable.unitArray.add(ram);
+        unitToRun.add(ram);
         GlobalVariable.componentArray.add(unitUI);
         RAM = ram;
         unitUI.setName("RAM");

@@ -3,7 +3,7 @@
  * PC.java
  * GraduationProject
  *
- * Created by X on 2019/4/11
+ * Created by X on 2019/4/12
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -45,6 +45,5 @@ public class PC extends SuperUnit {
             pointer = in[0].content;
         }
         setOutContent(pointer);
-//        pointer ++;
     }
 }

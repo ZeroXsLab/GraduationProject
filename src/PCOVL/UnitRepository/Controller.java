@@ -3,7 +3,7 @@
  * Controller.java
  * GraduationProject
  *
- * Created by X on 2019/4/11
+ * Created by X on 2019/4/12
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -20,15 +20,15 @@ public class Controller extends SuperUnit {
     public static final int[][] signalTable = new int[][]{
             {0,1,1,0,2,1,0,0,1,0},
             {1,0,0,1,0,0,0,1,1,0},
-            {1,0,0,0,0,0,0,0,0,0},
-            {1,0,0,0,0,0,0,0,0,0},
-            {1,0,0,0,0,0,0,0,0,0},
-            {1,0,0,0,0,0,0,0,0,0},
-            {1,0,0,0,0,0,0,0,0,0},
-            {1,0,0,0,0,0,0,0,0,0},
+            {1,0,0,0,0,0,0,1,0,1},
+            {1,0,0,1,1,0,0,1,1,0},
+            {1,0,0,1,3,0,0,1,1,0},
+            {1,0,1,0,0,0,1,0,0,0},
+            {1,0,0,0,0,0,1,0,0,0},
+            {1,0,0,0,0,0,1,0,0,0},
             {1,0,0,0,0,0,0,0,0,0},
             {1,1,1,1,1,1,1,1,1,1}};
-    public static int[] signal = signalTable[0];    // default 0, set 9 to make all enable
+    public static int[] signal = signalTable[9];    // default 0, set 9 to make all enable
 
     public Controller(BaseUnitUI unitUI) {
         super(1, unitUI);
@@ -40,9 +40,23 @@ public class Controller extends SuperUnit {
         String binaryString = DataUtil.getBinaryString(data,16);
         instruction = DataUtil.getInteger(binaryString.substring(0,4),2);
         address = DataUtil.getInteger(binaryString.substring(4),2);
+        System.out.println(instruction + ":" + address);
     }
 
     public void generateSignal() {
         signal = signalTable[instruction + 1];
+        for (int i = 0; i < signal.length; i++) {
+            System.out.print(signal[i] + "\t");
+        }
+        System.out.println();
+        // On Debug, to stay in Fetching State.
+//        if (signal[0] != 0) {
+//            signal = signalTable[0];
+//        }
+//        System.out.println("After rejudge.");
+//        for (int i = 0; i < signal.length; i++) {
+//            System.out.print(signal[i] + "\t");
+//        }
+//        System.out.println();
     }
 }

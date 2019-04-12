@@ -3,13 +3,14 @@
  * GlobalVariable.java
  * GraduationProject
  *
- * Created by X on 2019/4/10
+ * Created by X on 2019/4/12
  * Copyright (c) 2019 X. All right reserved.
  *
  */
 
 package PCOVL.UI;
 
+import PCOVL.UnitRepository.Controller;
 import PCOVL.UnitRepository.SuperUnit;
 
 import javax.swing.*;
@@ -28,6 +29,7 @@ public class GlobalVariable {
     public static BaseUnitUI draggingUnit;
     public static ArrayList<SuperUnit> unitArray = new ArrayList<>();
     public static ArrayList<BaseUnitUI> componentArray = new ArrayList<>();
+    public static ArrayList<SuperUnit> unitToRun = new ArrayList<>();
     public static Line lastLine;
     enum DragState {
         init, forLink, forRelocate
@@ -46,4 +48,7 @@ public class GlobalVariable {
 
     public static SuperUnit programCounter;
     public static SuperUnit RAM;
+    public static Controller controller;
+
+    public static int[] Flag = new int[2];  // NegativeFlag, ZeroFlag
 }

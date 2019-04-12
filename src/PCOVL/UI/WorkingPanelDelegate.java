@@ -3,7 +3,7 @@
  * WorkingPanelDelegate.java
  * GraduationProject
  *
- * Created by X on 2019/4/10
+ * Created by X on 2019/4/12
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -44,6 +44,7 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                 workPanel.remove(baseUnitUI);
                 workPanel.updateUI();
                 // remove Logi
+                GlobalVariable.unitToRun.remove(GlobalVariable.unitArray.get(index));
                 GlobalVariable.unitArray.remove(index);
                 GlobalVariable.componentArray.remove(index);
             }
@@ -121,13 +122,6 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                     lines[iLine].updateStartPoint(origin);
                     }
                 }
-//                if (unit.getOutLine() != null) {
-//                    // get the label center location
-//                    Point origin = unit.unitUI.getComponent(unit.getInLines().length).getLocation();
-//                    origin = EventUtil.transformToSuperLoca(origin, unit.unitUI);
-//                    origin.x += GlobalVariable.actionWidth / 2;
-//                    unit.getOutLine().updateStartPoint(origin);
-//                }
                 for (int iIn = 0; iIn < unit.getInLines().length; iIn ++) {
                     if (unit.getInLines()[iIn] != null) {
                         // get the label center location
