@@ -3,7 +3,7 @@
  * DataUtil.java
  * GraduationProject
  *
- * Created by X on 2019/4/12
+ * Created by X on 2019/4/13
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -54,7 +54,7 @@ public class DataUtil {
     }
 
     public static void storeRelationship() {
-        for (SuperUnit unit: GlobalVariable.unitToRun) {
+        for (SuperUnit unit: GlobalVariable.unitArray) {
             String name = unit.unitUI.getName();
             for (int i = 0; i < unit.in.length; i++) {
                 if (unit.in[i] != null) {

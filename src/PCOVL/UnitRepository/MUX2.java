@@ -3,7 +3,7 @@
  * MUX2.java
  * GraduationProject
  *
- * Created by X on 2019/4/11
+ * Created by X on 2019/4/13
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -40,8 +40,13 @@ public class MUX2 extends SuperUnit {
                 // Ysel
                 selIndex = 6;
             }
-            inToRun = new int[1];
-            inToRun[0] = Controller.signal[selIndex] + 1;   // As In0 is the controlIn, so it has to plus one.
+            if (Controller.signal[selIndex] == -1) {
+                // Disable
+                return;
+            } else {
+                inToRun = new int[1];
+                inToRun[0] = Controller.signal[selIndex] + 1;   // As In0 is the controlIn, so it has to plus one.
+            }
         } else {
             // In User Control State, we should read all the In data.
             inToRun = null;

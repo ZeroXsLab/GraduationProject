@@ -3,7 +3,7 @@
  * ALU.java
  * GraduationProject
  *
- * Created by X on 2019/4/12
+ * Created by X on 2019/4/13
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -27,7 +27,10 @@ public class ALU extends SuperUnit {
     public void run() {
         if (isControllerInChanrge()) {
             // In Controller State, we don't need to read the controlIn
-            if (Controller.signal[4] == 1 || Controller.signal[4] == 3) {
+            if (Controller.signal[4] == -1) {
+                // The unit is Disable.
+                return;
+            } else if (Controller.signal[4] == 1 || Controller.signal[4] == 3) {
                 inToRun = new int[2];
                 inToRun[0] = 2;
                 inToRun[1] = 1;
@@ -71,9 +74,12 @@ public class ALU extends SuperUnit {
                 setOutContent(inputOne - inputTwo);
                 break;
         }
-        if (GlobalVariable.programCounter != null && GlobalVariable.programCounter.inputEnable) {
-            GlobalVariable.programCounter.setOutContent(GlobalVariable.programCounter.in[0].content);
-            GlobalVariable.programCounter.setLabel();
+        if (GlobalVariable.programCounter != null && (Controller.signal[2] != 0)) {
+            // Update the PC
+            boolean enableStatus = GlobalVariable.programCounter.inputEnable;
+            GlobalVariable.programCounter.inputEnable = true;
+            GlobalVariable.programCounter.processData();
+            GlobalVariable.programCounter.inputEnable = enableStatus;
         }
     }
 }

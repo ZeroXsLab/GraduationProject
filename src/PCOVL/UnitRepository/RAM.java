@@ -3,7 +3,7 @@
  * RAM.java
  * GraduationProject
  *
- * Created by X on 2019/4/11
+ * Created by X on 2019/4/13
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -55,6 +55,8 @@ public class RAM extends SuperUnit {
     public void processData() {
         data2Write = in[0].content;
         address = in[1].content;
+        String binaryString = DataUtil.getBinaryString(address,16);
+        address = DataUtil.getInteger(binaryString.substring(4),2);
         if (isWrite) {
             memory[address] = data2Write;
             setOutContent(memory[address]);

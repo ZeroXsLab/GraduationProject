@@ -3,7 +3,7 @@
  * SuperUnit.java
  * GraduationProject
  *
- * Created by X on 2019/4/12
+ * Created by X on 2019/4/13
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -33,7 +33,7 @@ public class SuperUnit implements Runnable{
     // make the unit ready, so it can be read by others
     public void readyForRead() {
         for (int iIn = 0; iIn < in.length; iIn ++) {
-            this.in[iIn].setBeenRead(false);
+            this.in[iIn].setBeenRead(0);
         }
     }
 
@@ -102,12 +102,12 @@ public class SuperUnit implements Runnable{
     }
 
     public void finish() {
-        for (int iIn = 0; iIn < in.length; iIn ++) {
-            this.in[iIn].setBeenRead(true);
+        for (int iIn = 0; iIn < this.in.length; iIn ++) {
+            this.in[iIn].setBeenRead(-1);
         }
         for (int iOut = 0; iOut < this.out.length; iOut ++) {
             if (this.out[iOut] != null) {
-                this.out[iOut].setBeenRead(true);
+                this.out[iOut].setBeenRead(-1);
             }
         }
     }

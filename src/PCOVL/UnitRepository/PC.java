@@ -3,7 +3,7 @@
  * PC.java
  * GraduationProject
  *
- * Created by X on 2019/4/12
+ * Created by X on 2019/4/13
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -24,7 +24,8 @@ public class PC extends SuperUnit {
     public void run() {
         if (isControllerInChanrge()) {
             // In Controller State, set enable by the control signal
-            inputEnable = (Controller.signal[2] != 0);
+            // change this in ALU function.
+            inputEnable = false;
             // FIXME how to define the inToRun and isJMP.
         } else {
             // In User Control State, always be enable.
@@ -45,5 +46,6 @@ public class PC extends SuperUnit {
             pointer = in[0].content;
         }
         setOutContent(pointer);
+        setLabel();
     }
 }
