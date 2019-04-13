@@ -20,6 +20,7 @@ public class MUX2 extends SuperUnit {
     private int inputTwo;
 
     private int selIndex = 0;   // 5 For Xsel(Data Out); 6 For Ysel(Data In); 7 For Asel(Address)
+    public boolean isDataOut = false;
 
     public MUX2(BaseUnitUI unitUI) {
         super(3, unitUI);
@@ -32,13 +33,16 @@ public class MUX2 extends SuperUnit {
             if (isOutsContain(GlobalVariable.RAM.in[0])) {
                 // Xsel
                 selIndex = 5;
+                isDataOut = true;
             } else if (isOutsContain(GlobalVariable.RAM.in[1])) {
                 // Asel
                 selIndex = 7;
+                isDataOut = false;
                 this.bits = 12;     //It is the address MUX2, only get and show the last 12 bits
             } else {
                 // Ysel
                 selIndex = 6;
+                isDataOut = false;
             }
             if (Controller.signal[selIndex] == -1) {
                 // Disable

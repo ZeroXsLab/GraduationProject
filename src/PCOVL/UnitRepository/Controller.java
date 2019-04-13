@@ -11,6 +11,7 @@
 package PCOVL.UnitRepository;
 
 import PCOVL.UI.BaseUnitUI;
+import PCOVL.UI.GlobalVariable;
 
 public class Controller extends SuperUnit {
     private int instruction;
@@ -47,6 +48,14 @@ public class Controller extends SuperUnit {
 
     public void generateSignal() {
         signal = signalTable[instruction + 1];
+        if (instruction + 1 == 3) {
+            for (int i = 0; i < GlobalVariable.unitToRun.size() ; i++) {
+                if (GlobalVariable.unitToRun.get(i) instanceof MUX2 && ((MUX2)GlobalVariable.unitToRun.get(i)).isDataOut) {
+                    GlobalVariable.unitToRun.get(i).readyForRead();
+                    break;
+                }
+            }
+        }
         for (int i = 0; i < signal.length; i++) {
             System.out.print(signal[i] + "\t");
         }

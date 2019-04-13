@@ -22,6 +22,7 @@ public class RAM extends SuperUnit {
     private int[] memory = {3,8196,4101,12,-19,0};   // LDA 011, ADD 100, STA 101, Mem0, Mem1, Mem2 -> 12 - 19 store at the last memory
     // whether is to write
     private boolean isWrite = false;
+    private int dataIndex = 0;
 
     public RAM(BaseUnitUI unitUI) {
         super(2, unitUI);
@@ -30,6 +31,7 @@ public class RAM extends SuperUnit {
     @Override
     public void run() {
         if (isControllerInChanrge()) {
+            dataIndex = 3;
             isWrite = Controller.signal[8] == 0;    // This is OK when it can not be read and write in one instruction.
         } else {
             // In User Control State
@@ -69,9 +71,9 @@ public class RAM extends SuperUnit {
     public void setLabel() {
         if (isWrite) {
             // Write data, show all the data of memory
-            String string = ""; // set string = "<html><body>"+strMsg1+"<br>"+strMsg2+"<body></html>" to break the line.
-            for (int iMem = 0; iMem < memory.length; iMem ++) {
-                string += memory[iMem] + "-";
+            String string = "Data "; // set string = "<html><body>"+strMsg1+"<br>"+strMsg2+"<body></html>" to break the line.
+            for (int iMem = dataIndex; iMem < memory.length; iMem ++) {
+                string += memory[iMem] + ":";
             }
             string = string.substring(0, string.length() - 1);
             unitUI.setText(string);
