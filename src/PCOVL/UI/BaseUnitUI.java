@@ -3,7 +3,7 @@
  * BaseUnitUI.java
  * GraduationProject
  *
- * Created by X on 2019/4/10
+ * Created by X on 2019/4/17
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -103,5 +103,12 @@ public class BaseUnitUI extends JPanel{
 
     public void setText(String text) {
         this.textLabel.setText(text);
+    }
+
+    public boolean isUpsideDown() {
+        if (this.getName().contains("RAM")) {
+            return true;
+        }
+        return isUpsideDown;
     }
 }

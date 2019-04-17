@@ -3,7 +3,7 @@
  * WorkingPanelDelegate.java
  * GraduationProject
  *
- * Created by X on 2019/4/16
+ * Created by X on 2019/4/17
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -153,7 +153,8 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
             labelOrigin = EventUtil.transformToSuperLoca(labelOrigin, GlobalVariable.lastOutLabel.getParent());
             labelOrigin.x += GlobalVariable.actionWidth / 2;
             labelOrigin.y += GlobalVariable.actionHeight / 4;
-            Line line = new Line(labelOrigin,labelOrigin);
+            BaseUnitUI component = (BaseUnitUI) e.getComponent();
+            Line line = new Line(labelOrigin,labelOrigin, component.isUpsideDown());
             GlobalVariable.workPanel.add(line);
             GlobalVariable.workPanel.updateUI();
             GlobalVariable.lastLine = line;
@@ -184,6 +185,11 @@ public class WorkingPanelDelegate implements MouseListener, MouseMotionListener 
                 above.setInLines(GlobalVariable.lastLine,index);
                 // Refine the line location
                 Line line = above.getInLines()[index];
+                if (above.unitUI.getName().contains("RAM")) {
+                    line.setEndUpsideDown(false);
+                } else {
+                    line.setEndUpsideDown(above.unitUI.isUpsideDown());
+                }
                 Point origin = above.unitUI.getComponent(index).getLocation();
                 origin = EventUtil.transformToSuperLoca(origin, above.unitUI);
                 origin.x += GlobalVariable.actionWidth / 2;
