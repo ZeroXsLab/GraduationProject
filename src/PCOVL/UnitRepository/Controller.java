@@ -3,7 +3,7 @@
  * Controller.java
  * GraduationProject
  *
- * Created by X on 2019/4/13
+ * Created by X on 2019/4/21
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -28,7 +28,8 @@ public class Controller extends SuperUnit {
             {1,        0,          0,          0,           0,       -1,       1,    -1,      0,     0},
             {1,        0,          0,          0,           0,       -1,       1,    -1,      0,     0},
             {1,        0,          0,          0,          -1,       -1,      -1,    -1,      0,     0},
-            {1,        1,          1,          1,           1,        1,       1,     1,      1,     1}};
+            {-1,       1,          1,          1,           1,        1,       1,     1,      1,     1}};
+            // -1 -> Special Signal State for All Unit Enable.
     public static int[] signal = signalTable[9];    // default 0, set 9 to make all enable
 
     public Controller(BaseUnitUI unitUI) {

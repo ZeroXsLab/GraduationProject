@@ -3,7 +3,7 @@
  * EventUtil.java
  * GraduationProject
  *
- * Created by X on 2019/4/13
+ * Created by X on 2019/4/21
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -166,7 +166,7 @@ public class EventUtil {
             threads.get(threads.size() - 1).start();
         }
         int joinIndex = 0;
-        if (Controller.signal[0] == 0) {
+        if (Controller.signal[0] == 0 || Controller.signal[0] == -1) {  // when equal to -1, it's the original state, also support unit test.
             // In Fetch State, begin from PC
             System.out.println("Fetching Instruction............");
             if (GlobalVariable.programCounter != null) {

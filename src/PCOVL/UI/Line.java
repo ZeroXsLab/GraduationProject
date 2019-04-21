@@ -3,7 +3,7 @@
  * Line.java
  * GraduationProject
  *
- * Created by X on 2019/4/17
+ * Created by X on 2019/4/21
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -701,7 +701,7 @@ public class Line extends JButton {
                         );
 
                         origin.x = endPoint.x;
-                        origin.y = endPoint.y + 10;
+                        origin.y = endPoint.y + 5;
                         size.width = startPoint.x - endPoint.x;
                         size.height = startPoint.y - endPoint.y;
                     } else {
@@ -727,7 +727,7 @@ public class Line extends JButton {
                         );
 
                         origin.x = startPoint.x;
-                        origin.y = endPoint.y + 10;
+                        origin.y = endPoint.y + 5;
                         size.width = endPoint.x - startPoint.x;
                         size.height = startPoint.y - endPoint.y;
                     }
