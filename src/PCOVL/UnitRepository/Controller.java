@@ -17,6 +17,8 @@ public class Controller extends SuperUnit {
     private int instruction;
     private int address;
 
+    String[] insInfo = {"LDA", "STA", "ADD", "SUB", "JMP", "JGE", "JNE", "STP"};
+
     public static final int[][] signalTable = new int[][]{
             //State-00,IREnable-01,PCEnable-02,AccEnable-03,M[1:0]-04,Xsel-05,Ysel-06,Asel-07,Ren-08,Wen-09
             {0,        1,          1,          0,           2,        1,      -1,     0,      1,     0},
@@ -45,6 +47,11 @@ public class Controller extends SuperUnit {
         address = DataUtil.getInteger(binaryString.substring(4),2);
         System.out.println(instruction + ":" + address);
         setOutContent(instruction);
+        if (signal[0] == 0) {
+            addition = "Fetch Instruction";
+        } else {
+            addition = insInfo[instruction] + " [" + binaryString.substring(4) + "]";
+        }
     }
 
     public void generateSignal() {

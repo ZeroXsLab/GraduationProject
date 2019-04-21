@@ -3,7 +3,7 @@
  * SuperUnit.java
  * GraduationProject
  *
- * Created by X on 2019/4/13
+ * Created by X on 2019/4/21
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -29,6 +29,7 @@ public class SuperUnit implements Runnable{
 
     int[] inToRun = null;
     boolean needSetOut = true;
+    String addition = "";
 
     // make the unit ready, so it can be read by others
     public void readyForRead() {
@@ -156,7 +157,11 @@ public class SuperUnit implements Runnable{
                 break;
             }
         }
-        unitUI.setText(unitUI.getName() + ":" + DataUtil.getBinaryString(content, bits));
+        String origin = unitUI.getName() + ":" + DataUtil.getBinaryString(content, bits);
+        if (addition.length() > 1) {
+            origin= "<html>" + addition + "<br/>" + origin + "</html>";
+        }
+        unitUI.setText(origin);
     }
 
     // Whether the Controller is in charge. wait to Fix

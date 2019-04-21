@@ -3,7 +3,7 @@
  * ALU.java
  * GraduationProject
  *
- * Created by X on 2019/4/13
+ * Created by X on 2019/4/21
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -60,18 +60,22 @@ public class ALU extends SuperUnit {
             case 0:
                 // =Y
                 setOutContent(inputTwo);
+                addition = "=Y: " + inputOne + " and " + inputTwo;
                 break;
             case 1:
                 // ADD
                 setOutContent(inputOne + inputTwo);
+                addition = "ADD: " + inputOne + " and " + inputTwo;
                 break;
             case 2:
                 // INC
                 setOutContent(inputOne + 1);
+                addition = "INC X: " + inputOne + " and " + inputTwo;
                 break;
             case 3:
                 // SUB
                 setOutContent(inputOne - inputTwo);
+                addition = "SUB: " + inputOne + " and " + inputTwo;
                 break;
         }
         if (GlobalVariable.programCounter != null && (Controller.signal[2] != 0)) {
