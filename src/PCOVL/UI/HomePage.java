@@ -3,7 +3,7 @@
  * HomePage.java
  * GraduationProject
  *
- * Created by X on 2019/4/12
+ * Created by X on 2019/5/3
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -13,13 +13,13 @@ package PCOVL.UI;
 import PCOVL.UnitRepository.RAM;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import static PCOVL.UI.GlobalVariable.*;
 
 public class HomePage extends JFrame {
     private JSplitPane contentPanel;
+    private boolean memoryReady = false;
 
     public HomePage() {
         // JFrame initial.
@@ -36,7 +36,13 @@ public class HomePage extends JFrame {
         btn.setBounds(workPanel.getWidth() - 80, 10,60,20);
         workPanel.add(btn);
         btn.addActionListener((ActionEvent e) ->
-                { EventUtil.executeInstruction(); }
+                {
+                    if (memoryReady || !GlobalVariable.unitArray.contains(GlobalVariable.RAM)) {
+                        EventUtil.executeInstruction();
+                    } else {
+                        memoryReady = EventUtil.initMemory();
+                    }
+                }
             );
         this.setVisible(true);
     }

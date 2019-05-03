@@ -3,7 +3,7 @@
  * MUX2.java
  * GraduationProject
  *
- * Created by X on 2019/4/21
+ * Created by X on 2019/5/3
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -21,6 +21,7 @@ public class MUX2 extends SuperUnit {
 
     private int selIndex = 0;   // 5 For Xsel(Data Out); 6 For Ysel(Data In); 7 For Asel(Address)
     public boolean isDataOut = false;
+    private String type = "";
 
     public MUX2(BaseUnitUI unitUI) {
         super(3, unitUI);
@@ -34,18 +35,18 @@ public class MUX2 extends SuperUnit {
                 // Xsel
                 selIndex = 5;
                 isDataOut = true;
-                addition = "DataOut ";
+                type = "DataOut ";
             } else if (isOutsContain(GlobalVariable.RAM.in[1])) {
                 // Asel
                 selIndex = 7;
                 isDataOut = false;
                 this.bits = 12;     //It is the address MUX2, only get and show the last 12 bits
-                addition = "Address ";
+                type = "Address ";
             } else {
                 // Ysel
                 selIndex = 6;
                 isDataOut = false;
-                addition = "DataIn ";
+                type = "DataIn ";
             }
             if (Controller.signal[selIndex] == -1) {
                 // Disable
@@ -77,10 +78,10 @@ public class MUX2 extends SuperUnit {
         if (S0 < 1) {
             // it's 0, Select A(InputOne)
             setOutContent(inputOne);
-            addition += "Select Zero";
+            addition = type + "Select Zero";
         } else {
             setOutContent(inputTwo);
-            addition += "Select One";
+            addition = type + "Select One";
         }
     }
 

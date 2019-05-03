@@ -3,7 +3,7 @@
  * EventUtil.java
  * GraduationProject
  *
- * Created by X on 2019/4/21
+ * Created by X on 2019/5/3
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -18,6 +18,8 @@ import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.lang.reflect.Constructor;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class EventUtil {
     public static Point getAbsolutePointBy(MouseEvent event) {
@@ -192,5 +194,80 @@ public class EventUtil {
             ex.printStackTrace();
         }
         System.out.println("......................Finish a instruction");
+    }
+
+    public static boolean initMemory() {
+        RAM memory = (RAM) GlobalVariable.RAM;
+        String inputString = (String) JOptionPane.showInputDialog(
+                null,
+                "Enter the instruction and memory content, separate by ';'",
+                "Input Something",
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                null,
+                "lda 12, add 13, sta 14; -13, 19, 0");
+        if (inputString == null) {
+            // user cancel, init failed.
+            return false;
+        }
+        String[] formatStr = inputString.split(";");
+        if (formatStr.length != 2 || formatStr[0].length() < 1 || formatStr[1].length() < 1) {
+            JOptionPane.showMessageDialog(null,
+                    "Instruction and memory content only!\nPlease try again",
+                    "Syntax Error",
+                    JOptionPane.ERROR_MESSAGE);
+            // syntax error, init failed.
+            return false;
+        }
+        // init the content, 0-11 is instruction, 12-23 is content.
+        int[] content = new int[24];
+        String regex = "([a-z|A-Z]{3}\\s\\d*)";
+        ArrayList<String> instruction = getMatches(formatStr[0], regex);
+        for (int iIns = 0; iIns < instruction.size() && iIns < 12; iIns++) {
+            String str = instruction.get(iIns);
+            int addr = Integer.parseInt(getMatches(str, "(\\d+)").get(0));
+            switch (str.substring(0,3).toUpperCase()){
+                case "LDA" :
+                    content[iIns] = addr;
+                    break;
+                case "STA" :
+                    content[iIns] = addr + 4096;
+                    break;
+                case "ADD" :
+                    content[iIns] = addr + 8192;
+                    break;
+                case "SUB" :
+                    content[iIns] = addr + 12288;
+                    break;
+                case "JMP" :
+                    content[iIns] = addr + 16384;
+                    break;
+                case "JGE" :
+                    content[iIns] = addr + 20480;
+                    break;
+                case "JNE" :
+                    content[iIns] = addr + 24576;
+                    break;
+                case "STP" :
+                    content[iIns] = addr + 28672;
+                    break;
+            }
+        }
+        ArrayList<String> contents = getMatches(formatStr[1], "(-?\\d)+");
+        for (int iCon = 0; iCon < contents.size() && iCon < 12; iCon++) {
+            content[12 + iCon] = Integer.parseInt(contents.get(iCon));
+        }
+        memory.setMemory(content);
+        return true;
+    }
+
+    static ArrayList<String> getMatches(String source, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(source);
+        ArrayList<String> strings = new ArrayList<>();
+        while (matcher.find()) {
+            strings.add(matcher.group(0));
+        }
+        return strings;
     }
 }

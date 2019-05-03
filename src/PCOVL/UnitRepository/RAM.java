@@ -3,7 +3,7 @@
  * RAM.java
  * GraduationProject
  *
- * Created by X on 2019/4/13
+ * Created by X on 2019/5/3
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -31,7 +31,7 @@ public class RAM extends SuperUnit {
     @Override
     public void run() {
         if (isControllerInChanrge()) {
-            dataIndex = 3;
+            dataIndex = 12;
             isWrite = Controller.signal[8] == 0;    // This is OK when it can not be read and write in one instruction.
         } else {
             // In User Control State
@@ -81,5 +81,9 @@ public class RAM extends SuperUnit {
             // Read data, show the data we read.
             super.setLabel();
         }
+    }
+
+    public void setMemory(int[] memory) {
+        this.memory = memory;
     }
 }

@@ -3,31 +3,27 @@
  * stringFormat.java
  * GraduationProject
  *
- * Created by X on 2019/4/5
+ * Created by X on 2019/5/3
  * Copyright (c) 2019 X. All right reserved.
  *
  */
 
 package JavaTest;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 public class stringFormat {
     public static void main(String[] args){
-//        int panelWidth = 300;
-//        int output = 200;
-//        int buttonWidth = 30;
-//        int i = 1;
-//        System.out.println("@(i + 1) * (@panelWidth - @output*@buttonWidth) / @(output + 1) + @i*@buttonWidth");
-//        easyOutput("@(i + 1) * (@panelWidth - @output*@buttonWidth) / @(output + 1) + @i*@buttonWidth");
-//        System.out.println((i + 1) + " * ("+ panelWidth +" - "+ output +"*"+buttonWidth+") / "+(output + 1) +" + "+ i+"*"+buttonWidth);
-//        String a = null;
-//        if (a.contains("a")) {
-//            System.out.println("AAA");
-//        } else {
-//            System.out.println("BBB");
-//        }
-        String origin = "PCOVL.UnitRepository.Switch 1";
-        String[] s = origin.split(" ");
-        System.out.println();
+        String url = "lda 000, add 223, sta 354646";
+        String regex = "([a-z|A-Z]{3}\\s\\d*)";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(url);
+        int i = 1;
+        while (matcher.find()) {
+            System.out.println(matcher.group(0) + "\t" + i);
+            i++;
+        }
     }
 
     public static void easyOutput(String string){
