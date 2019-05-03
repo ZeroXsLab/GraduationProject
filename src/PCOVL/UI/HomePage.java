@@ -3,7 +3,7 @@
  * HomePage.java
  * GraduationProject
  *
- * Created by X on 2019/5/3
+ * Created by X on 2019/5/4
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -11,8 +11,10 @@
 package PCOVL.UI;
 
 import PCOVL.UnitRepository.RAM;
+import PCOVL.UnitRepository.SuperUnit;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 
 import static PCOVL.UI.GlobalVariable.*;
@@ -37,6 +39,10 @@ public class HomePage extends JFrame {
         workPanel.add(btn);
         btn.addActionListener((ActionEvent e) ->
                 {
+                    if (unitArray.size() == 1 && GlobalVariable.unitArray.contains(GlobalVariable.RAM)){
+                        // user do nothing before click, add machine.
+                        initMachine();
+                    }
                     if (memoryReady || !GlobalVariable.unitArray.contains(GlobalVariable.RAM)) {
                         EventUtil.executeInstruction();
                     } else {
@@ -116,5 +122,82 @@ public class HomePage extends JFrame {
         unitUI.setName("RAM");
         unitUI.setLocation(500,100);
         return unitUI;
+    }
+
+    void initMachine() {
+        WorkingPanelDelegate workingPanelDelegate = new WorkingPanelDelegate();
+        // Index, X, Y
+        int[][] unitArray = new int[][]{
+                {1,300,200},    // DataOutMUX2
+                {1,500,200},    // AddressMUX2
+                {3,400,300},    // PC
+                {6,250,400},    // ALU
+                {4,150,300},    // Acc
+                {5,600,300},    // IR
+                {7,800,300},    // Ctrl
+                {2,700,400}     // DataInMUX2
+        };
+        for (int arrI = 0; arrI < unitArray.length; arrI++) {
+            int[] tempArr = unitArray[arrI];
+            // Copy UI
+            Component component = EventUtil.copyUnitFrom(unitPanel.getComponent(tempArr[0]), false);
+            component.setLocation(tempArr[1],tempArr[2]);
+            // Add delegate
+            component.addMouseListener(workingPanelDelegate);
+            component.addMouseMotionListener(workingPanelDelegate);
+            // Init Logic
+            EventUtil.initLogi((BaseUnitUI) component);
+            // Add to panel
+            workPanel.add(component);
+        }
+        // Line Initial
+        // inUnitIndex, outUnitIndex, inIndex
+        int[][] lineArray = new int[][]{
+                {0, 1, 0},  // DataOut->RAM
+                {0, 2, 1},  // Addr->RAM
+                {1, 3, 2},  // PC->DataOut
+                {2, 3, 1},  // PC->Addr
+                {4, 1, 1},  // DataOut->ALU
+                {3, 4, 0},  // ALU->PC
+                {6, 0, 0},  // RAM->IR
+                {7, 6, 0},  // IR->Ctrl
+                {2, 6, 2},  // IR->Addr
+                {8, 0, 1},  // RAM->DataIn
+                {4, 8, 2},  // DataIn->ALU
+                {5, 4, 0},  // ALU->Acc
+                {1, 5, 1}   // Acc->DataOut
+        };
+        for (int arrI = 0; arrI < lineArray.length; arrI++) {
+            int[] tempArr = lineArray[arrI];
+            SuperUnit above = GlobalVariable.unitArray.get(tempArr[0]);
+            SuperUnit below = GlobalVariable.unitArray.get(tempArr[1]);
+            below.setOut(above.getInAt(tempArr[2]));
+            // Line init
+            Point bePoint = below.unitUI.getComponent(below.unitUI.getComponentCount() - 2).getLocation();
+            bePoint = EventUtil.transformToSuperLoca(bePoint, below.unitUI);
+            bePoint.x += GlobalVariable.actionWidth / 2;
+            bePoint.y += GlobalVariable.actionHeight / 4;
+            Point abPoint = above.unitUI.getComponent(tempArr[2]).getLocation();
+            abPoint = EventUtil.transformToSuperLoca(abPoint, above.unitUI);
+            abPoint.x += GlobalVariable.actionWidth / 2;
+            Line line = new Line(bePoint, bePoint, below.unitUI.isUpsideDown());
+            if (above.unitUI.getName().contains("RAM")) {
+                line.setEndUpsideDown(false);
+            } else {
+                line.setEndUpsideDown(above.unitUI.isUpsideDown());
+            }
+            // Save Line
+            below.setOutLine(line, above.getInAt(tempArr[2]));
+            above.setInLines(line, tempArr[2]);
+            System.out.println("System End Point: " + abPoint);
+            line.updateEndPoint(abPoint);
+            System.out.println("System init line origin " + line.getLocation() + line.getSize());
+            line.destination = above;
+            line.originUnit = below;
+            line.destIndex = tempArr[2];
+            GlobalVariable.workPanel.add(line);
+            workPanel.updateUI();
+        }
+        workPanel.updateUI();
     }
 }

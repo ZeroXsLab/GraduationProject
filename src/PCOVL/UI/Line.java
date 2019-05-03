@@ -3,7 +3,7 @@
  * Line.java
  * GraduationProject
  *
- * Created by X on 2019/4/21
+ * Created by X on 2019/5/4
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -1060,7 +1060,11 @@ public class Line extends JButton {
 
     public void updateEndPoint(Point end) {
         // update size and origin
+        endPoint = end;
         calcArea();
+        if (size.width < lineWidth) {
+            size.width = (int) lineWidth;
+        }
         this.setSize(size);
         setLocation(origin);
         // save the new endPoint.
@@ -1069,7 +1073,11 @@ public class Line extends JButton {
 
     public void updateStartPoint(Point start) {
         // update size and origin
+        startPoint = start;
         calcArea();
+        if (size.width < lineWidth) {
+            size.width = (int) lineWidth;
+        }
         this.setSize(size);
         setLocation(origin);
         // save the new startPoint.
