@@ -3,7 +3,7 @@
  * Line.java
  * GraduationProject
  *
- * Created by X on 2019/5/4
+ * Created by X on 2019/5/5
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -38,6 +38,7 @@ public class Line extends JButton {
     public SuperUnit destination;
     SuperUnit originUnit;
     int destIndex;
+    int minHWid = GlobalVariable.unitWidth / 2 + 4 * (int) lineWidth;
 
     public Line(Point start, Point end, boolean isStartUD) {
         super();
@@ -68,7 +69,7 @@ public class Line extends JButton {
         Rectangle2D startHorizontal = new Rectangle2D.Double();
         Rectangle2D endHorizontal = new Rectangle2D.Double();   // if only three line, this be null
         Area area = new Area();
-        int minHWid = GlobalVariable.unitWidth / 2 + 4 * (int) lineWidth;
+
         if (isStartUpsideDown) {
             if (startPoint.y > endPoint.y) {
                 if (isEndUpsideDown) {
@@ -863,8 +864,8 @@ public class Line extends JButton {
                         size.height = endPoint.y - startPoint.y + (int) startLength;
                     }
                 } else {
-                    minHWid = minHWid * 4 / 3;
-                    if (startPoint.x - endPoint.x > minHWid) {
+                    int tempMinHWid = minHWid * 4 / 3;
+                    if (startPoint.x - endPoint.x > tempMinHWid) {
                         // startPoint.x - endPoint.x > minimumWidth && startPoint.y < endPoint.y && notStartUpsideDown && notEndUpsideDown
                         // ↑←↓←↑
                         startVertical = new Rectangle2D.Double(
@@ -902,7 +903,7 @@ public class Line extends JButton {
                         origin.y = startPoint.y - (int) startLength;
                         size.width = startPoint.x - endPoint.x;
                         size.height = endPoint.y - startPoint.y + (int) (startLength + endLength);
-                    } else if (startPoint.x - endPoint.x < - minHWid) {
+                    } else if (startPoint.x - endPoint.x < - tempMinHWid) {
                         // startPoint.x - endPoint.x < -minimumWidth && startPoint.y < endPoint.y && notStartUpsideDown && notEndUpsideDown
                         // ↑→↓→↑
                         startVertical = new Rectangle2D.Double(
@@ -944,39 +945,39 @@ public class Line extends JButton {
                         // minimumWidth > startPoint.x - endPoint.x > 0 && startPoint.y < endPoint.y && notStartUpsideDown && notEndUpsideDown
                         // ↑→↓←←↑
                         startVertical = new Rectangle2D.Double(
-                                getWidth() - minHWid,
+                                getWidth() - lineWidth,
                                 0,
                                 lineWidth,
                                 startLength
                         );
                         middleVertical = new Rectangle2D.Double(
-                                getWidth() - lineWidth,
+                                0,
                                 0,
                                 lineWidth,
                                 getHeight()
                         );
                         startHorizontal = new Rectangle2D.Double(
-                                getWidth() - minHWid,
                                 0,
-                                minHWid,
+                                0,
+                                getWidth(),
                                 lineWidth
                         );
                         endHorizontal = new Rectangle2D.Double(
                                 0,
                                 getHeight() - lineWidth,
-                                getWidth(),
+                                tempMinHWid,
                                 lineWidth
                         );
                         endVertical = new Rectangle2D.Double(
-                                0,
+                                tempMinHWid,
                                 getHeight() - endLength,
                                 lineWidth,
                                 endLength
                         );
 
-                        origin.x = endPoint.x;
+                        origin.x = endPoint.x - tempMinHWid;
                         origin.y = startPoint.y - (int) startLength;
-                        size.width = startPoint.x - endPoint.x + minHWid;
+                        size.width = startPoint.x - endPoint.x + tempMinHWid;
                         size.height = endPoint.y - startPoint.y + (int) (startLength + endLength);
                     } else {
                         // startPoint.x - endPoint.x > minimumWidth && startPoint.y < endPoint.y && notStartUpsideDown && notEndUpsideDown
@@ -1000,13 +1001,13 @@ public class Line extends JButton {
                                 lineWidth
                         );
                         endHorizontal = new Rectangle2D.Double(
-                                getWidth() - minHWid,
+                                getWidth() - tempMinHWid,
                                 getHeight() - lineWidth,
-                                minHWid,
+                                tempMinHWid,
                                 lineWidth
                         );
                         endVertical = new Rectangle2D.Double(
-                                getWidth() - minHWid,
+                                getWidth() - tempMinHWid,
                                 getHeight() - endLength,
                                 lineWidth,
                                 endLength
@@ -1014,7 +1015,7 @@ public class Line extends JButton {
 
                         origin.x = startPoint.x;
                         origin.y = startPoint.y - (int) startLength;
-                        size.width = endPoint.x - startPoint.x + minHWid;
+                        size.width = endPoint.x - startPoint.x + tempMinHWid;
                         size.height = endPoint.y - startPoint.y + (int) (startLength + endLength);
                     }
                 }

@@ -3,7 +3,7 @@
  * HomePage.java
  * GraduationProject
  *
- * Created by X on 2019/5/4
+ * Created by X on 2019/5/5
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -130,7 +130,7 @@ public class HomePage extends JFrame {
         int[][] unitArray = new int[][]{
                 {1,300,200},    // DataOutMUX2
                 {1,500,200},    // AddressMUX2
-                {3,400,300},    // PC
+                {3,350,280},    // PC
                 {6,250,400},    // ALU
                 {4,150,300},    // Acc
                 {5,600,300},    // IR
@@ -186,6 +186,15 @@ public class HomePage extends JFrame {
                 line.setEndUpsideDown(false);
             } else {
                 line.setEndUpsideDown(above.unitUI.isUpsideDown());
+            }
+            if (arrI == 4) {
+                line.minHWid = 150;
+            }
+            if (arrI == 6) {
+                line.ratio = 0.3;
+            }
+            if (arrI == 9) {
+                line.ratio = 0.1;
             }
             // Save Line
             below.setOutLine(line, above.getInAt(tempArr[2]));
