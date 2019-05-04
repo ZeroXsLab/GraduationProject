@@ -3,7 +3,7 @@
  * EventUtil.java
  * GraduationProject
  *
- * Created by X on 2019/5/3
+ * Created by X on 2019/5/5
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -205,7 +205,7 @@ public class EventUtil {
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 null,
-                "lda 12, add 13, sta 14; -13, 19, 0");
+                "lda 12, jne 3, add 13, sub 13, sta 14; -13, 19, 0");
         if (inputString == null) {
             // user cancel, init failed.
             return false;

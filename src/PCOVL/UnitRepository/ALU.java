@@ -3,7 +3,7 @@
  * ALU.java
  * GraduationProject
  *
- * Created by X on 2019/4/21
+ * Created by X on 2019/5/5
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -61,6 +61,11 @@ public class ALU extends SuperUnit {
                 // =Y
                 setOutContent(inputTwo);
                 addition = "=Y: " + inputOne + " and " + inputTwo;
+                if (Controller.usualOrJGEorJNE == 1 && GlobalVariable.Flag[0] == 0) {
+                    Controller.signal[2] = 1;
+                } else if (Controller.usualOrJGEorJNE == 2 && GlobalVariable.Flag[1] == 0) {
+                    Controller.signal[2] = 1;
+                }
                 break;
             case 1:
                 // ADD

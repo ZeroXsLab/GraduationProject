@@ -3,7 +3,7 @@
  * MUX2.java
  * GraduationProject
  *
- * Created by X on 2019/5/3
+ * Created by X on 2019/5/5
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -80,6 +80,9 @@ public class MUX2 extends SuperUnit {
             setOutContent(inputOne);
             addition = type + "Select Zero";
         } else {
+            if (type.contains("In")) {
+                inputTwo %= 4096;
+            }
             setOutContent(inputTwo);
             addition = type + "Select One";
         }
