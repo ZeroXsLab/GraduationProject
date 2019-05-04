@@ -165,7 +165,8 @@ public class HomePage extends JFrame {
                 {8, 0, 1},  // RAM->DataIn
                 {4, 8, 2},  // DataIn->ALU
                 {5, 4, 0},  // ALU->Acc
-                {1, 5, 1}   // Acc->DataOut
+                {1, 5, 1},  // Acc->DataOut
+                {8, 6, 2}   // IR->DataIn
         };
         for (int arrI = 0; arrI < lineArray.length; arrI++) {
             int[] tempArr = lineArray[arrI];
@@ -189,9 +190,7 @@ public class HomePage extends JFrame {
             // Save Line
             below.setOutLine(line, above.getInAt(tempArr[2]));
             above.setInLines(line, tempArr[2]);
-            System.out.println("System End Point: " + abPoint);
             line.updateEndPoint(abPoint);
-            System.out.println("System init line origin " + line.getLocation() + line.getSize());
             line.destination = above;
             line.originUnit = below;
             line.destIndex = tempArr[2];

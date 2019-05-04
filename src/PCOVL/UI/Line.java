@@ -52,7 +52,6 @@ public class Line extends JButton {
         // Not going to drawBorder, it's useless if it can not the same color to the background panel.
         setBorderPainted(false);
         setLocation(origin);
-        System.out.println();
         addMouseListener(lineDelegate);
         addMouseMotionListener(lineDelegate);
     }
