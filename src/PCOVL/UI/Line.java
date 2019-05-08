@@ -3,13 +3,14 @@
  * Line.java
  * GraduationProject
  *
- * Created by X on 2019/5/5
+ * Created by X on 2019/5/8
  * Copyright (c) 2019 X. All right reserved.
  *
  */
 
 package PCOVL.UI;
 
+import PCOVL.UnitRepository.Controller;
 import PCOVL.UnitRepository.SuperUnit;
 
 import javax.swing.*;
@@ -42,6 +43,7 @@ public class Line extends JButton {
 
     public Line(Point start, Point end, boolean isStartUD) {
         super();
+        setBackground(Color.GRAY);
         startPoint = start;
         endPoint = end;
         isStartUpsideDown = isStartUD;
@@ -1040,7 +1042,11 @@ public class Line extends JButton {
             //if click at the button
             g.setColor(Color.BLACK);
         } else {
-            g.setColor(Color.GRAY);
+            g.setColor(getBackground());
+            // To Fix a error that sometimes, the Line linked with the RAM DataIn comes Red while fetching instruction
+            if (Controller.signal[9] != 1 && this == GlobalVariable.RAM.getInLines()[0]) {
+                g.setColor(Color.GRAY);
+            }
         }
         super.paintComponent(g);
         // translate into Graphics2D and fill the area we want.

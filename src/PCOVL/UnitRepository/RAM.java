@@ -3,7 +3,7 @@
  * RAM.java
  * GraduationProject
  *
- * Created by X on 2019/5/3
+ * Created by X on 2019/5/8
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -11,6 +11,9 @@
 package PCOVL.UnitRepository;
 
 import PCOVL.UI.BaseUnitUI;
+import PCOVL.UI.GlobalVariable;
+
+import java.awt.*;
 
 // when process data, we can ignore outData(In 0) status for some situation
 public class RAM extends SuperUnit {
@@ -19,7 +22,7 @@ public class RAM extends SuperUnit {
     // the right actionLabel is the outData.
 
     // the memory data
-    private int[] memory = {3,8196,4101,12,-19,0};   // LDA 011, ADD 100, STA 101, Mem0, Mem1, Mem2 -> 12 - 19 store at the last memory
+    private int[] memory;
     // whether is to write
     private boolean isWrite = false;
     private int dataIndex = 0;

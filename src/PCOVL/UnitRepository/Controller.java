@@ -3,7 +3,7 @@
  * Controller.java
  * GraduationProject
  *
- * Created by X on 2019/5/5
+ * Created by X on 2019/5/8
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -63,7 +63,10 @@ public class Controller extends SuperUnit {
     }
 
     public void generateSignal() {
-        signal = signalTable[instruction + 1];
+        signal = new int[10];
+        for (int iSig = 0; iSig < signalTable[0].length; iSig++) {
+            signal[iSig] = signalTable[instruction + 1][iSig];
+        }
         if (instruction + 1 == 3 || instruction + 1 == 4) {
             // Add Sub instruction, Acc should out put
             for (int i = 0; i < GlobalVariable.unitToRun.size() ; i++) {

@@ -3,7 +3,7 @@
  * ALU.java
  * GraduationProject
  *
- * Created by X on 2019/5/5
+ * Created by X on 2019/5/8
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -12,6 +12,8 @@ package PCOVL.UnitRepository;
 
 import PCOVL.UI.BaseUnitUI;
 import PCOVL.UI.GlobalVariable;
+
+import java.awt.*;
 
 public class ALU extends SuperUnit {
 
@@ -88,6 +90,7 @@ public class ALU extends SuperUnit {
             boolean enableStatus = GlobalVariable.programCounter.inputEnable;
             GlobalVariable.programCounter.inputEnable = true;
             GlobalVariable.programCounter.processData();
+            GlobalVariable.programCounter.inLines[0].setBackground(Color.RED);
             GlobalVariable.programCounter.inputEnable = enableStatus;
         }
     }

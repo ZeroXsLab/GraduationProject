@@ -3,7 +3,7 @@
  * SuperUnit.java
  * GraduationProject
  *
- * Created by X on 2019/4/21
+ * Created by X on 2019/5/8
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -12,6 +12,8 @@ package PCOVL.UnitRepository;
 
 import PCOVL.UI.BaseUnitUI;
 import PCOVL.UI.Line;
+
+import java.awt.*;
 
 public class SuperUnit implements Runnable{
     private int outDataCount = 3;
@@ -105,6 +107,9 @@ public class SuperUnit implements Runnable{
     public void finish() {
         for (int iIn = 0; iIn < this.in.length; iIn ++) {
             this.in[iIn].setBeenRead(-1);
+            if (inLines[iIn] != null) {
+                inLines[iIn].setBackground(Color.GRAY);
+            }
         }
         for (int iOut = 0; iOut < this.out.length; iOut ++) {
             if (this.out[iOut] != null) {
@@ -120,6 +125,7 @@ public class SuperUnit implements Runnable{
             if (inToRun == null) {
                 for (int iIn = 0; iIn < in.length; iIn ++) {
                     in[iIn].read(name + Integer.toHexString(this.hashCode()));
+                    this.inLines[iIn].setBackground(Color.RED);
                 }
             } else {
                 // only read specific In
@@ -127,6 +133,7 @@ public class SuperUnit implements Runnable{
                 for (int iInTo = 0; iInTo < inToRun.length; iInTo ++) {
                     index = inToRun[iInTo];
                     in[index].read(name + Integer.toHexString(this.hashCode()));
+                    this.inLines[index].setBackground(Color.RED);
                 }
             }
         }
