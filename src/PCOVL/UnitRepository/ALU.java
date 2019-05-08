@@ -87,6 +87,7 @@ public class ALU extends SuperUnit {
         }
         if (GlobalVariable.programCounter != null && (Controller.signal[2] != 0)) {
             // Update the PC
+            super.pauseRunning();
             boolean enableStatus = GlobalVariable.programCounter.inputEnable;
             GlobalVariable.programCounter.inputEnable = true;
             GlobalVariable.programCounter.processData();

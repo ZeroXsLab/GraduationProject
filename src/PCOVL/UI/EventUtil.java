@@ -181,6 +181,7 @@ public class EventUtil {
             // In Execute State, begin from IR
             System.out.println("Executing Instruction.............");
             if (Controller.signal == Controller.signalTable[8]) {
+                // Going to Execute STP instruction
                 JOptionPane.showMessageDialog(null,
                         "All Instruction Has been Executed.",
                         "Completed",

@@ -140,6 +140,7 @@ public class SuperUnit implements Runnable{
         processData();
         // show the result.
         setLabel();
+        this.pauseRunning();
         if (needSetOut) {
             for (int iOut = 0; iOut < this.out.length; iOut ++) {
                 if (this.out[iOut] != null) {
@@ -189,6 +190,14 @@ public class SuperUnit implements Runnable{
             if (this.out[iOut] != null) {
                 this.out[iOut].content = content;
             }
+        }
+    }
+
+    public void pauseRunning() {
+        try {
+            Thread.sleep(800);
+        } catch (Exception ex) {
+            System.out.println("Thread sleep error");
         }
     }
 }
