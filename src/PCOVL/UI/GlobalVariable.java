@@ -3,7 +3,7 @@
  * GlobalVariable.java
  * GraduationProject
  *
- * Created by X on 2019/4/12
+ * Created by X on 2019/5/8
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -53,4 +53,6 @@ public class GlobalVariable {
 
     public static int[] Flag = new int[2];  // NegativeFlag, ZeroFlag
     public static HashMap hashMap = new HashMap();
+
+    public static JButton runBtn;
 }

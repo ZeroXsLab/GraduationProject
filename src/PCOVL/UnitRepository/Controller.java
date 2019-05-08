@@ -63,10 +63,7 @@ public class Controller extends SuperUnit {
     }
 
     public void generateSignal() {
-        signal = new int[10];
-        for (int iSig = 0; iSig < signalTable[0].length; iSig++) {
-            signal[iSig] = signalTable[instruction + 1][iSig];
-        }
+        signal = signalTable[instruction + 1];
         if (instruction + 1 == 3 || instruction + 1 == 4) {
             // Add Sub instruction, Acc should out put
             for (int i = 0; i < GlobalVariable.unitToRun.size() ; i++) {

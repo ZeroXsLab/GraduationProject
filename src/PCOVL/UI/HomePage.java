@@ -3,7 +3,7 @@
  * HomePage.java
  * GraduationProject
  *
- * Created by X on 2019/5/5
+ * Created by X on 2019/5/8
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -35,6 +35,7 @@ public class HomePage extends JFrame {
         initUnitInUnitPanel();
         // Button to execute the instruction.
         JButton btn = new JButton("Run");
+        runBtn = btn;
         btn.setBounds(workPanel.getWidth() - 80, 10,60,20);
         workPanel.add(btn);
         btn.addActionListener((ActionEvent e) ->

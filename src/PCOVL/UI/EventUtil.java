@@ -3,7 +3,7 @@
  * EventUtil.java
  * GraduationProject
  *
- * Created by X on 2019/5/5
+ * Created by X on 2019/5/8
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -180,6 +180,13 @@ public class EventUtil {
         } else {
             // In Execute State, begin from IR
             System.out.println("Executing Instruction.............");
+            if (Controller.signal == Controller.signalTable[8]) {
+                JOptionPane.showMessageDialog(null,
+                        "All Instruction Has been Executed.",
+                        "Completed",
+                        JOptionPane.INFORMATION_MESSAGE);
+                GlobalVariable.runBtn.setEnabled(false);
+            }
             for (int i = 0; i < GlobalVariable.unitToRun.size() ; i++) {
                 if (GlobalVariable.unitToRun.get(i).unitUI.getName().contains("IR")) {
                     joinIndex = i;
@@ -205,7 +212,7 @@ public class EventUtil {
                 JOptionPane.QUESTION_MESSAGE,
                 null,
                 null,
-                "lda 12, jne 3, add 13, sub 13, sta 14; -13, 19, 0");
+                "lda 12, jne 3, add 13, sub 13, sta 14, stp; -13, 19, 0");
         if (inputString == null) {
             // user cancel, init failed.
             return false;
@@ -221,11 +228,16 @@ public class EventUtil {
         }
         // init the content, 0-11 is instruction, 12-23 is content.
         int[] content = new int[24];
-        String regex = "([a-z|A-Z]{3}\\s\\d*)";
+        String regex = "([a-z|A-Z]{3}\\s\\d*)|([a-z|A-Z]{3})";
         ArrayList<String> instruction = getMatches(formatStr[0], regex);
         for (int iIns = 0; iIns < instruction.size() && iIns < 12; iIns++) {
             String str = instruction.get(iIns);
-            int addr = Integer.parseInt(getMatches(str, "(\\d+)").get(0));
+            int addr;
+            if (str.length() > 3) {
+                addr = Integer.parseInt(getMatches(str, "(\\d+)").get(0));
+            } else {
+                addr = 0;
+            }
             switch (str.substring(0,3).toUpperCase()){
                 case "LDA" :
                     content[iIns] = addr;
