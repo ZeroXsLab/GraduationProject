@@ -3,7 +3,7 @@
  * SuperUnit.java
  * GraduationProject
  *
- * Created by X on 2019/5/8
+ * Created by X on 2019/5/18
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -11,6 +11,7 @@
 package PCOVL.UnitRepository;
 
 import PCOVL.UI.BaseUnitUI;
+import PCOVL.UI.GlobalVariable;
 import PCOVL.UI.Line;
 
 import java.awt.*;
@@ -194,10 +195,13 @@ public class SuperUnit implements Runnable{
     }
 
     public void pauseRunning() {
-        try {
-            Thread.sleep(800);
-        } catch (Exception ex) {
-            System.out.println("Thread sleep error");
+        // not pause in Unit Experiment
+        if (this.isControllerInChanrge()) {
+            try {
+                Thread.sleep(800);
+            } catch (Exception ex) {
+                System.out.println("Thread sleep error");
+            }
         }
     }
 }

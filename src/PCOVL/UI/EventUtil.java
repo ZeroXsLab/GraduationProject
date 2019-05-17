@@ -3,7 +3,7 @@
  * EventUtil.java
  * GraduationProject
  *
- * Created by X on 2019/5/8
+ * Created by X on 2019/5/18
  * Copyright (c) 2019 X. All right reserved.
  *
  */
@@ -208,7 +208,7 @@ public class EventUtil {
         RAM memory = (RAM) GlobalVariable.RAM;
         String inputString = (String) JOptionPane.showInputDialog(
                 null,
-                "Enter the instruction and memory content, separate by ';'",
+                "Enter the instruction(in Assembly Language) and memory content(in Decimal System)\nSeparate instruction and memory by ';'\nSeparate instructions or memories by ','",
                 "Input Something",
                 JOptionPane.QUESTION_MESSAGE,
                 null,
